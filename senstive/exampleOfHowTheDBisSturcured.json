@@ -1,27 +1,32 @@
 {
     "users":{
-        "Ahmed":{
+        "<auto id>":{
+            "date":"11223344556666",
             "position":"emoployer",
             "name":"ahmed yasser saeed monasar",
-            "uid":"falshjfdaklhjs",
+            "uid":"<id>",
             "wholeOrders":[
                 {
+                    "id":"<id>",
                     "date":"11223344556666",
-                    "order":[
+                    "customerOrder":[
                         {
-                            "productId":"lksjfdlkfj",
+                            "productId":"<id>",
                             "price":4,
-                            "currency":"dollar"
+                            "currency":"dollar",
+                            "productName":"white mocha coffe"
                         }
                     ]
                 },
                 {
+                    "id":"<id>",
                     "date":"11223344556666",
-                    "order":[
+                    "customerOrder":[
                         {
-                            "productId":"lksjfdlkfj",
+                            "productId":"<id>",
                             "price":4,
-                            "currency":"dollar"
+                            "currency":"dollar",
+                            "productName":"white mocha coffe"
                         }
                     ]
                 }
