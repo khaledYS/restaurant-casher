@@ -3,4 +3,6 @@ node_modules
 dist
 dist-ssr
 *.local
-senstive
+
+# should be ignored in the public repo
+# senstive 

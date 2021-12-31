@@ -1,4 +1,4 @@
-import { db } from './senstive/firebase-config';
+import { db } from '../senstive/firebase-config';
 import { collection, getDocs } from '@firebase/firestore';
 import { useEffect, useState } from 'react'
 import './styles/App.css'

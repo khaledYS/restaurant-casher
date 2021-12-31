@@ -1,0 +1,32 @@
+{
+    "users":{
+        "Ahmed":{
+            "position":"emoployer",
+            "name":"ahmed yasser saeed monasar",
+            "uid":"falshjfdaklhjs",
+            "wholeOrders":[
+                {
+                    "date":"11223344556666",
+                    "order":[
+                        {
+                            "productId":"lksjfdlkfj",
+                            "price":4,
+                            "currency":"dollar"
+                        }
+                    ]
+                },
+                {
+                    "date":"11223344556666",
+                    "order":[
+                        {
+                            "productId":"lksjfdlkfj",
+                            "price":4,
+                            "currency":"dollar"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "taxes":"15"
+}
