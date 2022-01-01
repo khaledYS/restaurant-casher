@@ -1,38 +1,22 @@
 import { db } from '../senstive/firebase-config';
 import { collection, getDocs } from '@firebase/firestore';
-import { useEffect, useState } from 'react'
-import './styles/App.css'
-import './styles/index.css'
+import { useEffect, useState } from 'react';
+import { Link as div, Outlet } from 'react-router-dom';
+import './tailwind/output.css';
+import Login from './components/login';
+import Welcome from './components/Welcome';
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const usersCollectionRef = collection(db, "Users");
-
-  const getdocs = async (dataCollectionRef)=>{
-    let data = await getDocs(dataCollectionRef);
-    data = data.docs.map((doc)=>({...doc.data(), id: doc.id}));
-    return data;
-  }
-
-  useEffect(()=>{
-    const getUsers = async ()=>{
-
-      setUsers(await getdocs(usersCollectionRef))
-
-    }
-
-    getUsers();
-  }, [])
-
-  useEffect(()=>{
-    console.log(users)
-  }, [users])
+  const [user, setUser] = useState(null);
+  
 
   return (
-    <div className="App">
-      lafkjsdfl;ajfasdf
+    <div className=" font-sans App w-[100vw] h-[100vh] bg-slate-900 flex flex-col justify-center items-center  text-white">
+      {user ? <Welcome user={user} /> : <Login setUser={setUser} />}
     </div>
   )
 }
 
+
 export default App
+
