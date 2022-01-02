@@ -8,14 +8,23 @@ function Login(props) {
     const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
 
     async function login (){
-        await setLoginBtnIsDisapled(true)
-        const auth = await getAuth();
-        const googleProvider = await new GoogleAuthProvider()
-        await signInWithPopup(auth, googleProvider).then(user=>{
-          props.setUser(user.user);
-        })
+      try {
         
+          await setLoginBtnIsDisapled(true)
+          const auth = await getAuth();
+          const googleProvider = await new GoogleAuthProvider()
+          await signInWithPopup(auth, googleProvider).then(user=>{
+            props.setUser(user.user);
+          });
+          await props.setProblem(null);
+        
+      } catch (err) {
+        console.log()
+        await setLoginBtnIsDisapled(false)
+        await props.setProblem("net");
       }
+
+    }
     
     return (
         <div className="w-fit flex flex-col items-stretch text-center">
