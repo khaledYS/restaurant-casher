@@ -5,7 +5,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tailwind": "npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch"
+    "tailwind": "npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch", 
+    "whilePrev": "vite && npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch"
   },
   "dependencies": {
     "firebase": "^9.6.1",
