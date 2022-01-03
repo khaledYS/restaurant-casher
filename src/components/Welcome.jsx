@@ -5,28 +5,31 @@ import {
     doc,
     serverTimestamp
  } from "@firebase/firestore";
-import { useState, useEffect, useRef } from "react";
+import {
+    getAuth
+} from "@firebase/auth"
+import { 
+    useState, 
+    useEffect 
+} from "react";
 
 function Welcome(props) {
     
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState("kasfdhja");
 
     useEffect(()=>{
       (async ()=>{
-        const docRef = await doc(db, "users", props.user.uid);
+        const docRef = await doc(db, "users", getAuth().currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            await setUser({dbUser:docSnap.data(), googleUser:props.user})
             console.log(user)
         }else{
-            await setDoc(docRef, {uid : props.user.uid, name:props.user.displayName, created: serverTimestamp(), position:"employer"});
-            const newDocSnap = await getDoc(docRef);
-            await setUser({dbUser:newDocSnap.data(), googleUser:props.user})
+            await setDoc(docRef, {uid : getAuth().currentUser.uid, name:getAuth().currentUser.displayName, created: serverTimestamp(), position:"employer"});
         }
       })();
     }, [])
 
-    useEffect(()=>{console.log(user)}, [user])
+    useEffect(()=>{console.log("hi")}, [user])
 
     // const getdocs = async (dataCollectionRef)=>{
     //   let data = await getDocs(dataCollectionRef);
@@ -34,9 +37,11 @@ function Welcome(props) {
     //   return data;
     // }
 
+      
+
     return ( 
         <div>
-            
+            <button > here </button>
         </div>
     );
 }

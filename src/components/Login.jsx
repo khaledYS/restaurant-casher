@@ -4,8 +4,10 @@ import {
     GoogleAuthProvider,
     signInWithPopup
 } from "@firebase/auth"
+import { useNavigate } from "react-router";
 function Login(props) {
     const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
+    const navigate = useNavigate()
 
     async function login (){
       try {
@@ -13,15 +15,14 @@ function Login(props) {
           await setLoginBtnIsDisapled(true)
           const auth = await getAuth();
           const googleProvider = await new GoogleAuthProvider()
-          await signInWithPopup(auth, googleProvider).then(user=>{
-            props.setUser(user.user);
-          });
-          await props.setProblem(null);
+          await signInWithPopup(auth, googleProvider)
+
+          getAuth().currentUser ? navigate("/welcome") : navigate("/login")
+          console.log(getAuth)
         
       } catch (err) {
         console.log()
         await setLoginBtnIsDisapled(false)
-        await props.setProblem("net");
       }
 
     }

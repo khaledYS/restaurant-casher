@@ -1,5 +1,6 @@
 import { initializeApp } from "@firebase/app";
 import { getFirestore } from "firebase/firestore"
+import { getAuth } from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyD1AouPxpWcnBel0K_X81drpT5gG7-IR1I",
@@ -13,3 +14,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
+export function userIsSigned(){
+    if(getAuth().currentUser){
+        return true
+    }else if (getAuth().currentUser == null){
+        return false
+    }else{
+        return true
+    }
+}
