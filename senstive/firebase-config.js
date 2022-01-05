@@ -11,15 +11,5 @@ const firebaseConfig = {
     appId: "1:1043607858011:web:3256bc04d8bd4b01c4487e"
 };
 
-const app = initializeApp(firebaseConfig);
-
+export const  app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export function userIsSigned(){
-    if(getAuth().currentUser){
-        return true
-    }else if (getAuth().currentUser == null){
-        return false
-    }else{
-        return true
-    }
-}

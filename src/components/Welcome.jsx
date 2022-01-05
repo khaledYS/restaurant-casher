@@ -1,4 +1,4 @@
-import { db } from "../../senstive/firebase-config";
+import { app, db } from "../../senstive/firebase-config";
 import { 
     getDoc,
     setDoc,
@@ -10,26 +10,23 @@ import {
 } from "@firebase/auth"
 import { 
     useState, 
-    useEffect 
+    useEffect, 
+    useContext
 } from "react";
+import { 
+    Link,
+    Outlet
+ } from "react-router-dom";
+import Btn from "./btn";
+import { IoBagHandleOutline } from "react-icons/io5";
+import { VscCircuitBoard } from "react-icons/vsc";
+import { UserContext } from "./contexts";
+
 
 function Welcome(props) {
     
-    const [user, setUser] = useState("kasfdhja");
+    const {user, setUser} = useContext(UserContext);
 
-    useEffect(()=>{
-      (async ()=>{
-        const docRef = await doc(db, "users", getAuth().currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            console.log(user)
-        }else{
-            await setDoc(docRef, {uid : getAuth().currentUser.uid, name:getAuth().currentUser.displayName, created: serverTimestamp(), position:"employer"});
-        }
-      })();
-    }, [])
-
-    useEffect(()=>{console.log("hi")}, [user])
 
     // const getdocs = async (dataCollectionRef)=>{
     //   let data = await getDocs(dataCollectionRef);
@@ -40,8 +37,9 @@ function Welcome(props) {
       
 
     return ( 
-        <div>
-            <button > here </button>
+        <div className="welcome">
+            <Link to="order"><Btn title="Order" ><IoBagHandleOutline /></Btn></Link>
+            {user && (user.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }
         </div>
     );
 }
