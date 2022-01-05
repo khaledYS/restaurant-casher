@@ -18,6 +18,13 @@ body {
 
 
 
+/* money in the bank */
+.hl{
+  border: rgb(255, 0, 0) solid 2px;
+}
+
+
+
   /* loading spinner */
   .lds-spinner {
     color: official;

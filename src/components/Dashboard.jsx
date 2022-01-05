@@ -1,6 +1,9 @@
 function Dashboard() {
     return ( 
-        <div className="dashboard">Dashboard.jsx</div>
+        <div className="dashboard">
+            <div className="products"></div>
+            <div className="ordered"></div>
+        </div>
      );
 }
 

@@ -20,15 +20,13 @@ function App() {
   const [loading, setLoading] = useState(null)
 
 
-  // setLoading(true)
   
   useEffect(()=>{
+    setLoading(true)
     onAuthStateChanged(getAuth(), async (user)=>{
       if(user){
         console.log("user Is signed in, user should be redirected to welcome page")
         
-        // turn on loading page
-        setLoading(true)
 
         // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
         const auth = getAuth(app);
@@ -55,6 +53,7 @@ function App() {
           }else{
         console.log("user Is signed out, user should be redirected to login page")
         navigate("/login")
+        setLoading(false)
       }
     })
   }, [])
