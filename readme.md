@@ -13,4 +13,5 @@ think about the others
 
 
 
---- I'm gonna change the sturcture of the app from having an state for the user to using the firebase/auth getAuth()
+-- I'm gonna change the sturcture of the app from having an state for the user to using the firebase/auth getAuth()
+-- you should continue tommorrow to import the products and catogries
