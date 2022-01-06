@@ -9,7 +9,7 @@ function CategoryItem({title, id, addToBill, cost}) {
             id={id}
             cost={cost} 
             onClick={()=>{addToBill(id, title, cost)}}
-            className="min-w-none max-w-fit mx-4 rounded-lg px-6 py-4 bg-gray-600 hover:bg-gray-700  text-2xl my-2 cursor-pointer flex justify-between items-center flex justify-center items-center justify-between"
+            className="min-w-none max-w-fit mx-4 rounded-lg px-6 py-4 bg-gray-600 hover:bg-gray-700  text-2xl my-2 cursor-pointer flex items-center justify-between"
         >
             {title}
             &nbsp;
