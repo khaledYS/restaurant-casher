@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "devHost": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "tailwind": "npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch",

@@ -27,7 +27,7 @@ function App() {
       if(user){
         console.log("user Is signed in, user should be redirected to welcome page")
         
-
+        
         // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
         const auth = getAuth(app);
         const docRef = doc(db, "users", auth.currentUser.uid);
@@ -36,19 +36,19 @@ function App() {
           setUser(docSnap.data())
         }else{
           const dataToPass = {
-                uid : auth.currentUser.uid,
-                name:auth.currentUser.displayName, 
-                created: serverTimestamp(), 
-                position:"employer"
-              }
-              await setDoc(docRef, {...dataToPass});
-              setUser(dataToPass)
+            uid : auth.currentUser.uid,
+            name:auth.currentUser.displayName, 
+            created: serverTimestamp(), 
+            position:"employer"
+          }
+          await setDoc(docRef, {...dataToPass});
+          setUser(dataToPass)
         }
-
+        
         // turn of loading
         setLoading(false)
-            
-       navigate("/welcome")
+        
+        navigate("/welcome")
             
           }else{
         console.log("user Is signed out, user should be redirected to login page")
