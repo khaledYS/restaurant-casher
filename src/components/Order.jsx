@@ -1,3 +1,4 @@
+import {v4 as uuidV4} from "uuid"
 import { useState, useEffect } from "react";
 import Btn from "./btn";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
@@ -18,16 +19,23 @@ function Order() {
     const [categoryItems, setCategoryItems] = useState(null);
 
     // the bill
-    const [bill, setbill] = useState(null)
+    const [bills, setBills] = useState([])
+    console.log(bills)
 
     // add to bill function
-    function addToBill(){
-        console.log("added to bill")
+    function addToBill(id, title, category, cost){
+
+        // an id to be only shown in the bill
+        const billItemId = uuidV4();
+        
+        const billItem = {id, title, category, cost, billItemId};
+        setBills([...bills, billItem])
     }
 
     // remove from the bill 
-    function removeFromBill(){
-        console.log("removed from the bill")
+    function removeFromBill(billItemId){
+        const billsWithoutRemovedBill = bills.filter(bill=> bill.billItemId != billItemId)
+        setBills(billsWithoutRemovedBill)
     }
 
     // get the data from firebase
@@ -61,8 +69,8 @@ function Order() {
 
     // debugging with console
     useEffect(() => {
-        console.log(products, categoryItems, categoryItemsStatus)
-    }, [products, categoryItemsStatus, categoryItems])
+        console.log(bills)
+    }, [bills])
 
 
     return ( 
@@ -82,7 +90,7 @@ function Order() {
                         let id = el[0];
                         let properties = el[1]
                         console.log(properties)
-                        return <CategoryItem key={id} id={id} title={properties.name} cost={properties.cost} addToBill={addToBill}  />
+                        return <CategoryItem key={id} id={id} category={categoryItemsStatus} title={properties.name} cost={properties.cost} addToBill={addToBill}  />
                     })}
                 </div>
 
@@ -96,18 +104,9 @@ function Order() {
 
                     {/* bill panel */}
                     <div className="orders-panel overflow-y-auto overflow-x-hidden h-5/6">
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyo wishh aksfdhak sfdhakjsfd asdf" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyasdfasdfasdfasdfowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
-                        <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
+                        {bills && bills.map((item)=>{
+                            return <BillItem key={item.billItemId} billItemId={item.billItemId} title={item.title} category={item.category} removeFromBill={removeFromBill} id={item.id} cost={item.cost} />
+                        })}
                     </div>
 
                     {/* submit btn for the bill */}
