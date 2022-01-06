@@ -68,11 +68,15 @@ function Order() {
     return ( 
         <div className="order w-full h-full flex">
             <div className="products  h-full w-8/12">
+
+                {/* categories Btns */}
                 <div className="catogries border-b-8 border-gray-500 h-1/6 overflow-x-auto flex justify-start items-center flex-nowrap">
                     {products && products.map((cato)=>{
                         return <CategoriesBtn onClick={()=>{setCategoryItemsStatus(Object.keys(cato)[0])}} title={Object.keys(cato)[0]} key={Object.keys(cato)[0]} /> 
                     })}
                 </div>
+
+                {/* category products */}
                 <div className="products h-5/6 overflow-y-auto flex justify-center content-start flex-wrap">
                     {categoryItems && categoryItems.map((el)=>{
                         let id = el[0];
@@ -81,6 +85,7 @@ function Order() {
                         return <CategoryItem key={id} id={id} title={properties.name} cost={properties.cost} addToBill={addToBill}  />
                     })}
                 </div>
+
             </div>
             <div className="bill     border-l-8 border-gray-500 h-full w-4/12">
                 <div className="tag-name cursor-default h-1/6 flex flex-col justify-center items-center text-4xl font-mono relative">
@@ -88,6 +93,8 @@ function Order() {
                     <div className="hr border-b-8 border-gray-500 w-full border-x-0 absolute bottom-0"></div>
                 </div>
                 <div className="bill-orders h-5/6">
+
+                    {/* bill panel */}
                     <div className="orders-panel overflow-y-auto overflow-x-hidden h-5/6">
                         <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
                         <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
@@ -102,6 +109,8 @@ function Order() {
                         <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
                         <BillItem title="asyowishh" removeFromBill={removeFromBill} id={"dlkfjsld"} cost={88} />
                     </div>
+
+                    {/* submit btn for the bill */}
                     <div className="bill-orders-send h-1/6 border-t-8 border-gray-500 flex justify-center items-center">
                         <Btn title="Done" styles={{"minWidth":"40px"}}> <IoMdCheckmarkCircleOutline /> </Btn>
                     </div>

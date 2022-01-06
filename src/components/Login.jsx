@@ -21,7 +21,7 @@ function Login(props) {
           await setLoginBtnIsDisapled(true)
           const auth = await getAuth();
           const googleProvider = await new GoogleAuthProvider()
-          await signInWithRedirect(auth, googleProvider)
+          await signInWithPopup(auth, googleProvider)
           setLoading(false)
         
       } catch (err) {
