@@ -15,10 +15,10 @@ function BillItem({id, billItemId, title, category, removeFromBill, cost}) {
 			category-name={category}
 			cost={cost}
 			bill-item-id={billItemId}
-			className="min-w-fit break-all flex justify-between items-center rounded-lg px-1 py-1 mx-1 my-2 flex-wrap text-center bg-gray-600 hover:bg-gray-700 text-2xl"
+			className="min-w-fit break-all flex justify-between items-center rounded-lg px-1 py-1 mx-1 my-1 flex-nowrap text-center bg-gray-600 hover:bg-gray-700 text-2xl"
 			>
-				<span>{title}</span>
-				<div className="flex ml-auto items-center">
+				<span style={{"wordBreak":"break-word"}}>{title}</span>
+				<div className="flex ml-auto items-center min-w-fit">
 					<span>{cost}$</span>
 					<IoCloseCircleOutline onClick={()=>{removeFromBill(billItemId)}} className="cursor-pointer"/>
 				</div>

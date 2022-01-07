@@ -25,7 +25,6 @@ function Login(props) {
           setLoading(false)
         
       } catch (err) {
-        console.log()
         setLoading(false)
         await setLoginBtnIsDisapled(false)
       }

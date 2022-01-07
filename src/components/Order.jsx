@@ -13,10 +13,14 @@ import {
 import CategoriesBtn from "./CategoriesBtn";
 import CategoryItem from "./CategoryItem"
 import BillItem from "./BillItem";
-import { LoadingContext } from "./contexts"
+import { LoadingContext, UserContext } from "./contexts"
+import {IconContext} from "react-icons"
 
 function Order() {
 
+    // user 
+    const {user} = useContext(UserContext)
+    console.log(user)
     // loading
     const {setLoading} = useContext(LoadingContext)
 
@@ -32,7 +36,6 @@ function Order() {
     const [bill, setBill] = useState([])
     // The total balance
     const [totalBalance, setTotalBalance] = useState(0)
-    console.log(bill)
 
     // add to bill function
     function addToBill(id, title, category, cost){
@@ -41,12 +44,13 @@ function Order() {
         const billItemId = uuidV4();
         
         const billItem = {id, title, category, cost, billItemId};
-        setBill([...bill, billItem])
+        setBill([billItem ,...bill])
     }
 
     // remove from the bill 
     function removeFromBill(billItemId){
         const billsWithoutRemovedBill = bill.filter(bill=> bill.billItemId != billItemId)
+
         setBill(billsWithoutRemovedBill)
     }
 
@@ -67,10 +71,8 @@ function Order() {
 
     // update the products debending on the categoryItemsStatus
     useEffect(() => {
-        console.log("his type is ", typeof(products))
         if(typeof(products) == "object"){
             try {
-                console.log(products)
                 let items = products.find(obj => categoryItemsStatus == Object.keys(obj)[0]);
                 items = items[Object.keys(items)[0]];
                 let itemsElements = []
@@ -80,19 +82,15 @@ function Order() {
                 setCategoryItems(itemsElements);
                 
             } catch (error) {
-                console.log(error)
+                console.warn(error)                
             }
 
             // [<id of the item>, <object of his properties like name etc.>]
         }
     }, [categoryItemsStatus])
 
-    // we say: when we add an item to the bill you should calculate the total balance from the bill state
-    useEffect(() => {
-        
-        // cancel calculating if the bill doesn't have any item inside it.
-        if(bill.length==0)return;
 
+    function calculateTotalPrice(){
         let total=0;
         // let objec of array
         for (let obj of bill) {
@@ -100,14 +98,21 @@ function Order() {
         }
 
         setTotalBalance(total)
-    }, [bill])
-
-
-
-    // debugging with console
+    }
+    // we say: when we add an item to the bill you should calculate the total balance from the bill state
     useEffect(() => {
-        console.log(bill)
+        
+        // cancel calculating if the bill doesn't have any item inside it.
+        calculateTotalPrice()
     }, [bill])
+
+
+
+
+    // // debugging with console
+    // useEffect(() => {
+    //     console.log("hh",bill)
+    // }, [bill])
 
 
     return ( 
@@ -128,17 +133,26 @@ function Order() {
                      * }
                      */}
                     {products && products.map((category)=>{
-                        console.log(category)
                         return <CategoriesBtn onClick={()=>{setCategoryItemsStatus(Object.keys(category)[0])}} title={Object.keys(category)[0]} key={Object.keys(category)[0]} /> 
                     })}
                 </div>
 
                 {/* category products */}
                 <div className="products h-5/6 overflow-y-auto flex justify-center content-start flex-wrap">
+
+                    {/**
+                     * category Items param is going to return this
+                     * [
+                     *      0:<Id of the item||product >,
+                     *      1:{
+                     *          name: < The name of the item||product >,
+                     *          cost: < The cost of the item||product >
+                     *      }
+                     * ]
+                     */}
                     {categoryItems && categoryItems.map((el)=>{
                         let id = el[0];
                         let properties = el[1]
-                        console.log(properties)
                         return <CategoryItem key={id} id={id} category={categoryItemsStatus} title={properties.name} cost={properties.cost} addToBill={addToBill}  />
                     })}
                 </div>
@@ -154,7 +168,7 @@ function Order() {
                     {/* reset button and total price */}
                     <div className="h-3/6 flex w-full flex-col">
                         <div className="flex  flex-nowrap text-2xl justify-around w-full items-center">
-                            <span>Total: {totalBalance ? totalBalance : 0}$</span>
+                            <span>{totalBalance ? totalBalance : 0}$</span>
 
                             {/* reset the bill */}
                             <button 
@@ -179,7 +193,18 @@ function Order() {
                 <div className="bill-orders h-5/6">
 
                     {/* bill panel */}
-                    <div className="orders-panel overflow-y-auto overflow-x-hidden h-5/6">
+                    <div className="orders-panel overflow-y-auto overflow-x-hidden h-5/6 flex flex-col ">
+
+                        {/**
+                         * Every item in this array is like this:-
+                         * {    
+                         *      billItemId: < The ID for the bill item, and this is only in the bill. >
+                         *      category: < The name of the category that this product belongs to. >
+                         *      cost: < How much does this product cost. >
+                         *      id: < The ID of the product from the DB. >
+                         *      title: < The Name of the product. >
+                         * }
+                         */}
                         {bill && bill.map((item)=>{
                             return <BillItem key={item.billItemId} billItemId={item.billItemId} title={item.title} category={item.category} removeFromBill={removeFromBill} id={item.id} cost={item.cost} />
                         })}
@@ -205,14 +230,19 @@ function Order() {
                                 setSubmitBillBtnIsDisabled(true)
 
 
-                                await addDoc(collection(db, "bills"), {bill, createdAt: serverTimestamp()})
+                                await addDoc(collection(db, "bills"), {bill, finished:true, submitter: user.name, createdAt: serverTimestamp()})
 
                                 setBill([])
                                 setSubmitBillBtnIsDisabled(false)
                                 setLoading(false)
                             }}
 
-                            >Done <IoMdCheckmarkCircleOutline /></button>
+                            >
+                                Done
+                                <IconContext.Provider value={{color:"#8ff565", size:"2.5rem"}}>
+                                    <IoMdCheckmarkCircleOutline />
+                                </IconContext.Provider>
+                            </button>
                     </div>
                 </div>
             </div>
