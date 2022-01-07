@@ -19,7 +19,7 @@ think about the others
 \
 \
 \
-\
+\\
 
 >what I did --day-5
 - [x] when the user navigate to specifec url, don't navigate him to the beggining if he already signed in.
@@ -35,7 +35,7 @@ think about the others
 \
 \
 \
-\
+\\
 
 > Global tasks
 - [ ] bills page
