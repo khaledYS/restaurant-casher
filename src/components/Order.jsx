@@ -35,7 +35,7 @@ function Order() {
     // the bill
     const [bill, setBill] = useState([])
     // The total balance
-    const [totalBalance, setTotalBalance] = useState(0)
+    const [billTotalBalance, setBollTotalBalance] = useState(0)
 
     // add to bill function
     function addToBill(id, title, category, cost){
@@ -97,7 +97,7 @@ function Order() {
             total += obj.cost;
         }
 
-        setTotalBalance(total)
+        setBollTotalBalance(total)
     }
     // we say: when we add an item to the bill you should calculate the total balance from the bill state
     useEffect(() => {
@@ -168,7 +168,7 @@ function Order() {
                     {/* reset button and total price */}
                     <div className="h-3/6 flex w-full flex-col">
                         <div className="flex  flex-nowrap text-2xl justify-around w-full items-center">
-                            <span>{totalBalance ? totalBalance : 0}$</span>
+                            <span>{billTotalBalance ? billTotalBalance : 0}$</span>
 
                             {/* reset the bill */}
                             <button 
@@ -178,7 +178,7 @@ function Order() {
                                     // confirmation for resetting the bill
                                     if(window.confirm("Are you sure you want to reset the bill?")){
                                         setBill([])
-                                        setTotalBalance(0)
+                                        setBollTotalBalance(0)
                                     }
 
 
@@ -230,7 +230,7 @@ function Order() {
                                 setSubmitBillBtnIsDisabled(true)
 
 
-                                await addDoc(collection(db, "bills"), {bill, finished:true, submitter: user.name, createdAt: serverTimestamp()})
+                                await addDoc(collection(db, "bills"), {bill, finished:true, submitter: user.name, billTotalBalance, deleted: false, createdAt: serverTimestamp()})
 
                                 setBill([])
                                 setSubmitBillBtnIsDisabled(false)
