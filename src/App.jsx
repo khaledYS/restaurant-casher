@@ -5,7 +5,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { 
   Link, 
   Outlet,
-  useNavigate
+  useNavigate,
+  useLocation
 } from 'react-router-dom';
 import './tailwind/output.css';
 import Login from './components/login';
@@ -18,6 +19,9 @@ function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(null)
+
+  // the current Route
+  const route = useLocation();
 
 
   
@@ -48,9 +52,10 @@ function App() {
         // turn of loading
         setLoading(false)
         
-        navigate("/welcome")
+        // if the usre in the login page then route him to welcome page
+        if(route.pathname == "/login") navigate("/welcome")
             
-          }else{
+      }else{
         console.log("user Is signed out, user should be redirected to login page")
         navigate("/login")
         setLoading(false)

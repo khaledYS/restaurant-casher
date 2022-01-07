@@ -20,6 +20,7 @@ import {
 import Btn from "./btn";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { VscCircuitBoard } from "react-icons/vsc";
+import { FaFileInvoiceDollar } from "react-icons/fa"
 import { UserContext } from "./contexts";
 
 
@@ -39,6 +40,7 @@ function Welcome(props) {
     return ( 
         <div className="welcome">
             <Link to="order"><Btn title="Order" ><IoBagHandleOutline /></Btn></Link>
+            <Link to="bills"><Btn title="Bills" ><FaFileInvoiceDollar /></Btn></Link>
             {user && (user.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }
         </div>
     );

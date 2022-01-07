@@ -11,6 +11,7 @@ import Login from './components/login';
 import Welcome from './components/Welcome';
 import Order from './components/Order';
 import Dashboard from './components/Dashboard';
+import Bills from './components/Bills';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,6 +24,7 @@ ReactDOM.render(
           <Route path="welcome" element={<Welcome />}></Route>
             <Route path="welcome/dashboard" element={<Dashboard />}></Route>
             <Route path="welcome/order" element={<Order />}></Route>
+            <Route path="welcome/bills" element={<Bills />}></Route>
 
           <Route path="*" element={<PageNotFound />}></Route>
           

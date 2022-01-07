@@ -1,5 +1,5 @@
 import {v4 as uuidV4} from "uuid"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Btn from "./btn";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { db } from "../../senstive/firebase-config";
@@ -7,20 +7,32 @@ import {
     collection,
     getDocs, 
     doc,
+    addDoc,
+    serverTimestamp
 } from "firebase/firestore";
 import CategoriesBtn from "./CategoriesBtn";
 import CategoryItem from "./CategoryItem"
 import BillItem from "./BillItem";
+import { LoadingContext } from "./contexts"
+
 function Order() {
+
+    // loading
+    const {setLoading} = useContext(LoadingContext)
 
     // from firestore database
     const [products, setProducts] = useState(null);
     const [categoryItemsStatus, setCategoryItemsStatus] = useState(null);
     const [categoryItems, setCategoryItems] = useState(null);
 
+    // for the bill submit button and preventing spaming that cause of many clicks
+    const [submitBillBtnIsDisabled, setSubmitBillBtnIsDisabled] = useState(true);
+
     // the bill
-    const [bills, setBills] = useState([])
-    console.log(bills)
+    const [bill, setBill] = useState([])
+    // The total balance
+    const [totalBalance, setTotalBalance] = useState(0)
+    console.log(bill)
 
     // add to bill function
     function addToBill(id, title, category, cost){
@@ -29,13 +41,13 @@ function Order() {
         const billItemId = uuidV4();
         
         const billItem = {id, title, category, cost, billItemId};
-        setBills([...bills, billItem])
+        setBill([...bill, billItem])
     }
 
     // remove from the bill 
     function removeFromBill(billItemId){
-        const billsWithoutRemovedBill = bills.filter(bill=> bill.billItemId != billItemId)
-        setBills(billsWithoutRemovedBill)
+        const billsWithoutRemovedBill = bill.filter(bill=> bill.billItemId != billItemId)
+        setBill(billsWithoutRemovedBill)
     }
 
     // get the data from firebase
@@ -46,6 +58,8 @@ function Order() {
             const categories = await getDocs(collection(db, "products"));
             setProducts(categories.docs.map((doc)=>{return {[doc.id]: doc.data()}}))
 
+            setSubmitBillBtnIsDisabled(false)
+
         })();
 
     }, [])
@@ -53,24 +67,47 @@ function Order() {
 
     // update the products debending on the categoryItemsStatus
     useEffect(() => {
-        if(products){
-            let items = products.find(obj => categoryItemsStatus == Object.keys(obj)[0]);
-            items = items[Object.keys(items)[0]];
-            let itemsElements = []
-            for (let id in items) {
-                itemsElements.push([id, items[id]])
+        console.log("his type is ", typeof(products))
+        if(typeof(products) == "object"){
+            try {
+                console.log(products)
+                let items = products.find(obj => categoryItemsStatus == Object.keys(obj)[0]);
+                items = items[Object.keys(items)[0]];
+                let itemsElements = []
+                for (let id in items) {
+                    itemsElements.push([id, items[id]])
+                }
+                setCategoryItems(itemsElements);
+                
+            } catch (error) {
+                console.log(error)
             }
-            setCategoryItems(itemsElements);
 
             // [<id of the item>, <object of his properties like name etc.>]
         }
     }, [categoryItemsStatus])
 
+    // we say: when we add an item to the bill you should calculate the total balance from the bill state
+    useEffect(() => {
+        
+        // cancel calculating if the bill doesn't have any item inside it.
+        if(bill.length==0)return;
+
+        let total=0;
+        // let objec of array
+        for (let obj of bill) {
+            total += obj.cost;
+        }
+
+        setTotalBalance(total)
+    }, [bill])
+
+
 
     // debugging with console
     useEffect(() => {
-        console.log(bills)
-    }, [bills])
+        console.log(bill)
+    }, [bill])
 
 
     return ( 
@@ -79,8 +116,20 @@ function Order() {
 
                 {/* categories Btns */}
                 <div className="catogries border-b-8 border-gray-500 h-1/6 overflow-x-auto flex justify-start items-center flex-nowrap">
-                    {products && products.map((cato)=>{
-                        return <CategoriesBtn onClick={()=>{setCategoryItemsStatus(Object.keys(cato)[0])}} title={Object.keys(cato)[0]} key={Object.keys(cato)[0]} /> 
+                    {/**
+                     * category param is like this
+                     * {
+                     *      <name of the category>:{
+                     *          <id of product >:{
+                     *              name: "<the name of the product>",
+                     *              cost: "<how much does this product cost>"
+                     *          } 
+                     *      }
+                     * }
+                     */}
+                    {products && products.map((category)=>{
+                        console.log(category)
+                        return <CategoriesBtn onClick={()=>{setCategoryItemsStatus(Object.keys(category)[0])}} title={Object.keys(category)[0]} key={Object.keys(category)[0]} /> 
                     })}
                 </div>
 
@@ -96,22 +145,74 @@ function Order() {
 
             </div>
             <div className="bill     border-l-8 border-gray-500 h-full w-4/12">
-                <div className="tag-name cursor-default h-1/6 flex flex-col justify-center items-center text-4xl font-mono relative">
-                    <h1 >Bill</h1>
-                    <div className="hr border-b-8 border-gray-500 w-full border-x-0 absolute bottom-0"></div>
+                <div className="up-navbar-of-bill cursor-default h-1/6 flex flex-col justify-center items-center text-4xl font-mono relative">
+                    <div className="h-3/6 flex flex-col justify-center items-center relative w-full">
+                        <h1 >Bill</h1>
+                        <div className="hr border-b-4 border-gray-500 w-full border-x-0 "></div>
+                    </div>
+
+                    {/* reset button and total price */}
+                    <div className="h-3/6 flex w-full flex-col">
+                        <div className="flex  flex-nowrap text-2xl justify-around w-full items-center">
+                            <span>Total: {totalBalance ? totalBalance : 0}$</span>
+
+                            {/* reset the bill */}
+                            <button 
+                                className="px-4 py-2 self-center bg-red-800 hover:bg-red-700 rounded-lg"
+                                onClick={()=>{
+
+                                    // confirmation for resetting the bill
+                                    if(window.confirm("Are you sure you want to reset the bill?")){
+                                        setBill([])
+                                        setTotalBalance(0)
+                                    }
+
+
+                                }}
+                                >Reset</button>
+                        </div>
+
+                        <div className="hr border-b-8 basis-full border-gray-500 w-full border-x-0"></div>
+                    </div>
+
                 </div>
                 <div className="bill-orders h-5/6">
 
                     {/* bill panel */}
                     <div className="orders-panel overflow-y-auto overflow-x-hidden h-5/6">
-                        {bills && bills.map((item)=>{
+                        {bill && bill.map((item)=>{
                             return <BillItem key={item.billItemId} billItemId={item.billItemId} title={item.title} category={item.category} removeFromBill={removeFromBill} id={item.id} cost={item.cost} />
                         })}
                     </div>
 
                     {/* submit btn for the bill */}
-                    <div className="bill-orders-send h-1/6 border-t-8 border-gray-500 flex justify-center items-center">
-                        <Btn title="Done" styles={{"minWidth":"40px"}}> <IoMdCheckmarkCircleOutline /> </Btn>
+                    <div className="bill-orders-send overflow-hidden p-1 h-1/6 border-t-8 border-gray-500 flex justify-center items-center">
+                        <button 
+                            className={`flex-nowrap rounded-lg overflow-hidden w-full px-2 py-6 bg-gray-600 hover:bg-gray-700  text-4xl my-4 cursor-pointer flex justify-between items-center ${submitBillBtnIsDisabled && "pointer-events-none bg-gray-700"} `}
+
+                            // when the user submits the bill
+                            onClick={ async ()=>{
+                                // if the bill doesn't have any thing then don't care
+                                if(bill.length == 0) return ;   
+
+                                // confirmation
+                                const confirmation = window.confirm("Are you sure to submit the Bill?")
+                                if(!confirmation) return;
+
+                                setLoading(true)
+
+                                // prevent spaming by disabling the bill submit btn from working 
+                                setSubmitBillBtnIsDisabled(true)
+
+
+                                await addDoc(collection(db, "bills"), {bill, createdAt: serverTimestamp()})
+
+                                setBill([])
+                                setSubmitBillBtnIsDisabled(false)
+                                setLoading(false)
+                            }}
+
+                            >Done <IoMdCheckmarkCircleOutline /></button>
                     </div>
                 </div>
             </div>
