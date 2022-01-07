@@ -16,7 +16,10 @@ think about the others
 -- I'm gonna change the sturcture of the app from having an state for the user to using the firebase/auth getAuth()
 -- you should continue tommorrow to import the products and catogries
 
-
+\
+\
+\
+\
 >what I did -day-5
 - [x] when the user navigate to specifec url, don't navigate him to the beggining if he already signed in.
 - [x] reset bill button
@@ -27,7 +30,10 @@ think about the others
 - [x] make the the icon green , icon path in the "./order.jsx".
 - [x] when submiting the bill you should also include the name of the submitter
 - [x] add the summ of the bill.
-
+\
+\
+\
+\
 > Global tasks
 - [ ] bills page
 - [ ] Responsivity
