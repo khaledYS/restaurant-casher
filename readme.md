@@ -18,6 +18,8 @@ think about the others
 
 \
 
+# Tasks
+ 
 >what I did --day-5
 - [x] when the user navigate to specifec url, don't navigate him to the beggining if he already signed in.
 - [x] reset bill button
@@ -38,4 +40,10 @@ think about the others
 - [ ] add the macenazim of the deleted bills
 - [ ] add finished bills
 
+
+
+
+
+
+# App Structure
 
