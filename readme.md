@@ -46,4 +46,41 @@ think about the others
 
 
 # App Structure
-
+```
+restaurant-casher ( Directories: 6, Files: 29 )
+ ├─ senstive -- sensetives infos are gonna be hidden when the repo is public
+ │ ├─ appStructurePainted.png
+ │ ├─ exampleOfHowTheDBisSturcured.json
+ │ └─ firebase-config.js
+ ├─ src
+ │ ├─ components
+ │ │ ├─ BillItem.jsx
+ │ │ ├─ Bills.jsx
+ │ │ ├─ btn.jsx
+ │ │ ├─ CategoriesBtn.jsx
+ │ │ ├─ CategoryItem.jsx
+ │ │ ├─ contexts.js
+ │ │ ├─ Dashboard.jsx
+ │ │ ├─ Loading.jsx
+ │ │ ├─ Login.jsx
+ │ │ ├─ Order.jsx
+ │ │ ├─ PageNotFound.jsx
+ │ │ ├─ Problem.jsx
+ │ │ └─ Welcome.jsx
+ │ ├─ scripts
+ │ │ └─ shorcutFunctions.js
+ │ ├─ styles
+ │ │ └─ App.css
+ │ ├─ tailwind
+ │ │ └─ output.css
+ │ ├─ App.jsx
+ │ ├─ functions.js
+ │ └─ main.jsx
+ ├─ .gitignore
+ ├─ index.html
+ ├─ package-lock.json
+ ├─ package.json
+ ├─ readme.md
+ ├─ tailwind.config.js
+ └─ vite.config.js
+```
