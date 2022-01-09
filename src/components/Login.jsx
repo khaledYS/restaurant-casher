@@ -32,7 +32,7 @@ function Login(props) {
     }
     
     return (
-        <div className="login w-fit flex flex-col items-stretch text-center">
+        <div className="Login-component w-fit flex flex-col items-stretch text-center">
         <div
          className={`${loginBtnIsDisapled && "pointer-events-none bg-gray-700 cursor-wait"}`}
          onClick={login}

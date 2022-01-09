@@ -16,12 +16,13 @@ import Loading from './components/Loading'
 import { UserContext, LoadingContext } from './components/contexts';
 
 function App() {
-  const navigate = useNavigate();
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(null)
-
+  
   // the current Route
   const route = useLocation();
+  // navigate between routers
+  const navigate = useNavigate();
 
 
   
@@ -52,13 +53,15 @@ function App() {
         // turn of loading
         setLoading(false)
         
-        // if the usre in the login page then route him to welcome page
-        if(route.pathname == "/login") navigate("/welcome")
+        // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
+        // if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
             
       }else{
         console.log("user Is signed out, user should be redirected to login page")
-        navigate("/login")
+        // if the user is already on the login page then don't make another uselesses requests 
         setLoading(false)
+        if(route.pathname == "/login") return;
+        // navigate("/login")
       }
     })
   }, [])

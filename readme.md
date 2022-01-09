@@ -33,14 +33,19 @@ think about the others
 
 \
 
+> what I did --day-6
+- [x] a lot of things in ./readme.md file.
+- [x] I made for each component A ClassName with the name of the component file so we can debbug easily if there is an issue.
+
 > Global tasks
-- [ ] bills page
+- [ ] creating the app routes structure in ./readme.md file.
+- [ ] bills pages like all and pending bills and add them to the route .
 - [ ] Responsivity
 - [ ] Handle Errors
 - [ ] add the macenazim of the deleted bills
 - [ ] add finished bills
-
-
+- [ ] get the static data from cache if possible
+- [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
 
 
 
@@ -48,7 +53,7 @@ think about the others
 # App Structure
 ```
 restaurant-casher ( Directories: 6, Files: 29 )
- ├─ senstive -- sensetives infos are gonna be hidden when the repo is public
+ ├─ senstive |- sensetives infos are gonna be hidden when the repo is public
  │ ├─ appStructurePainted.png
  │ ├─ exampleOfHowTheDBisSturcured.json
  │ └─ firebase-config.js
@@ -84,3 +89,16 @@ restaurant-casher ( Directories: 6, Files: 29 )
  ├─ tailwind.config.js
  └─ vite.config.js
 ```
+
+
+# Contribution
+Right now I don't accept any contribution, and thanks for all who thinks for that
+
+
+# Report bug and fixes
+If you saw a bug or a problem you can report about it and we will try fix it as soon as we can.
+
+
+
+# Thanks
+Thanks for all of the support and my greetings me Ammar co founder of this app. 

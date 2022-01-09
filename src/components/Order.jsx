@@ -1,20 +1,27 @@
-import {v4 as uuidV4} from "uuid"
-import { useState, useEffect, useContext } from "react";
-import Btn from "./btn";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { db } from "../../senstive/firebase-config";
 import {
-    collection,
-    getDocs, 
-    doc,
-    addDoc,
-    serverTimestamp
+    collection, doc, getDoc, getDocs, setDoc
 } from "firebase/firestore";
-import CategoriesBtn from "./CategoriesBtn";
-import CategoryItem from "./CategoryItem"
+import { 
+    useContext, useEffect, useState
+} from "react";
+import {
+    IconContext 
+} from "react-icons";
+import {
+    IoMdCheckmarkCircleOutline 
+} from "react-icons/io";
+import {
+    v4 as uuidV4 
+} from "uuid";
+import {
+    db 
+} from "../../senstive/firebase-config";
 import BillItem from "./BillItem";
-import { LoadingContext, UserContext } from "./contexts"
-import {IconContext} from "react-icons"
+import CategoriesBtn from "./CategoriesBtn";
+import CategoryItem from "./CategoryItem";
+import {
+    LoadingContext, UserContext 
+} from "./contexts";
 
 function Order() {
 
@@ -116,7 +123,7 @@ function Order() {
 
 
     return ( 
-        <div className="order w-full h-full flex">
+        <div className="order-component w-full h-full flex">
             <div className="products  h-full w-8/12">
 
                 {/* categories Btns */}
@@ -229,8 +236,30 @@ function Order() {
                                 // prevent spaming by disabling the bill submit btn from working 
                                 setSubmitBillBtnIsDisabled(true)
 
+                                let billsSettingsDocRef = doc(db, "others/aboutBills");
+                                let lastBillId = await getDoc(billsSettingsDocRef);
+                                lastBillId = lastBillId.data().lastBillId;
 
-                                await addDoc(collection(db, "bills"), {bill, finished:true, submitter: user.name, billTotalBalance, deleted: false, createdAt: serverTimestamp()})
+                                // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase in the main time.
+                                if(lastBillId == 300){
+                                    setDoc(billsSettingsDocRef, {lastBillId: 1}, {merge:true})
+                                }
+                                // let newLastBillId = lastBillId + 1
+                                // console.log(lastBillId)
+                                
+                                // if 
+
+                                // await addDoc(collection(db, "bills"), {
+                                //         bill, 
+                                //         finished:true, 
+                                //         submitter: user.name, 
+                                //         billTotalBalance, 
+                                //         deleted: false, 
+                                //         createdAt: serverTimestamp(),
+                                //         billID:(async ()=>{
+
+                                //         })(),
+                                //     });
 
                                 setBill([])
                                 setSubmitBillBtnIsDisabled(false)

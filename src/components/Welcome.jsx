@@ -38,7 +38,7 @@ function Welcome(props) {
       
 
     return ( 
-        <div className="welcome">
+        <div className="Welcome-component ">
             <Link to="order"><Btn title="Order" ><IoBagHandleOutline /></Btn></Link>
             <Link to="bills"><Btn title="Bills" ><FaFileInvoiceDollar /></Btn></Link>
             {user && (user.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }

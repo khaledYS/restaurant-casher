@@ -15,7 +15,7 @@ function BillItem({id, billItemId, title, category, removeFromBill, cost}) {
 			category-name={category}
 			cost={cost}
 			bill-item-id={billItemId}
-			className="min-w-fit break-all flex justify-between items-center rounded-lg px-1 py-1 mx-1 my-1 flex-nowrap text-center bg-gray-600 hover:bg-gray-700 text-2xl"
+			className="BillItem-component min-w-fit break-all flex justify-between items-center rounded-lg px-1 py-1 mx-1 my-1 flex-nowrap text-center bg-gray-600 hover:bg-gray-700 text-2xl"
 			>
 				<span style={{"wordBreak":"break-word"}}>{title}</span>
 				<div className="flex ml-auto items-center min-w-fit">
