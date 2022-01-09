@@ -1,5 +1,5 @@
 import {
-    collection, doc, getDoc, getDocs, setDoc
+    collection, doc, getDoc, getDocs, setDoc, addDoc, serverTimestamp
 } from "firebase/firestore";
 import { 
     useContext, useEffect, useState
@@ -124,10 +124,10 @@ function Order() {
 
     return ( 
         <div className="order-component w-full h-full flex">
-            <div className="products  h-full w-8/12">
+            <div className="products  h-full w-8/12 md:w-7/12 sm:w-1/2">
 
                 {/* categories Btns */}
-                <div className="catogries border-b-8 border-gray-500 h-1/6 overflow-x-auto flex justify-start items-center flex-nowrap">
+                <div className="catogries border-b-8 border-gray-500 h-1/6 overflow-x-auto flex justify-start items-stretch py-4 flex-nowrap">
                     {/**
                      * category param is like this
                      * {
@@ -165,7 +165,7 @@ function Order() {
                 </div>
 
             </div>
-            <div className="bill     border-l-8 border-gray-500 h-full w-4/12">
+            <div className="bill     border-l-8 border-gray-500 h-full w-4/12 md:w-5/12 sm:w-1/2">
                 <div className="up-navbar-of-bill cursor-default h-1/6 flex flex-col justify-center items-center text-4xl font-mono relative">
                     <div className="h-3/6 flex flex-col justify-center items-center relative w-full">
                         <h1 >Bill</h1>
@@ -236,14 +236,15 @@ function Order() {
                                 // prevent spaming by disabling the bill submit btn from working 
                                 setSubmitBillBtnIsDisabled(true)
 
-                                let billsSettingsDocRef = doc(db, "others/aboutBills");
+                                let billsSettingsDocRef = doc(db, "others/billsSettings");
                                 let lastBillIdNumber = await getDoc(billsSettingsDocRef);
                                 lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
+                                console.log(lastBillIdNumber)
                                 let newBillIDNumber;
 
                                 // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
                                 if(lastBillIdNumber >= 300){
-                                    setDoc(billsSettingsDocRef, {lastBillId: 1}, {merge:true});
+                                    setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
                                     newBillIDNumber = 1;
                                 }else{
                                     newBillIDNumber = lastBillIdNumber + 1;
@@ -263,9 +264,7 @@ function Order() {
                                  * }
                                  */
                                 await addDoc(collection(db, "bills"), {
-                                        billIDNumber:(async ()=>{
-
-                                        })(),
+                                        billIDNumber: newBillIDNumber,
                                         bill, 
                                         billTotalBalance, 
                                         submittedBy: user.name, 

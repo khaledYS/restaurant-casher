@@ -41,8 +41,8 @@ think about the others
 
 > what I did --day-7
 - [ ] bills pages like all and pending bills and add them to the route and setUp them.
-- [ ] Responsivity in order component: "./src/components/Order.jsx ".
-- [ ] add the bill number from so the kinda identify the the order number and if the bills reached to 300 then set them to 0 again.
+- [x] Responsivity in order component: "./src/components/Order.jsx ".
+- [x] add the bill id number so they kinda identify the the order number and if the bills reached to 300 then set them to 0 again.
 
 
 > Global tasks
@@ -56,7 +56,7 @@ think about the others
 - [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
 - [ ] change the files to be nested in the components folder 
 - [ ] HardcoreOne: changing the ID's from charcters and numbers to numbers only
-
+- [ ] make the user when going to "/welcome/order/<the Id of the bill>", make him have the ability of editing.
 
 
 # App Structure
