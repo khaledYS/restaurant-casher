@@ -237,29 +237,42 @@ function Order() {
                                 setSubmitBillBtnIsDisabled(true)
 
                                 let billsSettingsDocRef = doc(db, "others/aboutBills");
-                                let lastBillId = await getDoc(billsSettingsDocRef);
-                                lastBillId = lastBillId.data().lastBillId;
+                                let lastBillIdNumber = await getDoc(billsSettingsDocRef);
+                                lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
+                                let newBillIDNumber;
 
-                                // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase in the main time.
-                                if(lastBillId == 300){
-                                    setDoc(billsSettingsDocRef, {lastBillId: 1}, {merge:true})
+                                // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
+                                if(lastBillIdNumber >= 300){
+                                    setDoc(billsSettingsDocRef, {lastBillId: 1}, {merge:true});
+                                    newBillIDNumber = 1;
+                                }else{
+                                    newBillIDNumber = lastBillIdNumber + 1;
                                 }
-                                // let newLastBillId = lastBillId + 1
-                                // console.log(lastBillId)
-                                
-                                // if 
 
-                                // await addDoc(collection(db, "bills"), {
-                                //         bill, 
-                                //         finished:true, 
-                                //         submitter: user.name, 
-                                //         billTotalBalance, 
-                                //         deleted: false, 
-                                //         createdAt: serverTimestamp(),
-                                //         billID:(async ()=>{
 
-                                //         })(),
-                                //     });
+                                /**
+                                 * The structure of the object is :
+                                 * {
+                                 *      billIdNumber : < Id number of the bill and it's gonna be under 300>,
+                                 *      bill : < the bill state variable >,
+                                 *      billTotalBalance : < The totoal balance of the bill and its comming from the billTotalBalance state variable >,
+                                 *      submittedBy : < The name of the employ that submitted this bill >,
+                                 *      finishedBy : < if the bill is finished then its gonna be assigned to the name of the user that finished this bill or if it isn't finished then its gonna be null >,
+                                 *      deleltedBy : < if the bill is deleted then its gonna be assigned to the name of the user that deleted this bill or if it isn't deleted then its gonna be null >,
+                                 *      createdAt : < date of the bill >
+                                 * }
+                                 */
+                                await addDoc(collection(db, "bills"), {
+                                        billIDNumber:(async ()=>{
+
+                                        })(),
+                                        bill, 
+                                        billTotalBalance, 
+                                        submittedBy: user.name, 
+                                        finishedBy:null, 
+                                        deletedBy: null, 
+                                        createdAt: serverTimestamp(),
+                                    });
 
                                 setBill([])
                                 setSubmitBillBtnIsDisabled(false)

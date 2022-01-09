@@ -24,7 +24,9 @@ ReactDOM.render(
           <Route path="welcome" element={<Welcome />}></Route>
             <Route path="welcome/dashboard" element={<Dashboard />}></Route>
             <Route path="welcome/order" element={<Order />}></Route>
-            <Route path="welcome/bills" element={<Bills />}></Route>
+            <Route path="welcome/bills" element={<Bills />}>
+              <Route path="welcome/bills/pending" element={<Order />}></Route>
+            </Route>
 
           <Route path="*" element={<PageNotFound />}></Route>
           

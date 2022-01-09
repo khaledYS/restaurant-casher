@@ -37,16 +37,25 @@ think about the others
 - [x] a lot of things in ./readme.md file.
 - [x] I made for each component A ClassName with the name of the component file so we can debbug easily if there is an issue.
 
+
+
+> what I did --day-7
+- [ ] bills pages like all and pending bills and add them to the route and setUp them.
+- [ ] Responsivity in order component: "./src/components/Order.jsx ".
+- [ ] add the bill number from so the kinda identify the the order number and if the bills reached to 300 then set them to 0 again.
+
+
 > Global tasks
 - [ ] creating the app routes structure in ./readme.md file.
-- [ ] bills pages like all and pending bills and add them to the route .
-- [ ] Responsivity
+- [ ] Responsivity 
+- [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
 - [ ] add the macenazim of the deleted bills
 - [ ] add finished bills
 - [ ] get the static data from cache if possible
 - [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
-
+- [ ] change the files to be nested in the components folder 
+- [ ] HardcoreOne: changing the ID's from charcters and numbers to numbers only
 
 
 
