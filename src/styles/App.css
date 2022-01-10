@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: 0;
+}
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,9 +24,24 @@ body {
 
 
 
-/* money in the bank */
-.hl{
-  border: rgb(255, 0, 0) solid 2px;
+/* this is for the styling in ./src/components/Bills.jsx for the link buttons */
+.activeLinkBtn{
+  position: relative;
+  overflow: revert;
+}
+.activeLinkBtn::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0px;
+  background: rgb(27, 170, 226);
+  height: 4px;
+  width: 100%;
+  transform: translateY(  100%);
+}
+.BillsTypesBtn{
+  transition: all ease-in-out .2s;
 }
 
 

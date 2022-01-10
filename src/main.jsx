@@ -29,10 +29,10 @@ ReactDOM.render(
             <Route path="welcome/dashboard" element={<Dashboard />}></Route>
             <Route path="welcome/order" element={<Order />}></Route>
             <Route path="welcome/bills" element={<Bills />}>
-              <Route path="All" element={<All />}></Route>
-              <Route path="Confirmed" element={<Confirmed />}></Route>
-              <Route path="Pending" element={<Pending />}></Route>
-              <Route path="Deleted" element={<Deleted />}></Route>
+              <Route path="" element={<All />}></Route>
+              <Route path="confirmed" element={<Confirmed />}></Route>
+              <Route path="pending" element={<Pending />}></Route>
+              <Route path="deleted" element={<Deleted />}></Route>
             </Route>
 
           <Route path="*" element={<PageNotFound />}></Route>
