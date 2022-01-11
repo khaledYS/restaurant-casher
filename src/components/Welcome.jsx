@@ -17,11 +17,11 @@ import {
     Link,
     Outlet
  } from "react-router-dom";
-import Btn from "./btn";
+import Btn from "./others/btn";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { VscCircuitBoard } from "react-icons/vsc";
 import { FaFileInvoiceDollar } from "react-icons/fa"
-import { UserContext } from "./contexts";
+import { UserContext } from "./others/contexts";
 
 
 function Welcome(props) {

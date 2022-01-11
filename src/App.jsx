@@ -11,9 +11,9 @@ import {
 import './tailwind/output.css';
 import Login from './components/login';
 import Welcome from './components/Welcome';
-import Problem from './components/Problem';
-import Loading from './components/Loading'
-import { UserContext, LoadingContext } from './components/contexts';
+import Problem from './components/others/Problem';
+import Loading from './components/others/Loading'
+import { UserContext, LoadingContext } from './components/others/contexts';
 
 function App() {
   const [user, setUser] = useState(null)

@@ -9,12 +9,12 @@ import {
     onSnapshot, 
     limit
 } from "firebase/firestore"
-import { LoadingContext, UserContext } from "./contexts"
+import { LoadingContext, UserContext } from "./others/contexts"
 import {IconContext} from "react-icons"
 import { Link as button, Outlet, useLocation } from "react-router-dom";
 import {v4 as uuidv4} from "uuid"
 import { useRef, useState, useEffect } from "react";
-import Imgdd from "../../senstive/billuidesign.jpg"
+import Bill from "./bills/Bill";
 function Bills() {
     // this is the buttons that are responsed to navigate to specifec bills
     const billTypesBtns = [
@@ -49,29 +49,31 @@ function Bills() {
 
             const billsRef = collection(db, "bills")
             // qry stands for query
-            let qry = query(billsRef, orderBy("createdAt"));
+            let qry = query(billsRef, orderBy("createdAt"), limit(billsRows));
 
             if(getBillsByTypeStatus.toLowerCase() == "pending"){
-                qry = query(billsRef, where("finished", "==", false), orderBy("createdAt"));
+                qry = query(billsRef, where("finished", "==", false), orderBy("createdAt"), limit(billsRows));
             }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
-                qry = query(billsRef, where("finished", "==", true), orderBy("createdAt"));
+                qry = query(billsRef, where("finished", "==", true), orderBy("createdAt"), limit(billsRows));
             }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
-                qry = query(billsRef, where("deleted", "==", true), orderBy("createdAt"));
+                qry = query(billsRef, where("deleted", "==", true), orderBy("createdAt"), limit(billsRows));
             }
 
 
             onSnapshot(qry, (snapshot)=>{
+                let bills = [];
                 snapshot.docs.forEach((doc)=>{
-                    console.log(doc.id, doc.data())
+                    bills.push({id:doc.id, ...doc.data()})
                 })
-
-                console.log("-           -")
+                setBills(bills)
+                console.log("-----", billsRows, getBillsByTypeStatus)
             })
 
 
 
 
         })();
+        console.log(bills)
 
     }, [billsRows, getBillsByTypeStatus])
 
@@ -82,7 +84,7 @@ function Bills() {
         
         <div className="Bills-component flex flex-col h-full w-full bg-slate-100">
             {/* upper navbar where to choose the pending and others bills , also to filter the bills */}
-            <div className="overflow-hiddennavbar flex justify-start items-start border-b-4 border-stone-300 bg-white w-full flex-col-reverse h-[14%] text-black shadow-md z-10 rounded-b-3xl">
+            <div className="overflow-hiddennavbar flex justify-start items-start border-b-4 border-stone-300 bg-white w-full flex-col-reverse h-[14%] text-black shadow-lg z-10 rounded-b-3xl">
                 <div className="types w-8/12 flex justify-between sm:w-full md:w-10/12  items-stretch h-full px-8 smm:h-1/2" ref={TypesOfBillsBtnsContainer}>
                     {billTypesBtns && billTypesBtns.map((btn)=>{
 
@@ -120,8 +122,10 @@ function Bills() {
                 </div>
             </div>
             <div className="workplace h-[92%] smm:h-[86%] bg-slate-100 flex">
-                <div className="bills w-1/2 bg-[#eef3f7] box-content after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
-
+                <div className="bills w-1/2 bg-[#eef3f7] box-content after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
+                            {bills && bills.map((bill)=>{
+                                return <Bill key={uuidv4()} bill={bill} />
+                            })}
                 </div>
                 <div className="bill w-1/2 h-full" >
 

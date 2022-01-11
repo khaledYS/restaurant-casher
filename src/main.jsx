@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import PageNotFound from './components/PageNotFound';
+import PageNotFound from './components/others/PageNotFound';
 import {
   BrowserRouter,
   Routes,

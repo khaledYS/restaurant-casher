@@ -16,12 +16,12 @@ import {
 import {
     db 
 } from "../../senstive/firebase-config";
-import BillItem from "./BillItem";
-import CategoriesBtn from "./CategoriesBtn";
-import CategoryItem from "./CategoryItem";
+import BillItem from "./order/BillItem";
+import CategoriesBtn from "./order/CategoriesBtn";
+import CategoryItem from "./order/CategoryItem";
 import {
     LoadingContext, UserContext 
-} from "./contexts";
+} from "./others/contexts";
 
 function Order() {
 
@@ -269,9 +269,9 @@ function Order() {
                                         bill, 
                                         billTotalBalance, 
                                         submittedBy: user.name, 
-                                        finished:null, 
+                                        finished:false, 
                                         finishedBy:null, 
-                                        deleted: null, 
+                                        deleted: false, 
                                         deletedBy: null, 
                                         createdAt: serverTimestamp(),
                                     });

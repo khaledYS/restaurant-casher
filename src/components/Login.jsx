@@ -6,9 +6,9 @@ import {
     signInWithRedirect
 } from "@firebase/auth"
 import { useNavigate } from "react-router";
-import { LoadingContext } from "./contexts";
+import { LoadingContext } from "./others/contexts";
 import { IoLogInOutline } from "react-icons/io5"
-import Btn from "./btn";
+import Btn from "./others/btn";
 function Login(props) {
     const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
     const navigate = useNavigate();
