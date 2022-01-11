@@ -111,6 +111,7 @@ function Order() {
         
         // cancel calculating if the bill doesn't have any item inside it.
         calculateTotalPrice()
+        console.log(bill)
     }, [bill])
 
 
@@ -268,7 +269,9 @@ function Order() {
                                         bill, 
                                         billTotalBalance, 
                                         submittedBy: user.name, 
+                                        finished:null, 
                                         finishedBy:null, 
+                                        deleted: null, 
                                         deletedBy: null, 
                                         createdAt: serverTimestamp(),
                                     });
