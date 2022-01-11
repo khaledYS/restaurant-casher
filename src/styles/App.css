@@ -25,23 +25,34 @@ body {
 
 
 /* this is for the styling in ./src/components/Bills.jsx for the link buttons */
-.activeLinkBtn{
+.BillsTypesBtn{
+  --ori-border-color: rgb(214 211 209);
+  --active-border-color:  rgb(27, 170, 226);
   position: relative;
   overflow: revert;
 }
 .activeLinkBtn::after{
+  background: var(--active-border-color) !important;
+  animation: easeIn ease-in-out .5s;
+}
+.BillsTypesBtn::after{
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
   width: 0px;
-  background: rgb(27, 170, 226);
   height: 4px;
   width: 100%;
   transform: translateY(  100%);
+  background: var(---border-color);
+  opacity: 1;
+  animation: easeIn ease-in-out .3s;
 }
-.BillsTypesBtn{
-  transition: all ease-in-out .2s;
+@keyframes easeIn {
+  0%{
+    opacity: 0;
+  }
+
 }
 
 
