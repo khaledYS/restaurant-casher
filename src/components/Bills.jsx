@@ -134,7 +134,7 @@ function Bills() {
                 <div style={{"zIndex":"9"}} className="bills w-1/2 max-w-[50%] bg-[#eef3f7] after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
                     <div className="h-full flex flex-col w-full ">
                         <div className="h-full w-full max-h-[100%] overflow-x-visible overflow-y-auto">
-                            {bills && bills.reverse().map((bill)=>{
+                            {bills && bills.map((bill)=>{
                                 return <Bill key={uuidv4()} bill={bill} setCurrentBill={setCurrentBill} currentBill={currentBill} />
                             })}
                         </div>
@@ -142,14 +142,33 @@ function Bills() {
                 </div>
                 <div className="bill w-1/2 h-full text-gray-700" >
                         {currentBill && 
-                            <div className="relative pt-8  bg-white h-full w-full ">
-                                <span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-red-700 hover:bg-red-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
-                                <div className="my-2 text-xl ">
-                                    <div className="title text-3xl text-center block mb-4">Bill</div>
-                                    <div className="text-center">
-                                        <div>BILL Number : <span className="font-medium">{currentBill.billIDNumber}</span></div> 
-                                        <div>Bill Date : <span className="font-medium">{currentBill.createdAt.toDate().toUTCString()}</span></div> 
+                            <div className="border-gray-700 h-full w-full ">
+                                <div className="relative pt-8 px-6 pb-8 overflow-auto bg-white h-full w-full ">
+                                    <span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-red-700 hover:bg-red-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
+                                    <div className="my-2 text-xl ">
+                                        <div className="title text-3xl text-center block mb-4">Bill</div>
+                                        <div className="text-center">
+                                            <div>BILL Number : <span className="font-medium">{currentBill.billIDNumber}</span></div> 
+                                            <div>Bill Date : <span className="font-medium">{currentBill.createdAt.toDate().toUTCString()}</span></div> 
+                                        </div>
                                     </div>
+                                    <table className="w-full border-2 border-gray-700 my-14 mb-10 " style={{"wordBreak":"break-word"}} >
+                                        <tr >
+                                            <td className="border-black border-2  p-1">ID</td>
+                                            <td className="border-black border-2  p-1">Category</td>
+                                            <td className="border-black border-2 p-1">Order name</td>
+                                            <td className="border-black border-2 p-1">cost</td>
+                                        </tr>
+                                        {currentBill.bill && currentBill.bill.map((item, index)=>{
+                                            return <tr key={uuidv4()} title={item.billItemId} >
+                                                <td className="border-gray-300 border-2 p-1" >{index + 1}</td>
+                                                <td className="border-gray-300 border-2 p-1" >{item.category}</td>
+                                                <td className="border-gray-300 border-2 p-1">{item.title}</td>
+                                                <td className="border-gray-300 border-2 p-1">{item.cost} $</td>
+                                            </tr>
+                                        })}
+                                    </table>
+
                                 </div>
                             </div>
                         }

@@ -46,15 +46,16 @@ function Bill({bill, setCurrentBill, currentBill}) {
 
 
     return (
-        <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} bill text-black text-left w-full cursor-pointer hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>
+        <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>
             <div className="date w-full text-right text-gray-400" title={date.time}>{date.span}</div>
-            <div className=" upper font-bold text-left flex justify-around my-4">
-              <div>Bill : {bill.billIDNumber}</div>
+            <div className=" upper font-bold text-left flex justify-between my-4">
+              <div>Bill: {bill.billIDNumber}</div>
               <div className={`${bill.finished ? "finished" : "notfinished"}`}>{`${bill.finished ? "Finished" : "Not Finished"}`}</div>
             </div>
             <div className="text-left">
-              <div>Total amount : {bill.billTotalBalance}</div>
-              <div>submitted by employ : {bill.submittedBy}</div>
+              <div>Total amount: {bill.billTotalBalance}</div>
+              <div>By: {bill.submittedBy}</div>
+              {bill.finished && bill.finishedBy ? <div>Finished By: {bill.finishedBy} </div> : ""}
             </div>
         </div>
     );

@@ -19,8 +19,7 @@ think about the others
 \
 
 # Tasks
- 
->what I did --day-5
+
 - [x] when the user navigate to specifec url, don't navigate him to the beggining if he already signed in.
 - [x] reset bill button
 - [x] all balance for the bill
@@ -31,22 +30,18 @@ think about the others
 - [x] when submiting the bill you should also include the name of the submitter
 - [x] add the summ of the bill.
 
-\
-
-> what I did --day-6
 - [x] a lot of things in ./readme.md file.
 - [x] I made for each component A ClassName with the name of the component file so we can debbug easily if there is an issue.
 
-
-
-> what I did --day-7
-- [ ] bills pages like all and pending bills and add them to the route and setUp them.
+- [x] bills pages like all and pending bills and add them to the route and setUp them.
 - [x] Responsivity in order component: "./src/components/Order.jsx ".
 - [x] add the bill id number so they kinda identify the the order number and if the bills reached to 300 then set them to 0 again.
 
 
 > Global tasks
+- [ ] get the quantity of the items in the current bill
 - [ ] creating the app routes structure in ./readme.md file.
+- [ ] add the edit bill
 - [ ] Responsivity 
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
