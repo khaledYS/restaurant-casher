@@ -42,6 +42,8 @@ function Bills() {
     // The bills
     const [bills, setBills] = useState([])
 
+    // current bill
+    const [currentBill, setCurrentBill] = useState(null)
 
     // get the bills on order and set them to bills
     useEffect(() => {
@@ -49,14 +51,14 @@ function Bills() {
 
             const billsRef = collection(db, "bills")
             // qry stands for query
-            let qry = query(billsRef, orderBy("createdAt"), limit(billsRows));
+            let qry = query(billsRef, orderBy("createdAt", "desc"), limit(billsRows));
 
             if(getBillsByTypeStatus.toLowerCase() == "pending"){
-                qry = query(billsRef, where("finished", "==", false), orderBy("createdAt"), limit(billsRows));
+                qry = query(billsRef, where("finished", "==", false), orderBy("createdAt", "desc"), limit(billsRows));
             }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
-                qry = query(billsRef, where("finished", "==", true), orderBy("createdAt"), limit(billsRows));
+                qry = query(billsRef, where("finished", "==", true), orderBy("createdAt", "desc"), limit(billsRows));
             }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
-                qry = query(billsRef, where("deleted", "==", true), orderBy("createdAt"), limit(billsRows));
+                qry = query(billsRef, where("deleted", "==", true), orderBy("createdAt", "desc"), limit(billsRows));
             }
 
 
@@ -73,10 +75,17 @@ function Bills() {
 
 
         })();
-        console.log(bills)
+        console.log(currentBill)
 
     }, [billsRows, getBillsByTypeStatus])
 
+
+    useEffect(() => { 
+        if(currentBill){
+            console.log(currentBill.createdAt.toDate())
+            console.log(currentBill.createdAt.toDate().toGMTString())
+        }
+    }, [currentBill])
 
     const route = useLocation()
 
@@ -121,14 +130,29 @@ function Bills() {
                     </div>
                 </div>
             </div>
-            <div className="workplace h-[92%] smm:h-[86%] bg-slate-100 flex">
-                <div className="bills w-1/2 bg-[#eef3f7] box-content after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
-                            {bills && bills.map((bill)=>{
-                                return <Bill key={uuidv4()} bill={bill} />
+            <div className="workplace h-[86%] smm:h-[86%] bg-white flex ">
+                <div style={{"zIndex":"9"}} className="bills w-1/2 max-w-[50%] bg-[#eef3f7] after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
+                    <div className="h-full flex flex-col w-full ">
+                        <div className="h-full w-full max-h-[100%] overflow-x-visible overflow-y-auto">
+                            {bills && bills.reverse().map((bill)=>{
+                                return <Bill key={uuidv4()} bill={bill} setCurrentBill={setCurrentBill} currentBill={currentBill} />
                             })}
+                        </div>
+                    </div>
                 </div>
-                <div className="bill w-1/2 h-full" >
-
+                <div className="bill w-1/2 h-full text-gray-700" >
+                        {currentBill && 
+                            <div className="relative pt-8  bg-white h-full w-full ">
+                                <span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-red-700 hover:bg-red-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
+                                <div className="my-2 text-xl ">
+                                    <div className="title text-3xl text-center block mb-4">Bill</div>
+                                    <div className="text-center">
+                                        <div>BILL Number : <span className="font-medium">{currentBill.billIDNumber}</span></div> 
+                                        <div>Bill Date : <span className="font-medium">{currentBill.createdAt.toDate().toUTCString()}</span></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        }
                 </div>
             </div>
         </div>

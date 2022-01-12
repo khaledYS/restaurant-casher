@@ -56,6 +56,34 @@ body {
 }
 
 
+/* bill item for ./src/components/bill/Bill.jsx */
+.bill.activeCurrentBill{
+  border: rgb(146, 146, 146) solid 2px;
+  border-radius: 5px;
+  z-index: 20;
+  box-shadow: 0px 0px 5px 0px rgb(145, 145, 145);
+  background: #fff;
+}
+.bill .finished{
+  color: white;
+  padding: 2px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  background: rgb(0, 196, 33);
+  box-shadow: 0px 4px 19px 2px #bfbfbf;
+}
+.bill .notfinished{
+  color: white;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  background: rgb(220, 0, 0);
+  box-shadow: 0px 4px 19px 2px #bfbfbf;
+
+}
+
+
+
 
   /* loading spinner */
   .lds-spinner {

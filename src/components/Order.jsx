@@ -245,10 +245,11 @@ function Order() {
 
                                 // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
                                 if(lastBillIdNumber >= 300){
-                                    setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
+                                    await setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
                                     newBillIDNumber = 1;
                                 }else{
                                     newBillIDNumber = lastBillIdNumber + 1;
+                                    await setDoc(billsSettingsDocRef, {lastBillIdNumber: newBillIDNumber}, {merge:true});
                                 }
 
 
