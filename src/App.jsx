@@ -9,8 +9,7 @@ import {
   useLocation
 } from 'react-router-dom';
 import './tailwind/output.css';
-import Login from './components/login';
-import Welcome from './components/Welcome';
+import './styles/App.css';
 import Problem from './components/others/Problem';
 import Loading from './components/others/Loading'
 import { UserContext, LoadingContext } from './components/others/contexts';

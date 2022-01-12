@@ -7,7 +7,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Login from './components/login';
+import Login from './components/Login';
 import Welcome from './components/Welcome';
 import Order from './components/Order';
 import Dashboard from './components/Dashboard';
