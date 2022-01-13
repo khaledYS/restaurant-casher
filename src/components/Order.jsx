@@ -26,8 +26,8 @@ import {
 function Order() {
 
     // user 
-    const {user} = useContext(UserContext)
-    console.log(user)
+    const {employee} = useContext(UserContext)
+    console.log(employee)
     // loading
     const {setLoading} = useContext(LoadingContext)
 
@@ -269,7 +269,7 @@ function Order() {
                                         billIDNumber: newBillIDNumber,
                                         bill, 
                                         billTotalBalance, 
-                                        submittedBy: user.name, 
+                                        submittedBy: employee.name, 
                                         finished:false, 
                                         finishedBy:null, 
                                         deleted: false, 

@@ -1,4 +1,6 @@
-function Bill({bill, setCurrentBill, currentBill}) {
+import { useEffect } from "react"
+
+function Bill({bill, setCurrentBill, currentBill, bills}) {
 
     /**
      * this is code is imported from here https://stackoverflow.com/questions/19700283/how-to-convert-time-in-milliseconds-to-hours-min-sec-format-in-javascript#answer-19700358
@@ -43,7 +45,11 @@ function Bill({bill, setCurrentBill, currentBill}) {
 
     const date = msToTime(new Date() - bill.createdAt.toDate());
 
-
+    useEffect(() => {
+      if(currentBill && bill.id == currentBill.id){
+        setCurrentBill(bill)
+      }
+    }, [bills])
 
     return (
         <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>

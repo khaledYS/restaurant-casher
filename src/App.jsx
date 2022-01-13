@@ -15,7 +15,7 @@ import Loading from './components/others/Loading'
 import { UserContext, LoadingContext } from './components/others/contexts';
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [employee, setEmployee] = useState(null)
   const [loading, setLoading] = useState(null)
   
   // the current Route
@@ -36,8 +36,13 @@ function App() {
         const auth = getAuth(app);
         const docRef = doc(db, "users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
+
+        // get the tax
+        let tax = await getDoc(doc(db, "others/billsSettings"))
+        tax = tax.data().tax
+        
         if (docSnap.exists()) {
-          setUser(docSnap.data())
+          setEmployee({...docSnap.data(), tax})
         }else{
           const dataToPass = {
             uid : auth.currentUser.uid,
@@ -46,7 +51,7 @@ function App() {
             position:"employer"
           }
           await setDoc(docRef, {...dataToPass});
-          setUser(dataToPass)
+          setEmployee({...dataToPass, tax})
         }
         
         // turn of loading
@@ -67,13 +72,13 @@ function App() {
     })
   }, [])
 
-  useEffect(()=>{console.log(user)}, [user])
+  useEffect(()=>{console.log(employee)}, [employee])
 
 
 
   return (
     <div className="app font-sans App w-[100vw] h-[100vh] bg-slate-900 flex flex-col justify-center items-center  text-white">
-      <UserContext.Provider value={{user, setUser}}>
+      <UserContext.Provider value={{employee, setEmployee}}>
         {loading && <Loading />}
         <LoadingContext.Provider value={{setLoading}}>
           <Outlet />

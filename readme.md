@@ -32,24 +32,24 @@ think about the others
 
 - [x] a lot of things in ./readme.md file.
 - [x] I made for each component A ClassName with the name of the component file so we can debbug easily if there is an issue.
-
 - [x] bills pages like all and pending bills and add them to the route and setUp them.
 - [x] Responsivity in order component: "./src/components/Order.jsx ".
 - [x] add the bill id number so they kinda identify the the order number and if the bills reached to 300 then set them to 0 again.
+- [x] change the files to be nested in the components folder 
+- [x] get the quantity of the items in the current bill
 
 
 > Global tasks
-- [ ] get the quantity of the items in the current bill
+- [ ] include the tax macanizme
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] add the edit bill
-- [ ] Responsivity 
+- [-x] Responsivity 
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
 - [ ] add the macenazim of the deleted bills
 - [ ] add finished bills
 - [ ] get the static data from cache if possible
 - [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
-- [ ] change the files to be nested in the components folder 
 - [ ] HardcoreOne: changing the ID's from charcters and numbers to numbers only
 - [ ] make the user when going to "/welcome/order/<the Id of the bill>", make him have the ability of editing.
 
@@ -106,3 +106,8 @@ If you saw a bug or a problem you can report about it and we will try fix it as 
 
 # Thanks
 Thanks for all of the support and my greetings me Ammar co founder of this app. 
+
+
+
+
+

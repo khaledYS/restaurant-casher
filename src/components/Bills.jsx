@@ -2,6 +2,8 @@ import { db } from "../../senstive/firebase-config";
 import {
     query,
     getDocs,
+    getDoc,
+    doc,
     collection,
     where,
     orderBy,
@@ -13,9 +15,13 @@ import { LoadingContext, UserContext } from "./others/contexts"
 import {IconContext} from "react-icons"
 import { Link as button, Outlet, useLocation } from "react-router-dom";
 import {v4 as uuidv4} from "uuid"
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import Bill from "./bills/Bill";
 function Bills() {
+
+    const { employee } = useContext(UserContext)
+    console.log(employee)
+
     // this is the buttons that are responsed to navigate to specifec bills
     const billTypesBtns = [
         {name:"All", active: true},
@@ -68,26 +74,41 @@ function Bills() {
                     bills.push({id:doc.id, ...doc.data()})
                 })
                 setBills(bills)
-                console.log("-----", billsRows, getBillsByTypeStatus)
             })
 
 
 
 
         })();
-        console.log(currentBill)
 
     }, [billsRows, getBillsByTypeStatus])
 
 
     useEffect(() => { 
         if(currentBill){
-            console.log(currentBill.createdAt.toDate())
-            console.log(currentBill.createdAt.toDate().toGMTString())
+            console.log(currentBill)
         }
     }, [currentBill])
 
     const route = useLocation()
+
+
+    function getTheQuantity(bill){
+        let newBill = [];
+        
+        for(const i of bill){
+            let found = newBill.findIndex((item)=>item.id == i.id)
+
+            if(found == -1){
+                newBill.push({...i, quantity:1})
+            }else{
+                newBill[found].quantity += 1;
+                newBill[found].quantityAmount = newBill[found].cost + i.cost;
+            }
+        }
+
+        return newBill  
+    }
 
     return ( 
         
@@ -131,43 +152,107 @@ function Bills() {
                 </div>
             </div>
             <div className="workplace h-[86%] smm:h-[86%] bg-white flex ">
-                <div style={{"zIndex":"9"}} className="bills w-1/2 max-w-[50%] bg-[#eef3f7] after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
+                <div style={{"zIndex":"9"}} className="bills w-5/12 max-w-[50%] bg-[#eef3f7] after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
                     <div className="h-full flex flex-col w-full ">
                         <div className="h-full w-full max-h-[100%] overflow-x-visible overflow-y-auto">
                             {bills && bills.map((bill)=>{
-                                return <Bill key={uuidv4()} bill={bill} setCurrentBill={setCurrentBill} currentBill={currentBill} />
+                                return <Bill key={uuidv4()} bill={bill} bills={bills} setCurrentBill={setCurrentBill} currentBill={currentBill} />
                             })}
                         </div>
                     </div>
                 </div>
-                <div className="bill w-1/2 h-full text-gray-700" >
+                <div className="bill h-full text-gray-700 w-7/12">
                         {currentBill && 
                             <div className="border-gray-700 h-full w-full ">
-                                <div className="relative pt-8 px-6 pb-8 overflow-auto bg-white h-full w-full ">
-                                    <span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-red-700 hover:bg-red-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
+                                <div className="relative pt-8 px-2 pb-8 overflow-auto bg-white h-full w-full ">
+                                    <span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-gray-700 hover:bg-gray-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
                                     <div className="my-2 text-xl ">
-                                        <div className="title text-3xl text-center block mb-4">Bill</div>
+                                        <div className="title text-3xl text-center block mb-4">Bill {currentBill.billIDNumber}</div>
                                         <div className="text-center">
-                                            <div>BILL Number : <span className="font-medium">{currentBill.billIDNumber}</span></div> 
-                                            <div>Bill Date : <span className="font-medium">{currentBill.createdAt.toDate().toUTCString()}</span></div> 
+                                            <div>Bill Date : 
+                                                <span className="font-medium">&nbsp;
+                                                    {currentBill.createdAt.toDate().getDate() < 10 ? "0" + currentBill.createdAt.toDate().getDate() : currentBill.createdAt.toDate().getDate()}\
+                                                    {currentBill.createdAt.toDate().getMonth() < 10 ? "0" + currentBill.createdAt.toDate().getMonth() : currentBill.createdAt.toDate().getMonth()}\
+                                                    {currentBill.createdAt.toDate().getFullYear()}
+                                                    &nbsp;&nbsp;
+                                                    <span>
+                                                        {currentBill.createdAt.toDate().getHours()}:
+                                                        {currentBill.createdAt.toDate().getMinutes()}:
+                                                        {currentBill.createdAt.toDate().getSeconds()}
+                                                    </span>
+                                                </span>
+                                            </div> 
+                                            <div>
+                                                {currentBill.finished && <div>Bill finished by: {currentBill.finishedBy}</div>}
+                                            </div>
                                         </div>
                                     </div>
-                                    <table className="w-full border-2 border-gray-700 my-14 mb-10 " style={{"wordBreak":"break-word"}} >
-                                        <tr >
-                                            <td className="border-black border-2  p-1">ID</td>
-                                            <td className="border-black border-2  p-1">Category</td>
-                                            <td className="border-black border-2 p-1">Order name</td>
-                                            <td className="border-black border-2 p-1">cost</td>
-                                        </tr>
-                                        {currentBill.bill && currentBill.bill.map((item, index)=>{
-                                            return <tr key={uuidv4()} title={item.billItemId} >
-                                                <td className="border-gray-300 border-2 p-1" >{index + 1}</td>
-                                                <td className="border-gray-300 border-2 p-1" >{item.category}</td>
-                                                <td className="border-gray-300 border-2 p-1">{item.title}</td>
-                                                <td className="border-gray-300 border-2 p-1">{item.cost} $</td>
+
+                                    <table className="w-full border-2 border-gray-700 mt-14 shadow-xl shadow-gray-300" style={{"wordBreak":"break-word"}} >
+                                        <thead >
+                                            <tr>
+                                                <th className="border-black border-2  p-1">ID</th>
+                                                <th className="border-black border-2  p-1">Category</th>
+                                                <th className="border-black border-2 p-1">Order name</th>
+                                                <th className="border-black border-2 p-1">cost</th>
+                                                <th className="border-black border-2  p-1" title="Quantity">Q</th>
+                                                <th className="border-black border-2  p-1" title="Quantity Amount">QA</th>
                                             </tr>
-                                        })}
+                                        </thead>
+                                        <tbody >
+                                            {currentBill.bill && getTheQuantity(currentBill.bill).map((item, index)=>{
+                                            return <tr key={uuidv4()} title={item.billItemId} >
+                                                        <td className="border-black border-2 p-1 text-center" >{index + 1}</td>
+                                                        <td className="border-gray-300 border-2 p-1" >{item.category}</td>
+                                                        <td className="border-gray-300 border-2 p-1">{item.title}</td>
+                                                        <td className="border-gray-300 border-2 p-1 text-center">{item.cost}$</td>
+                                                        <td className="border-gray-300 border-2 p-1 text-center">{item.quantity}</td>
+                                                        <td className="border-gray-300 border-2 p-1 text-center" title="Quantity amount">{item.quantityAmount ? item.quantityAmount : item.cost}$</td>
+                                                    </tr>
+                                            })}
+                                            <tr className="border-black border-t-4">
+                                                <td className="p-1 text-center border-2 border-black" colSpan="4">Total:</td>
+                                                <td className="text-center" colSpan="2">{currentBill.billTotalBalance}$</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
+
+                                    <div className="flex w-full justify-around  bg-gray-300 py-2 pl-2 border-t-2 border-black shadow-xl shadow-gray-400">
+                                            <span> Price: {currentBill.billTotalBalance}$</span>
+                                            <span>VAT: {employee.tax}/100</span>
+                                            {/*  */}
+                                            <span> Taxed price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }</span></span>
+                                    </div>
+
+                                    <div className="flex flex-col mt-12">
+                                        {/* if the bill is already finished then show the unfinish bill button if not then show the finish bill button */}
+                                        {
+                                            currentBill.finished 
+                                            ? 
+                                            <button 
+                                                    className="w-full text-white bg-gray-600 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 hover:-translate-y-[1px] rounded-full py-2 px-6"
+                                                    onClick={()=>{
+                                                        
+                                                    }}
+                                                    >Unfinish Bill</button>
+                                            :
+                                            <button 
+                                                className="w-full hover:bg-green-300 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 bg-green-400 hover:-translate-y-1 rounded-full py-2 px-6"
+                                                onClick={async ()=>{
+                                                    // confirmation if he really want to finish the bill
+                                                    const confirmation = window.confirm("Do you really want to finish The Bill")
+                                                    if(!confirmation) return
+
+                                                    const data = await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: true, finishedBy: employee.name}, {merge:true})
+                                                    console.log(data)
+                                                }}
+                                                >Finish Bill</button>
+                                        }
+
+                                        <button 
+                                                className="w-fit ml-auto mt-10"
+                                                >Delete Bill bill</button>
+                                    </div>
 
                                 </div>
                             </div>
