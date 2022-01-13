@@ -46,9 +46,17 @@ function Bill({bill, setCurrentBill, currentBill, bills}) {
     const date = msToTime(new Date() - bill.createdAt.toDate());
 
     useEffect(() => {
-      if(currentBill && bill.id == currentBill.id){
-        setCurrentBill(bill)
-      }
+    //   if(currentBill){
+    //     const found = bills.find(item=> item.id == currentBill.id) 
+    //     console.log(found, "found")
+    //     if(found){
+    //         console.log("baaa", "found")
+    //         setCurrentBill(null)
+    //     }
+    // }
+    //   if(currentBill && bill.id == currentBill.id){
+    //     setCurrentBill(bill)
+    //   }
     }, [bills])
 
     return (

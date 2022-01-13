@@ -6,7 +6,7 @@ import {
     serverTimestamp
  } from "@firebase/firestore";
 import {
-    getAuth
+    getAuth, signOut
 } from "@firebase/auth"
 import { 
     useState, 
@@ -18,7 +18,7 @@ import {
     Outlet
  } from "react-router-dom";
 import Btn from "./others/btn";
-import { IoBagHandleOutline } from "react-icons/io5";
+import { IoBagHandleOutline, IoLogOutOutline } from "react-icons/io5";
 import { VscCircuitBoard } from "react-icons/vsc";
 import { FaFileInvoiceDollar } from "react-icons/fa"
 import { UserContext } from "./others/contexts";
@@ -26,7 +26,7 @@ import { UserContext } from "./others/contexts";
 
 function Welcome(props) {
     
-    const {user, setUser} = useContext(UserContext);
+    const {employee, setEmployee} = useContext(UserContext);
 
 
     // const getdocs = async (dataCollectionRef)=>{
@@ -41,7 +41,8 @@ function Welcome(props) {
         <div className="Welcome-component ">
             <Link to="order"><Btn title="Order" ><IoBagHandleOutline /></Btn></Link>
             <Link to="bills"><Btn title="Bills" ><FaFileInvoiceDollar /></Btn></Link>
-            {user && (user.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }
+            <Btn title="Logout" onclick={()=>{signOut(getAuth(app))}} ><IoLogOutOutline /></Btn>
+            {employee && (employee.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }
         </div>
     );
 }

@@ -27,7 +27,7 @@ function App() {
   
   useEffect(()=>{
     setLoading(true)
-    onAuthStateChanged(getAuth(), async (user)=>{
+    onAuthStateChanged(getAuth(app), async (user)=>{
       if(user){
         console.log("user Is signed in, user should be redirected to welcome page")
         
@@ -55,19 +55,20 @@ function App() {
         }
         
         // turn of loading
-        setLoading(false)
         
         console.log(route)
         // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
         if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
-            
+        
+        setLoading(false)
       }else{
         console.log("user Is signed out, user should be redirected to login page")
         // if the user is already on the login page then don't make another uselesses requests 
-        setLoading(false)
         console.log(route)
         if(route.pathname == "/login") return;
         navigate("/login")
+        
+        setLoading(false)
       }
     })
   }, [])

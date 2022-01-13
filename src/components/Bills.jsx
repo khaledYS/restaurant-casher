@@ -25,8 +25,8 @@ function Bills() {
     // this is the buttons that are responsed to navigate to specifec bills
     const billTypesBtns = [
         {name:"All", active: true},
-        {name:"Confirmed", active: false},
         {name:"Pending", active: false},
+        {name:"Confirmed", active: false},
         {name:"Deleted", active: false}
     ]
     // the container of the types btns
@@ -69,11 +69,11 @@ function Bills() {
 
 
             onSnapshot(qry, (snapshot)=>{
-                let bills = [];
+                let newBills = [];
                 snapshot.docs.forEach((doc)=>{
-                    bills.push({id:doc.id, ...doc.data()})
+                    newBills.push({id:doc.id, ...doc.data()})
                 })
-                setBills(bills)
+                setBills(newBills)
             })
 
 
@@ -84,11 +84,17 @@ function Bills() {
     }, [billsRows, getBillsByTypeStatus])
 
 
-    useEffect(() => { 
+    useEffect(() => {
+        console.log("beeeeeeeee", bills.length)
         if(currentBill){
-            console.log(currentBill)
+            const found = bills.find(item=> item.id == currentBill.id) 
+            console.log(found, "found")
+            if(found){
+                console.log("baaa", "found")
+                setCurrentBill(null)
+            }
         }
-    }, [currentBill])
+    }, [bills])
 
     const route = useLocation()
 
@@ -221,7 +227,7 @@ function Bills() {
                                             <span> Price: {currentBill.billTotalBalance}$</span>
                                             <span>VAT: {employee.tax}/100</span>
                                             {/*  */}
-                                            <span> Taxed price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }</span></span>
+                                            <span> Taxed price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }$</span></span>
                                     </div>
 
                                     <div className="flex flex-col mt-12">
@@ -230,14 +236,17 @@ function Bills() {
                                             currentBill.finished 
                                             ? 
                                             <button 
-                                                    className="w-full text-white bg-gray-600 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 hover:-translate-y-[1px] rounded-full py-2 px-6"
-                                                    onClick={()=>{
-                                                        
+                                                    className="w-full mx-auto text-white bg-gray-600 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 hover:-translate-y-[1px] rounded-full py-4 px-6"
+                                                    onClick={async ()=>{
+                                                        // confirmation 
+                                                        if(!window.confirm("Do you really want to unfinish the bill")) return ;
+
+                                                        const data = await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: false, finishedBy:null}, {merge:true})
                                                     }}
                                                     >Unfinish Bill</button>
                                             :
                                             <button 
-                                                className="w-full hover:bg-green-300 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 bg-green-400 hover:-translate-y-1 rounded-full py-2 px-6"
+                                                className="w-full hover:bg-green-300 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 bg-green-400 hover:-translate-y-1 rounded-full py-4 px-6"
                                                 onClick={async ()=>{
                                                     // confirmation if he really want to finish the bill
                                                     const confirmation = window.confirm("Do you really want to finish The Bill")
@@ -249,9 +258,17 @@ function Bills() {
                                                 >Finish Bill</button>
                                         }
 
-                                        <button 
-                                                className="w-fit ml-auto mt-10"
-                                                >Delete Bill bill</button>
+                                        {
+                                            // if the user bill submitter is the same on the current bill then show him the delete button
+                                            employee.name == currentBill.submittedBy &&
+                                            <button 
+                                                    className="w-fit ml-auto mt-5 hover:shadow-xl shadow-slate-600 py-2 px-4 bg-red-800 text-gray-300 mx-auto hover:bg-red-600 transition-all rounded-md"
+                                                    onClick={()=>{
+    
+                                                    }}
+                                                    >Delete Bill</button>
+
+                                        }
                                     </div>
 
                                 </div>

@@ -37,9 +37,10 @@ think about the others
 - [x] add the bill id number so they kinda identify the the order number and if the bills reached to 300 then set them to 0 again.
 - [x] change the files to be nested in the components folder 
 - [x] get the quantity of the items in the current bill
-
+- [x] Logout button
 
 > Global tasks
+- [ ] look up for the bills.jsx
 - [ ] include the tax macanizme
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] add the edit bill
