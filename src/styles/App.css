@@ -81,6 +81,33 @@ body {
   font-weight: 500;
   background: rgb(220, 0, 0);
   box-shadow: 0px 4px 19px 2px #bfbfbf;
+}
+
+
+/* if the current bill is finished then show the finished status */
+.current-bill .finished{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  width: 50%;
+  margin: 10px auto;
+  padding: 2px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  background: rgb(0, 175, 29);
+  box-shadow: 0px 4px 19px 2px #bfbfbf;
+}
+.current-bill .notfinished{
+  text-align: center;
+  color: white;
+  width: fit-content;
+  margin: 10px auto;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+  background: rgb(220, 0, 0);
+  box-shadow: 0px 4px 19px 2px #bfbfbf;
 
 }
 

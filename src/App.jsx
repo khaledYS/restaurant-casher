@@ -71,7 +71,7 @@ function App() {
         setLoading(false)
       }
     })
-  }, [])
+  }, [route])
 
   useEffect(()=>{console.log(employee)}, [employee])
 

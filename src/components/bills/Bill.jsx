@@ -45,19 +45,6 @@ function Bill({bill, setCurrentBill, currentBill, bills}) {
 
     const date = msToTime(new Date() - bill.createdAt.toDate());
 
-    useEffect(() => {
-    //   if(currentBill){
-    //     const found = bills.find(item=> item.id == currentBill.id) 
-    //     console.log(found, "found")
-    //     if(found){
-    //         console.log("baaa", "found")
-    //         setCurrentBill(null)
-    //     }
-    // }
-    //   if(currentBill && bill.id == currentBill.id){
-    //     setCurrentBill(bill)
-    //   }
-    }, [bills])
 
     return (
         <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>

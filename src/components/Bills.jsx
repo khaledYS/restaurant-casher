@@ -1,3 +1,7 @@
+// Don't lemme explain you the code. 
+// cause I'm the same as you 
+// I don't uderstand any word of this shit
+
 import { db } from "../../senstive/firebase-config";
 import {
     query,
@@ -20,17 +24,14 @@ import Bill from "./bills/Bill";
 function Bills() {
 
     const { employee } = useContext(UserContext)
-    console.log(employee)
 
     // this is the buttons that are responsed to navigate to specifec bills
     const billTypesBtns = [
-        {name:"All", active: true},
-        {name:"Pending", active: false},
-        {name:"Confirmed", active: false},
-        {name:"Deleted", active: false}
+        {name:"All"},
+        {name:"Pending"},
+        {name:"Confirmed"},
+        {name:"Deleted"}
     ]
-    // the container of the types btns
-    const TypesOfBillsBtnsContainer = useRef();
 
     // bills status, is it pending, or confirmed?
     /**
@@ -59,21 +60,26 @@ function Bills() {
             // qry stands for query
             let qry = query(billsRef, orderBy("createdAt", "desc"), limit(billsRows));
 
-            if(getBillsByTypeStatus.toLowerCase() == "pending"){
-                qry = query(billsRef, where("finished", "==", false), orderBy("createdAt", "desc"), limit(billsRows));
-            }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
-                qry = query(billsRef, where("finished", "==", true), orderBy("createdAt", "desc"), limit(billsRows));
-            }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
-                qry = query(billsRef, where("deleted", "==", true), orderBy("createdAt", "desc"), limit(billsRows));
-            }
-
 
             onSnapshot(qry, (snapshot)=>{
                 let newBills = [];
                 snapshot.docs.forEach((doc)=>{
                     newBills.push({id:doc.id, ...doc.data()})
                 })
-                setBills(newBills)
+
+                let filteredBills = [];
+                if(getBillsByTypeStatus.toLowerCase() == "pending"){
+                    filteredBills = newBills.filter((item)=> item.finished == false)
+                }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
+                    filteredBills = newBills.filter((item)=> item.finished == true)
+                }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
+                    filteredBills = newBills.filter((item)=> item.deleted == true)
+                }else if(getBillsByTypeStatus.toLowerCase() == "all"){
+                    filteredBills = newBills;
+                }
+
+
+                setBills(filteredBills)
             })
 
 
@@ -83,18 +89,6 @@ function Bills() {
 
     }, [billsRows, getBillsByTypeStatus])
 
-
-    useEffect(() => {
-        console.log("beeeeeeeee", bills.length)
-        if(currentBill){
-            const found = bills.find(item=> item.id == currentBill.id) 
-            console.log(found, "found")
-            if(found){
-                console.log("baaa", "found")
-                setCurrentBill(null)
-            }
-        }
-    }, [bills])
 
     const route = useLocation()
 
@@ -116,12 +110,30 @@ function Bills() {
         return newBill  
     }
 
+    useEffect(() => {
+
+        if(currentBill){
+            const found = bills.find(item=> item.id == currentBill.id) 
+            if(!found){
+                setCurrentBill(null)
+            }else if (found){
+                setCurrentBill(found)
+            }
+        }
+
+
+    }, [bills])
+
+    useEffect(() => {
+        console.log(currentBill)
+    }, [currentBill])
+
     return ( 
         
         <div className="Bills-component flex flex-col h-full w-full bg-slate-100">
             {/* upper navbar where to choose the pending and others bills , also to filter the bills */}
             <div className="overflow-hiddennavbar flex justify-start items-start border-b-4 border-stone-300 bg-white w-full flex-col-reverse h-[14%] text-black shadow-lg z-10 rounded-b-3xl">
-                <div className="types w-8/12 flex justify-between sm:w-full md:w-10/12  items-stretch h-full px-8 smm:h-1/2" ref={TypesOfBillsBtnsContainer}>
+                <div className="types w-8/12 flex justify-between sm:w-full md:w-10/12  items-stretch h-full px-8 smm:h-1/2">
                     {billTypesBtns && billTypesBtns.map((btn)=>{
 
                         return <button
@@ -167,7 +179,7 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                <div className="bill h-full text-gray-700 w-7/12">
+                <div className="current-bill h-full text-gray-700 w-7/12">
                         {currentBill && 
                             <div className="border-gray-700 h-full w-full ">
                                 <div className="relative pt-8 px-2 pb-8 overflow-auto bg-white h-full w-full ">
@@ -189,12 +201,14 @@ function Bills() {
                                                 </span>
                                             </div> 
                                             <div>
-                                                {currentBill.finished && <div>Bill finished by: {currentBill.finishedBy}</div>}
+                                                <div className={`${currentBill.finished ? "finished" : "notfinished"}`}>{`${currentBill.finished ? "Finished" : "Not Finished"}`}
+                                                    {currentBill.finished && <div>BY: {currentBill.finishedBy}</div>}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <table className="w-full border-2 border-gray-700 mt-14 shadow-xl shadow-gray-300" style={{"wordBreak":"break-word"}} >
+                                    <table className="w-full border-2 border-gray-700 mt-5 shadow-xl shadow-gray-300" style={{"wordBreak":"break-word"}} >
                                         <thead >
                                             <tr>
                                                 <th className="border-black border-2  p-1">ID</th>
@@ -233,7 +247,7 @@ function Bills() {
                                     <div className="flex flex-col mt-12">
                                         {/* if the bill is already finished then show the unfinish bill button if not then show the finish bill button */}
                                         {
-                                            currentBill.finished 
+                                            currentBill.finished && !currentBill.deleted
                                             ? 
                                             <button 
                                                     className="w-full mx-auto text-white bg-gray-600 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 hover:-translate-y-[1px] rounded-full py-4 px-6"
@@ -252,8 +266,7 @@ function Bills() {
                                                     const confirmation = window.confirm("Do you really want to finish The Bill")
                                                     if(!confirmation) return
 
-                                                    const data = await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: true, finishedBy: employee.name}, {merge:true})
-                                                    console.log(data)
+                                                    await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: true, finishedBy: employee.name}, {merge:true})
                                                 }}
                                                 >Finish Bill</button>
                                         }
@@ -263,9 +276,15 @@ function Bills() {
                                             employee.name == currentBill.submittedBy &&
                                             <button 
                                                     className="w-fit ml-auto mt-5 hover:shadow-xl shadow-slate-600 py-2 px-4 bg-red-800 text-gray-300 mx-auto hover:bg-red-600 transition-all rounded-md"
-                                                    onClick={()=>{
-    
-                                                    }}
+                                                    onClick={async ()=>{                                                        
+                                                        // confirmation if he really want to delete the bill
+                                                        if(window.confirm("Do you really want to delete The Bill ?! | confirmation 1")) {
+                                                            if(window.confirm("Do you really want to delete The Bill ?! | confirmation 1")){
+                                                                await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {deleted: true, deletedBy: employee.name}, {merge:true})
+                                                            }
+                                                        }
+
+                                                        }}
                                                     >Delete Bill</button>
 
                                         }
