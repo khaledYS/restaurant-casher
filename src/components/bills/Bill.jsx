@@ -47,11 +47,12 @@ function Bill({bill, setCurrentBill, currentBill, bills}) {
 
 
     return (
-        <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>
+      // if the bill is deleted then make a storke line goes along the text
+        <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} ${bill?.deleted == true ? "deleted" : "notDeleted"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>
             <div className="date w-full text-right text-gray-400" title={date.time}>{date.span}</div>
             <div className=" upper font-bold text-left flex justify-between my-4">
-              <div>Bill: {bill.billIDNumber}</div>
-              <div className={`${bill.finished ? "finished" : "notfinished"}`}>{`${bill.finished ? "Finished" : "Not Finished"}`}</div>
+              <div className="name">Bill: {bill.billIDNumber}</div>
+              <div className={`finished-tag ${bill.finished ? "finished" : "notfinished"}`}>{`${bill.finished ? "Finished" : "Not Finished"}`}</div>
             </div>
             <div className="text-left">
               <div>Total amount: {bill.billTotalBalance}</div>

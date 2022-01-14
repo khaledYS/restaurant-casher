@@ -88,7 +88,7 @@ body {
 .current-bill .finished{
   text-align: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: column  ;
   color: white;
   width: 50%;
   margin: 10px auto;
@@ -112,6 +112,13 @@ body {
 }
 
 
+/* // if the bill is deleted then make a storke line goes along the text */
+.bill.deleted .name, .bill.deleted .finished-tag{
+  text-decoration: line-through solid gray 2.5px;
+}
+.bill.deleted{
+  background:rgb(238, 182, 182);
+}
 
 
   /* loading spinner */

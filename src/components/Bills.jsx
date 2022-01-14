@@ -69,13 +69,13 @@ function Bills() {
 
                 let filteredBills = [];
                 if(getBillsByTypeStatus.toLowerCase() == "pending"){
-                    filteredBills = newBills.filter((item)=> item.finished == false)
+                    filteredBills = newBills.filter((item)=> item.finished == false && item.deleted == false)
                 }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
-                    filteredBills = newBills.filter((item)=> item.finished == true)
+                    filteredBills = newBills.filter((item)=> item.finished == true && item.deleted == false)
                 }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
                     filteredBills = newBills.filter((item)=> item.deleted == true)
                 }else if(getBillsByTypeStatus.toLowerCase() == "all"){
-                    filteredBills = newBills;
+                    filteredBills = newBills.filter((item)=> item.deleted == false)
                 }
 
 

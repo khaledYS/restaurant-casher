@@ -38,16 +38,18 @@ think about the others
 - [x] change the files to be nested in the components folder 
 - [x] get the quantity of the items in the current bill
 - [x] Logout button
+- [x] include the tax macanizme
 
+> In progress.
+- [ ] add the macenazim of the deleted bills
+ 
 > Global tasks
 - [ ] look up for the bills.jsx
-- [ ] include the tax macanizme
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] add the edit bill
 - [-x] Responsivity 
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
-- [ ] add the macenazim of the deleted bills
 - [ ] add finished bills
 - [ ] get the static data from cache if possible
 - [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
