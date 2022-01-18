@@ -21,6 +21,7 @@ import { Link as button, Outlet, useLocation } from "react-router-dom";
 import {v4 as uuidv4} from "uuid"
 import { useRef, useState, useEffect, useContext } from "react";
 import Bill from "./bills/Bill";
+import CurrentBill from "./bills/CurrentBill";
 function Bills() {
 
     const { employee } = useContext(UserContext)
@@ -46,13 +47,18 @@ function Bills() {
     // the bill rows that we will request
     const [billsRows, setBillsRows] = useState(30)
 
+    /**
+     * we have two types of bills, the bills that filtered as order and they are gonna be printed to the dom and the all of the bills so we can filter the bills from the all bills
+     */
+    // all of the bills
+    const [allTheBills, setAllTheBills] = useState([])
     // The bills
     const [bills, setBills] = useState([])
 
     // current bill
     const [currentBill, setCurrentBill] = useState(null)
 
-    // get the bills on order and set them to bills
+    // get the bills live on order and set them to bills
     useEffect(() => {
         (async ()=>{
 
@@ -67,19 +73,9 @@ function Bills() {
                     newBills.push({id:doc.id, ...doc.data()})
                 })
 
-                let filteredBills = [];
-                if(getBillsByTypeStatus.toLowerCase() == "pending"){
-                    filteredBills = newBills.filter((item)=> item.finished == false && item.deleted == false)
-                }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
-                    filteredBills = newBills.filter((item)=> item.finished == true && item.deleted == false)
-                }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
-                    filteredBills = newBills.filter((item)=> item.deleted == true)
-                }else if(getBillsByTypeStatus.toLowerCase() == "all"){
-                    filteredBills = newBills.filter((item)=> item.deleted == false)
-                }
 
 
-                setBills(filteredBills)
+                setAllTheBills(newBills)
             })
 
 
@@ -87,42 +83,65 @@ function Bills() {
 
         })();
 
-    }, [billsRows, getBillsByTypeStatus])
+    }, [billsRows])
+    /**
+     * if the types of bills get cahnged then setthebills on order, and also if the current bill is in the bills that are going to be printed in the dom then get it up.setfsdffsdfsdfsdfsdfffffffffffff
+     */
+    useEffect(() => {
+        console.log(getBillsByTypeStatus)
+        setBills(filterBills(allTheBills))
 
+        if(currentBill){
+            const found = bills.find(item=> item.id == currentBill.id) 
+            if (found){
+                setCurrentBill(found)
+            }
+        }
+        
+    }, [getBillsByTypeStatus])
+
+
+    // we filter all the bills on order from the getBillsByTypesStatus state
+    function filterBills(bills){
+        let filteredBills = [];
+        if(getBillsByTypeStatus.toLowerCase() == "pending"){
+            filteredBills = bills.filter((item)=> item.finished == false && item.deleted == false)
+        }else if(getBillsByTypeStatus.toLowerCase() == "confirmed"){
+            filteredBills = bills.filter((item)=> item.finished == true && item.deleted == false)
+        }else if(getBillsByTypeStatus.toLowerCase() == "deleted"){
+            filteredBills = bills.filter((item)=> item.deleted == true)
+        }else{
+            filteredBills = bills.filter((item)=> item.deleted == false)
+        }
+
+        return filteredBills;
+    }
 
     const route = useLocation()
 
 
-    function getTheQuantity(bill){
-        let newBill = [];
-        
-        for(const i of bill){
-            let found = newBill.findIndex((item)=>item.id == i.id)
 
-            if(found == -1){
-                newBill.push({...i, quantity:1})
-            }else{
-                newBill[found].quantity += 1;
-                newBill[found].quantityAmount = newBill[found].cost + i.cost;
-            }
-        }
-
-        return newBill  
-    }
-
+    // if the bills get changed and the current bill isn't on the bills then we take it off otherwise get it
     useEffect(() => {
 
         if(currentBill){
             const found = bills.find(item=> item.id == currentBill.id) 
-            if(!found){
-                setCurrentBill(null)
-            }else if (found){
+            if (found){
                 setCurrentBill(found)
+            }else{
+                console.log('we killed your system....')
+                setCurrentBill(null)
             }
         }
 
 
     }, [bills])
+
+
+    // if all the bills state is updated then update the printed bills to the dom
+    useEffect(() => {
+        setBills(filterBills(allTheBills))
+    }, [allTheBills])
 
     useEffect(() => {
         console.log(currentBill)
@@ -179,120 +198,8 @@ function Bills() {
                         </div>
                     </div>
                 </div>
-                <div className="current-bill h-full text-gray-700 w-7/12">
-                        {currentBill && 
-                            <div className="border-gray-700 h-full w-full ">
-                                <div className="relative pt-8 px-2 pb-8 overflow-auto bg-white h-full w-full ">
-                                    <span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-gray-700 hover:bg-gray-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
-                                    <div className="my-2 text-xl ">
-                                        <div className="title text-3xl text-center block mb-4">Bill {currentBill.billIDNumber}</div>
-                                        <div className="text-center">
-                                            <div>Bill Date : 
-                                                <span className="font-medium">&nbsp;
-                                                    {currentBill.createdAt.toDate().getDate() < 10 ? "0" + currentBill.createdAt.toDate().getDate() : currentBill.createdAt.toDate().getDate()}\
-                                                    {currentBill.createdAt.toDate().getMonth() < 10 ? "0" + currentBill.createdAt.toDate().getMonth() : currentBill.createdAt.toDate().getMonth()}\
-                                                    {currentBill.createdAt.toDate().getFullYear()}
-                                                    &nbsp;&nbsp;
-                                                    <span>
-                                                        {currentBill.createdAt.toDate().getHours()}:
-                                                        {currentBill.createdAt.toDate().getMinutes()}:
-                                                        {currentBill.createdAt.toDate().getSeconds()}
-                                                    </span>
-                                                </span>
-                                            </div> 
-                                            <div>
-                                                <div className={`${currentBill.finished ? "finished" : "notfinished"}`}>{`${currentBill.finished ? "Finished" : "Not Finished"}`}
-                                                    {currentBill.finished && <div>BY: {currentBill.finishedBy}</div>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <table className="w-full border-2 border-gray-700 mt-5 shadow-xl shadow-gray-300" style={{"wordBreak":"break-word"}} >
-                                        <thead >
-                                            <tr>
-                                                <th className="border-black border-2  p-1">ID</th>
-                                                <th className="border-black border-2  p-1">Category</th>
-                                                <th className="border-black border-2 p-1">Order name</th>
-                                                <th className="border-black border-2 p-1">cost</th>
-                                                <th className="border-black border-2  p-1" title="Quantity">Q</th>
-                                                <th className="border-black border-2  p-1" title="Quantity Amount">QA</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            {currentBill.bill && getTheQuantity(currentBill.bill).map((item, index)=>{
-                                            return <tr key={uuidv4()} title={item.billItemId} >
-                                                        <td className="border-black border-2 p-1 text-center" >{index + 1}</td>
-                                                        <td className="border-gray-300 border-2 p-1" >{item.category}</td>
-                                                        <td className="border-gray-300 border-2 p-1">{item.title}</td>
-                                                        <td className="border-gray-300 border-2 p-1 text-center">{item.cost}$</td>
-                                                        <td className="border-gray-300 border-2 p-1 text-center">{item.quantity}</td>
-                                                        <td className="border-gray-300 border-2 p-1 text-center" title="Quantity amount">{item.quantityAmount ? item.quantityAmount : item.cost}$</td>
-                                                    </tr>
-                                            })}
-                                            <tr className="border-black border-t-4">
-                                                <td className="p-1 text-center border-2 border-black" colSpan="4">Total:</td>
-                                                <td className="text-center" colSpan="2">{currentBill.billTotalBalance}$</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <div className="flex w-full justify-around  bg-gray-300 py-2 pl-2 border-t-2 border-black shadow-xl shadow-gray-400">
-                                            <span> Price: {currentBill.billTotalBalance}$</span>
-                                            <span>VAT: {employee.tax}/100</span>
-                                            {/*  */}
-                                            <span> Taxed price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }$</span></span>
-                                    </div>
-
-                                    <div className="flex flex-col mt-12">
-                                        {/* if the bill is already finished then show the unfinish bill button if not then show the finish bill button */}
-                                        {
-                                            currentBill.finished && !currentBill.deleted
-                                            ? 
-                                            <button 
-                                                    className="w-full mx-auto text-white bg-gray-600 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 hover:-translate-y-[1px] rounded-full py-4 px-6"
-                                                    onClick={async ()=>{
-                                                        // confirmation 
-                                                        if(!window.confirm("Do you really want to unfinish the bill")) return ;
-
-                                                        const data = await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: false, finishedBy:null}, {merge:true})
-                                                    }}
-                                                    >Unfinish Bill</button>
-                                            :
-                                            <button 
-                                                className="w-full hover:bg-green-300 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 bg-green-400 hover:-translate-y-1 rounded-full py-4 px-6"
-                                                onClick={async ()=>{
-                                                    // confirmation if he really want to finish the bill
-                                                    const confirmation = window.confirm("Do you really want to finish The Bill")
-                                                    if(!confirmation) return
-
-                                                    await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: true, finishedBy: employee.name}, {merge:true})
-                                                }}
-                                                >Finish Bill</button>
-                                        }
-
-                                        {
-                                            // if the user bill submitter is the same on the current bill then show him the delete button
-                                            employee.name == currentBill.submittedBy &&
-                                            <button 
-                                                    className="w-fit ml-auto mt-5 hover:shadow-xl shadow-slate-600 py-2 px-4 bg-red-800 text-gray-300 mx-auto hover:bg-red-600 transition-all rounded-md"
-                                                    onClick={async ()=>{                                                        
-                                                        // confirmation if he really want to delete the bill
-                                                        if(window.confirm("Do you really want to delete The Bill ?! | confirmation 1")) {
-                                                            if(window.confirm("Do you really want to delete The Bill ?! | confirmation 1")){
-                                                                await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {deleted: true, deletedBy: employee.name}, {merge:true})
-                                                            }
-                                                        }
-
-                                                        }}
-                                                    >Delete Bill</button>
-
-                                        }
-                                    </div>
-
-                                </div>
-                            </div>
-                        }
+                <div className="current-bill h-full text-gray-700 w-7/12 relative bg-white before:-translate-y-full before:bg-white before:absolute before:top-0 left-0 before:w-full before:h-20 ">
+                    {currentBill && <CurrentBill setCurrentBill={setCurrentBill} employee={employee} currentBill={currentBill} />}
                 </div>
             </div>
         </div>

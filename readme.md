@@ -39,15 +39,16 @@ think about the others
 - [x] get the quantity of the items in the current bill
 - [x] Logout button
 - [x] include the tax macanizme
+- [x] add the macenazim of the deleted bills
+- [x] write comments asap for the ./src/components/bills.jsx
 
 > In progress.
-- [ ] add the macenazim of the deleted bills
+- [ ] Responsivity 
  
 > Global tasks
 - [ ] look up for the bills.jsx
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] add the edit bill
-- [-x] Responsivity 
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
 - [ ] add finished bills
