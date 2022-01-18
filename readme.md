@@ -41,8 +41,12 @@ think about the others
 - [x] include the tax macanizme
 - [x] add the macenazim of the deleted bills
 - [x] write comments asap for the ./src/components/bills.jsx
+- [x] when subbmiting the bill avoid allowing the employee to submit the another bill while we are sending the bill by disabling the Done button.
+- [x] if there isn't any bill then print There is not any bill
+- [X] if there isn't any current bill then show "select any bill to show here"
 
 > In progress.
+- [x] when the bill recieved on the same time is created or so near, it will return a date of NaN , that will be caused by the fast internet so we need to to make it be 0s 0m, so we fix it by knowing if they are A nan number so if it is then return "now" instead of the date if not then put the date.
 - [ ] Responsivity 
  
 > Global tasks

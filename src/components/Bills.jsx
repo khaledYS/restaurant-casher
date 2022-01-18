@@ -88,7 +88,6 @@ function Bills() {
      * if the types of bills get cahnged then setthebills on order, and also if the current bill is in the bills that are going to be printed in the dom then get it up.setfsdffsdfsdfsdfsdfffffffffffff
      */
     useEffect(() => {
-        console.log(getBillsByTypeStatus)
         setBills(filterBills(allTheBills))
 
         if(currentBill){
@@ -129,7 +128,6 @@ function Bills() {
             if (found){
                 setCurrentBill(found)
             }else{
-                console.log('we killed your system....')
                 setCurrentBill(null)
             }
         }
@@ -143,9 +141,6 @@ function Bills() {
         setBills(filterBills(allTheBills))
     }, [allTheBills])
 
-    useEffect(() => {
-        console.log(currentBill)
-    }, [currentBill])
 
     return ( 
         
@@ -160,7 +155,7 @@ function Bills() {
                                      className={`${getBillsByTypeStatus == btn.name ? "activeLinkBtn" : ""} BillsTypesBtn flex justify-center items-center text-black text-lg font-normal px-2`}
                                      onClick={()=>{setGetBillsByTypeStatus(btn.name)}}
                                      >{btn.name}</button>
-                    })}
+                    }) }
                 </div>
                 <div className="filtering border-stone-800 w-full h-full smm:h-1/2 flex justify-end items-center px-2 z-0">
                     <div className="flex justify-center items-center">
@@ -175,8 +170,8 @@ function Bills() {
                             }}
                             >
                                 <option value="10">10</option>
-                                <option value="20" defaultChecked>20</option>
-                                <option value="30">30</option>
+                                <option value="20">20</option>
+                                <option value="30" defaultChecked>30</option>
                                 <option value="40">40</option>
                                 <option value="50">50</option>
                                 <option value="60">60</option>
@@ -192,14 +187,22 @@ function Bills() {
                 <div style={{"zIndex":"9"}} className="bills w-5/12 max-w-[50%] bg-[#eef3f7] after:w-full after:h-4 after:bg-slate-100 after:content-[''] after:absolute after:top-0 after:-translate-y-full relative h-full shadow-[0px_0px_10px_2px] shadow-[#c5c5c5] rounded-br-2xl rounded-tr-2xl" >
                     <div className="h-full flex flex-col w-full ">
                         <div className="h-full w-full max-h-[100%] overflow-x-visible overflow-y-auto">
-                            {bills && bills.map((bill)=>{
+                            {/* if there isn't any bill then print There is not any bill */}
+                            {bills.length ? bills.map((bill)=>{
                                 return <Bill key={uuidv4()} bill={bill} bills={bills} setCurrentBill={setCurrentBill} currentBill={currentBill} />
-                            })}
+                            })
+                                :
+                                <div className="w-full p-4 text-center text-lg font-black mt-12 text-gray-400">* There isn't any {getBillsByTypeStatus != "All" && getBillsByTypeStatus.toLowerCase() } bill! *</div>
+                            }
                         </div>
                     </div>
                 </div>
-                <div className="current-bill h-full text-gray-700 w-7/12 relative bg-white before:-translate-y-full before:bg-white before:absolute before:top-0 left-0 before:w-full before:h-20 ">
-                    {currentBill && <CurrentBill setCurrentBill={setCurrentBill} employee={employee} currentBill={currentBill} />}
+                <div className="current-bill h-full grid place-items-center text-gray-700 w-7/12 relative bg-white before:-translate-y-full before:bg-white before:absolute before:top-0 left-0 before:w-full before:h-20 ">
+                    {/*  if there isn't any current bill then show "select any bill to show here" */}
+                    {currentBill ?
+                                    <CurrentBill setCurrentBill={setCurrentBill} employee={employee} currentBill={currentBill} />
+                                 :  <div className="w-full text-center text-lg font-black p-4 text-gray-400">* Select any bill to show here *</div>
+                                }
                 </div>
             </div>
         </div>

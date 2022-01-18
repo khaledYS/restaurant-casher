@@ -29,7 +29,6 @@ function App() {
     setLoading(true)
     onAuthStateChanged(getAuth(app), async (user)=>{
       if(user){
-        console.log("user Is signed in, user should be redirected to welcome page")
         
         
         // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
@@ -56,15 +55,12 @@ function App() {
         
         // turn of loading
         
-        console.log(route)
         // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
         if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
         
         setLoading(false)
       }else{
-        console.log("user Is signed out, user should be redirected to login page")
         // if the user is already on the login page then don't make another uselesses requests 
-        console.log(route)
         if(route.pathname == "/login") return;
         navigate("/login")
         
@@ -73,7 +69,6 @@ function App() {
     })
   }, [route])
 
-  useEffect(()=>{console.log(employee)}, [employee])
 
 
 
@@ -81,7 +76,7 @@ function App() {
     <div className="app font-sans App w-[100vw] h-[100vh] bg-slate-900 flex flex-col justify-center items-center  text-white">
       <UserContext.Provider value={{employee, setEmployee}}>
         {loading && <Loading />}
-        <LoadingContext.Provider value={{setLoading}}>
+        <LoadingContext.Provider value={{setLoading, loading}}>
           <Outlet />
         </LoadingContext.Provider>
       </UserContext.Provider>

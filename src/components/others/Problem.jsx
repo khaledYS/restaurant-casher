@@ -1,5 +1,4 @@
 function Problem({problem, setProblem}) {
-    console.log(problem)
     return ( 
         <div className="Problem-component h-[100vh] w-[100vw] fixed backdrop-blur top-0 left-0">
             <div className="bg-[#646464] mx-auto pt-2 pl-2 pb-4 pr-2 rounded-lg mt-4 w-fit ">

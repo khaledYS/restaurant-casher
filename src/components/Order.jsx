@@ -27,9 +27,8 @@ function Order() {
 
     // user 
     const {employee} = useContext(UserContext)
-    console.log(employee)
     // loading
-    const {setLoading} = useContext(LoadingContext)
+    const {setLoading, loading} = useContext(LoadingContext)
 
     // from firestore database
     const [products, setProducts] = useState(null);
@@ -111,17 +110,7 @@ function Order() {
         
         // cancel calculating if the bill doesn't have any item inside it.
         calculateTotalPrice()
-        console.log(bill)
     }, [bill])
-
-
-
-
-    // // debugging with console
-    // useEffect(() => {
-    //     console.log("hh",bill)
-    // }, [bill])
-
 
     return ( 
         <div className="order-component w-full h-full flex">
@@ -225,6 +214,9 @@ function Order() {
 
                             // when the user submits the bill
                             onClick={ async ()=>{
+
+
+
                                 // if the bill doesn't have any thing then don't care
                                 if(bill.length == 0) return ;   
 
@@ -240,7 +232,6 @@ function Order() {
                                 let billsSettingsDocRef = doc(db, "others/billsSettings");
                                 let lastBillIdNumber = await getDoc(billsSettingsDocRef);
                                 lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
-                                console.log(lastBillIdNumber)
                                 let newBillIDNumber;
 
                                 // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
@@ -282,6 +273,7 @@ function Order() {
                                 setLoading(false)
                             }}
 
+                            disabled={submitBillBtnIsDisabled && "true"}
                             >
                                 Done
                                 <IconContext.Provider value={{color:"#8ff565", size:"2.5rem"}}>

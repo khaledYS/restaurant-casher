@@ -141,7 +141,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 									onClick={async ()=>{                                                        
 										// confirmation if he really want to recover the bill
 										if(window.confirm("Do you really want to recover The Bill ?! | confirmation 1")) {
-											if(window.confirm("Do you really want to recover The Bill ?! | confirmation 1")){
+											if(window.confirm("Do you really want to recover The Bill ?! | confirmation 2")){
 												await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {deleted: false, deletedBy: null}, {merge:true})
 											}
 										}
