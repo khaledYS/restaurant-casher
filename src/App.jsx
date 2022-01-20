@@ -53,17 +53,16 @@ function App() {
           setEmployee({...dataToPass, tax})
         }
         
-        // turn of loading
         
         // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
         if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
         
         setLoading(false)
       }else{
-        // if the user is already on the login page then don't make another uselesses requests 
-        if(route.pathname == "/login") return;
-        navigate("/login")
+        // if the user isn't signed in he isn't on the login page then redirect him to login page
+        if(route.pathname != "/login") navigate("/login");
         
+        // turn of loading
         setLoading(false)
       }
     })
