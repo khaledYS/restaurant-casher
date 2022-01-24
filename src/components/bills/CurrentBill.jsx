@@ -6,6 +6,7 @@ import {
 import {v4 as uuidv4} from "uuid"
 import { Link } from "react-router-dom";
 import PrettyDate from "../others/PrettyDate"
+import { TiEdit } from "react-icons/ti"
 
 
 function CurrentBill({currentBill, setCurrentBill, employee}){
@@ -43,7 +44,17 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 
 						{/* about bill like number id, date and etc. */}
 						<div className="my-2 text-xl ">
-							<div className="title text-3xl text-center block mb-4">Bill {currentBill.billIDNumber}</div>
+							<div className="title text-3xl text-center mb-4 flex flex-wrap justify-center items-center">
+								Bill {currentBill.billIDNumber}
+
+								{/* edit bill url */}
+								{
+									employee.name == currentBill.submittedBy && !currentBill.deleted && 
+									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={"/welcome/order/" + currentBill.id} target="_blank">
+										<TiEdit />
+									</Link>
+								}
+							</div>
 							<div className="text-center">
 								<div>Bill Date : 
 										<PrettyDate date={currentBill.createdAt.toDate()} />
@@ -62,7 +73,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 							<details className="mx-auto w-[90%] bg-gray-600 mt-6 p-2 rounded-lg text-white shadow-[0_.1rem_1rem_-.4rem_rgb(0,0,0)]">
 								<summary className="cursor-pointer">Last edit is on <PrettyDate date={currentBill.lastEdit[0].toDate()} />  </summary>
 								{currentBill.lastEdit.map((el, ind)=>{
-									return <p className="ml-6"><span className="font-bold">{ind + 1}-</span> {ind != 0 && "also"} edited on <PrettyDate date={el.toDate()} />  </p>
+									return <p key={uuidv4()} className="ml-6"><span className="font-bold">{ind + 1}-</span> {ind != 0 && "also"} edited on <PrettyDate date={el.toDate()} />  </p>
 								})}
 							</details>
 						}
@@ -108,16 +119,8 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 						</div>
 
 
-						{/* edit bill url */}
-						{
-							employee.name == currentBill.submittedBy && !currentBill.deleted && 
-							<Link to={"/welcome/order/" + currentBill.id} target="_blank">Edit bill</Link>
-						}
-
-
-
 						{/* BILL buttons */}
-						<div className="flex flex-col mt-12">
+						<div className="flex flex-col mt-10">
 
 							{/* fiinish and unfinish bill */}
 							{
