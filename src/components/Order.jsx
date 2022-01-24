@@ -16,14 +16,22 @@ import {
 import {
     db 
 } from "../../senstive/firebase-config";
+import {
+    useParams, useNavigate
+} from "react-router-dom"
 import BillItem from "./order/BillItem";
 import CategoriesBtn from "./order/CategoriesBtn";
 import CategoryItem from "./order/CategoryItem";
 import {
     LoadingContext, UserContext 
 } from "./others/contexts";
+import { IoBalloon } from "react-icons/io5";
 
 function Order() {
+
+
+    const urlParams = useParams();
+    const navigate = useNavigate()
 
     // user 
     const {employee} = useContext(UserContext)
@@ -31,7 +39,7 @@ function Order() {
     const {setLoading, loading} = useContext(LoadingContext)
 
     // from firestore database
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState([]);
     const [categoryItemsStatus, setCategoryItemsStatus] = useState(null);
     const [categoryItems, setCategoryItems] = useState(null);
 
@@ -39,9 +47,11 @@ function Order() {
     const [submitBillBtnIsDisabled, setSubmitBillBtnIsDisabled] = useState(true);
 
     // the bill
-    const [bill, setBill] = useState([])
-    // The total balance
-    const [billTotalBalance, setBollTotalBalance] = useState(0)
+    const [bill, setBill] = useState({
+        bill:[]
+    })
+    // the bill total balance
+    const [billTotalBalance, setBillTotalBalance] = useState(null);
 
     // add to bill function
     function addToBill(id, title, category, cost){
@@ -50,14 +60,14 @@ function Order() {
         const billItemId = uuidV4();
         
         const billItem = {id, title, category, cost, billItemId};
-        setBill([billItem ,...bill])
+        setBill({...bill, bill:[billItem ,...bill.bill]})
     }
 
     // remove from the bill 
     function removeFromBill(billItemId){
         const billsWithoutRemovedBill = bill.filter(bill=> bill.billItemId != billItemId)
 
-        setBill(billsWithoutRemovedBill)
+        setBill({...bill, bill: billsWithoutRemovedBill})
     }
 
     // get the data from firebase
@@ -77,7 +87,7 @@ function Order() {
 
     // update the products debending on the categoryItemsStatus
     useEffect(() => {
-        if(typeof(products) == "object"){
+        if(typeof(products) == "object" && products.length){
             try {
                 let items = products.find(obj => categoryItemsStatus == Object.keys(obj)[0]);
                 items = items[Object.keys(items)[0]];
@@ -97,20 +107,58 @@ function Order() {
 
 
     function calculateTotalPrice(){
+
+        // cancel calculating if the bill doesn't have any item inside it.
+        if(!bill.bill.length) return;
+
         let total=0;
         // let objec of array
-        for (let obj of bill) {
+        for (let obj of bill.bill) {
             total += obj.cost;
         }
 
-        setBollTotalBalance(total)
+        setBillTotalBalance(total)
     }
+
     // we say: when we add an item to the bill you should calculate the total balance from the bill state
     useEffect(() => {
         
-        // cancel calculating if the bill doesn't have any item inside it.
         calculateTotalPrice()
     }, [bill])
+
+    // if there is a url param for the bill id then change this to edit bill instead of a new bill
+    useEffect(()=>{
+        (async ()=>{
+            if(!urlParams.billId) return;
+
+            console.log(urlParams)
+
+            try {
+                setLoading(true)
+    
+                const billDoc = doc(db,`bills/${urlParams.billId}`)
+                const bill = await getDoc(billDoc)
+
+                // when requsting an info about this doc if it isn't exsit then boom an error
+                if(!bill.data()){ throw new Error("This may happen because you don't have a stable internet connection, or the Id of the bill you requsted in the url may be broken");}
+                else{
+                    console.log("print bill", bill.data())
+                    setBill({...bill.data()})
+                }
+
+
+                setLoading(false)
+            } catch (error) {
+                window.alert(error)
+                console.error(error)
+                
+                navigate("/welcome/order")
+                
+                setLoading(false)
+            }
+        })();
+    }, [])
+
 
     return ( 
         <div className="order-component w-full h-full flex">
@@ -174,8 +222,8 @@ function Order() {
 
                                     // confirmation for resetting the bill
                                     if(window.confirm("Are you sure you want to reset the bill?")){
-                                        setBill([])
-                                        setBollTotalBalance(0)
+                                        setBill({...bill, bill:[]})
+                                        setBillTotalBalance(0)
                                     }
 
 
@@ -202,7 +250,7 @@ function Order() {
                          *      title: < The Name of the product. >
                          * }
                          */}
-                        {bill && bill.map((item)=>{
+                        {bill && bill.bill.map((item)=>{
                             return <BillItem key={item.billItemId} billItemId={item.billItemId} title={item.title} category={item.category} removeFromBill={removeFromBill} id={item.id} cost={item.cost} />
                         })}
                     </div>
@@ -218,7 +266,7 @@ function Order() {
 
 
                                 // if the bill doesn't have any thing then don't care
-                                if(bill.length == 0) return ;   
+                                if(bill.bill.length == 0) return ;   
 
                                 // confirmation
                                 const confirmation = window.confirm("Are you sure to submit the Bill?")
@@ -229,18 +277,33 @@ function Order() {
                                 // prevent spaming by disabling the bill submit btn from working 
                                 setSubmitBillBtnIsDisabled(true)
 
-                                let billsSettingsDocRef = doc(db, "others/billsSettings");
-                                let lastBillIdNumber = await getDoc(billsSettingsDocRef);
-                                lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
+                                console.log(bill)
                                 let newBillIDNumber;
+                                if(!urlParams.billId && !bill.billIDNumber){
+                                    let billsSettingsDocRef = doc(db, "others/billsSettings");
+                                    let lastBillIdNumber = await getDoc(billsSettingsDocRef);
+                                    lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
+    
+                                    // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
+                                    if(lastBillIdNumber >= 300){
+                                        await setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
+                                        newBillIDNumber = 1;
+                                    }else{
+                                        newBillIDNumber = lastBillIdNumber + 1;
+                                        await setDoc(billsSettingsDocRef, {lastBillIdNumber: newBillIDNumber}, {merge:true});
+                                    }
+                                }
 
-                                // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
-                                if(lastBillIdNumber >= 300){
-                                    await setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
-                                    newBillIDNumber = 1;
-                                }else{
-                                    newBillIDNumber = lastBillIdNumber + 1;
-                                    await setDoc(billsSettingsDocRef, {lastBillIdNumber: newBillIDNumber}, {merge:true});
+
+
+                                let billLastEdit = [];
+                                // if the employee came to here to edit a specifec bill then print the bill edited at serverTimestamp,
+                                if(urlParams.billId){
+                                    if(bill.lastEdit?.length){
+                                        billLastEdit = [new Date(), ...bill.lastEdit]
+                                    }else{
+                                        billLastEdit = [new Date()]
+                                    }
                                 }
 
 
@@ -256,24 +319,42 @@ function Order() {
                                  *      createdAt : < date of the bill >
                                  * }
                                  */
-                                await addDoc(collection(db, "bills"), {
-                                        billIDNumber: newBillIDNumber,
-                                        bill, 
-                                        billTotalBalance, 
-                                        submittedBy: employee.name, 
-                                        finished:false, 
-                                        finishedBy:null, 
-                                        deleted: false, 
-                                        deletedBy: null, 
-                                        createdAt: serverTimestamp(),
+                                // if the employee came to here for editing an bill then toggle between the edit one and new one
+                                if(urlParams.billId){
+                                    await setDoc(doc(db, `bills/${urlParams.billId}`), {
+                                            billIDNumber: bill.billIDNumber || newBillIDNumber,
+                                            bill: bill.bill, 
+                                            billTotalBalance: billTotalBalance, 
+                                            submittedBy: employee.name, 
+                                            finished:false,
+                                            finishedBy:null, 
+                                            deleted: bill.deleted || false, 
+                                            deletedBy: bill.deletedBy || null, 
+                                            createdAt: bill.createdAt || serverTimestamp(),
+                                            lastEdit: billLastEdit
                                     });
+                                }else{
+                                    await addDoc(collection(db, "bills"), {
+                                            billIDNumber: newBillIDNumber,
+                                            bill: bill.bill, 
+                                            billTotalBalance: billTotalBalance, 
+                                            submittedBy: employee.name, 
+                                            finished:false,
+                                            finishedBy:null, 
+                                            deleted: false, 
+                                            deletedBy: null, 
+                                            createdAt: serverTimestamp(),
+                                            lastEdit: billLastEdit
+                                        });
+                                }
 
-                                setBill([])
+                                navigate("/welcome/order")
+                                setBill({bill:[]})
                                 setSubmitBillBtnIsDisabled(false)
                                 setLoading(false)
                             }}
 
-                            disabled={submitBillBtnIsDisabled && "true"}
+                            disabled={submitBillBtnIsDisabled ? true : false}
                             >
                                 Done
                                 <IconContext.Provider value={{color:"#8ff565", size:"2.5rem"}}>

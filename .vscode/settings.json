@@ -2,7 +2,7 @@
     "editor.cursorSmoothCaretAnimation": true,
     "editor.cursorStyle": "block-outline",
     "editor.cursorBlinking": "smooth",
-    "editor.cursorSurroundingLines": 6,
+    // "editor.cursorSurroundingLines": 6,
     "workbench.colorCustomizations": {
         "editorCursor.foreground": "#1dfc00",
         "terminalCursor.foreground": "#1dfc00"

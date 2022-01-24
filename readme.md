@@ -48,8 +48,11 @@ think about the others
 > In progress.
 - [x] when the bill recieved on the same time is created or so near, it will return a date of NaN , that will be caused by the fast internet so we need to to make it be 0s 0m, so we fix it by knowing if they are A nan number so if it is then return "now" instead of the date if not then put the date.
 - [ ] Responsivity 
+- [ ] add the macanezim of edit bill 
  
 > Global tasks
+- [ ] make the bill when its deleted then show you can't delete a bill until you recover it.
+- [ ] when the user goes to /welcome/bill/:billId show him the bill he came for
 - [ ] look up for the bills.jsx
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] add the edit bill

@@ -1,12 +1,19 @@
 import { db } from "../../../senstive/firebase-config";
 import {
-    doc,
+	doc,
     setDoc
 } from "firebase/firestore"
 import {v4 as uuidv4} from "uuid"
+import { Link } from "react-router-dom";
+import PrettyDate from "../others/PrettyDate"
+
 
 function CurrentBill({currentBill, setCurrentBill, employee}){
 
+
+	currentBill.lastEdit.map((el,ind) =>{
+		console.log(el.toDate().toString(), ind)
+	})
 
 	    // this actually gonna get all of the orders and count how many products are tha same so we compress them into one order and we print the quantity of them
 		function getTheQuantity(bill){
@@ -25,6 +32,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 	
 			return newBill  
 		}
+
 	
 
 	return(
@@ -32,21 +40,13 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 				<div className=" h-full w-full ">
 					<div className="relative pt-8 px-2 pb-8 overflow-auto  h-full w-full ">
 						<span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-gray-700 hover:bg-gray-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
+
+						{/* about bill like number id, date and etc. */}
 						<div className="my-2 text-xl ">
 							<div className="title text-3xl text-center block mb-4">Bill {currentBill.billIDNumber}</div>
 							<div className="text-center">
 								<div>Bill Date : 
-									<span className="font-medium">&nbsp;
-										{currentBill.createdAt.toDate().getDate() < 10 ? "0" + currentBill.createdAt.toDate().getDate() : currentBill.createdAt.toDate().getDate()}\
-										{currentBill.createdAt.toDate().getMonth() < 10 ? "0" + currentBill.createdAt.toDate().getMonth() : currentBill.createdAt.toDate().getMonth()}\
-										{currentBill.createdAt.toDate().getFullYear()}
-										&nbsp;&nbsp;
-										<span>
-											{currentBill.createdAt.toDate().getHours()}:
-											{currentBill.createdAt.toDate().getMinutes()}:
-											{currentBill.createdAt.toDate().getSeconds()}
-										</span>
-									</span>
+										<PrettyDate date={currentBill.createdAt.toDate()} />
 								</div> 
 								<div>
 									<div className={`${currentBill.finished ? "finished" : "notfinished"}`}>{`${currentBill.finished ? "Finished" : "Not Finished"}`}
@@ -56,6 +56,18 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 							</div>
 						</div>
 
+
+						{/* if the bill has been change before then show the times where it got edited or changed */}
+						{	currentBill.lastEdit?.length &&
+							<details className="mx-auto w-[90%] bg-gray-600 mt-6 p-2 rounded-lg text-white shadow-[0_.1rem_1rem_-.4rem_rgb(0,0,0)]">
+								<summary className="cursor-pointer">Last edit is on <PrettyDate date={currentBill.lastEdit[0].toDate()} />  </summary>
+								{currentBill.lastEdit.map((el, ind)=>{
+									return <p className="ml-6"><span className="font-bold">{ind + 1}-</span> {ind != 0 && "also"} edited on <PrettyDate date={el.toDate()} />  </p>
+								})}
+							</details>
+						}
+
+						{/* orders table */}
 						<table className="w-full border-2 border-gray-700 mt-5 shadow-xl shadow-gray-300" style={{"wordBreak":"break-word"}} >
 							<thead >
 								<tr>
@@ -85,6 +97,9 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 							</tbody>
 						</table>
 
+
+
+						{/*price table */}
 						<div className="flex w-full justify-around  bg-gray-300 py-2 pl-2 border-t-2 border-black shadow-xl shadow-gray-400">
 								<span> Price: {currentBill.billTotalBalance}$</span>
 								<span>VAT: {employee.tax}/100</span>
@@ -92,10 +107,22 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 								<span> Taxed price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }$</span></span>
 						</div>
 
+
+						{/* edit bill url */}
+						{
+							employee.name == currentBill.submittedBy && !currentBill.deleted && 
+							<Link to={"/welcome/order/" + currentBill.id} target="_blank">Edit bill</Link>
+						}
+
+
+
+						{/* BILL buttons */}
 						<div className="flex flex-col mt-12">
-							{/* if the bill is already finished then show the unfinish bill button if not then show the finish bill button, and if the bill is deleted then don't show any of these buttons and only show that he needs to recover this bill to unfinish or finish the buill */}
+
+							{/* fiinish and unfinish bill */}
 							{
-								currentBill.finished && !currentBill.deleted && <button 
+								// if the bill is already finished then show the unfinish bill button if not then show the finish bill button, and if the bill is deleted then don't show any of these buttons and only show that he needs to recover this bill to unfinish or finish the buill */
+								currentBill.finished && !currentBill.deleted ? <button 
 										className="w-full mx-auto text-white bg-gray-600 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 hover:-translate-y-[1px] rounded-full py-4 px-6"
 										onClick={async ()=>{
 											// confirmation 
@@ -104,8 +131,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 											const data = await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {finished: false, finishedBy:null}, {merge:true})
 										}}
 										>Unfinish Bill</button>
-							}
-							{
+										:
 								!currentBill.finished && !currentBill.deleted ? <button 
 									className="w-full hover:bg-green-300 hover:shadow-xl transition-all  shadow-gray-600 text-lg font-medium border-black border-2 bg-green-400 hover:-translate-y-1 rounded-full py-4 px-6"
 									onClick={async ()=>{
@@ -120,6 +146,8 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 								: currentBill.deleted && <div className="text-center text-lg text-red-600">* Recover this bill to {currentBill.finished ? "Unfinish" : "finish"}</div>
 							}
 
+
+							{/* delete or recover button for the bill */}
 							{
 								// if the user bill submitter is the same on the current bill then show him the delete button if the bill is already deleted then show him the recover button
 								employee.name == currentBill.submittedBy && currentBill.deleted == false ?
