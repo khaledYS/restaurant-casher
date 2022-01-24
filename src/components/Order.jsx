@@ -112,7 +112,6 @@ function Order() {
         // let objec of array
         for (let obj of bill.Bill) {
             total += obj.cost;
-            console.log(obj)
         }
 
         setBillTotalBalance(total)
