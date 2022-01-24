@@ -37,7 +37,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 
 	return(
 		<>
-				<div className=" h-full w-full ">
+				<div className=" h-full w-full overflow-auto ">
 					<div className="relative pt-8 px-2 pb-8 overflow-auto  h-full w-full ">
 						<span style={{"transition" : "all .2s ease-in-out", "zIndex":"8"}} title="close this bill" className="cursor-pointer absolute top-4 right-6 text-3xl text-gray-300 hover:text-white drop-shadow-lg py-1 px-6 bg-gray-700 hover:bg-gray-500 rounded-lg" onClick={()=>{setCurrentBill(null)}}>X</span>
 
