@@ -48,7 +48,7 @@ function Order() {
 
     // the bill
     const [bill, setBill] = useState({
-        bill:[]
+        Bill:[]
     })
     // the bill total balance
     const [billTotalBalance, setBillTotalBalance] = useState(null);
@@ -60,14 +60,14 @@ function Order() {
         const billItemId = uuidV4();
         
         const billItem = {id, title, category, cost, billItemId};
-        setBill({...bill, bill:[billItem ,...bill.bill]})
+        setBill({...bill, Bill:[billItem ,...bill.Bill]})
     }
 
     // remove from the bill 
     function removeFromBill(billItemId){
-        const billsWithoutRemovedBill = bill.filter(bill=> bill.billItemId != billItemId)
+        const billsWithoutRemovedBill = bill.Bill.filter(bill=> bill.billItemId != billItemId)
 
-        setBill({...bill, bill: billsWithoutRemovedBill})
+        setBill({...bill, Bill: billsWithoutRemovedBill})
     }
 
     // get the data from firebase
@@ -108,13 +108,11 @@ function Order() {
 
     function calculateTotalPrice(){
 
-        // cancel calculating if the bill doesn't have any item inside it.
-        if(!bill.bill.length) return;
-
         let total=0;
         // let objec of array
-        for (let obj of bill.bill) {
+        for (let obj of bill.Bill) {
             total += obj.cost;
+            console.log(obj)
         }
 
         setBillTotalBalance(total)
@@ -124,6 +122,7 @@ function Order() {
     useEffect(() => {
         
         calculateTotalPrice()
+        console.log("updated the bill")
     }, [bill])
 
     // if there is a url param for the bill id then change this to edit bill instead of a new bill
@@ -222,7 +221,7 @@ function Order() {
 
                                     // confirmation for resetting the bill
                                     if(window.confirm("Are you sure you want to reset the bill?")){
-                                        setBill({...bill, bill:[]})
+                                        setBill({...bill, Bill:[]})
                                         setBillTotalBalance(0)
                                     }
 
@@ -250,7 +249,7 @@ function Order() {
                          *      title: < The Name of the product. >
                          * }
                          */}
-                        {bill && bill.bill.map((item)=>{
+                        {bill && bill.Bill.map((item)=>{
                             return <BillItem key={item.billItemId} billItemId={item.billItemId} title={item.title} category={item.category} removeFromBill={removeFromBill} id={item.id} cost={item.cost} />
                         })}
                     </div>
@@ -266,7 +265,7 @@ function Order() {
 
 
                                 // if the bill doesn't have any thing then don't care
-                                if(bill.bill.length == 0) return ;   
+                                if(bill.Bill.length == 0) return ;   
 
                                 // confirmation
                                 const confirmation = window.confirm("Are you sure to submit the Bill?")
@@ -323,7 +322,7 @@ function Order() {
                                 if(urlParams.billId){
                                     await setDoc(doc(db, `bills/${urlParams.billId}`), {
                                             billIDNumber: bill.billIDNumber || newBillIDNumber,
-                                            bill: bill.bill, 
+                                            bill: bill.Bill, 
                                             billTotalBalance: billTotalBalance, 
                                             submittedBy: employee.name, 
                                             finished:false,
@@ -336,7 +335,7 @@ function Order() {
                                 }else{
                                     await addDoc(collection(db, "bills"), {
                                             billIDNumber: newBillIDNumber,
-                                            bill: bill.bill, 
+                                            bill: bill.Bill, 
                                             billTotalBalance: billTotalBalance, 
                                             submittedBy: employee.name, 
                                             finished:false,
@@ -349,7 +348,7 @@ function Order() {
                                 }
 
                                 navigate("/welcome/order")
-                                setBill({bill:[]})
+                                setBill({Bill:[]})
                                 setSubmitBillBtnIsDisabled(false)
                                 setLoading(false)
                             }}
