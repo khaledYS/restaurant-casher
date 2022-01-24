@@ -500,6 +500,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: 0.5rem;
 }
 
+.left-1 {
+  left: 0.25rem;
+}
+
+.right-1 {
+  right: 0.25rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -582,6 +590,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: block;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
 }
@@ -592,6 +608,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .grid {
   display: grid;
+}
+
+.list-item {
+  display: list-item;
 }
 
 .h-\[100vh\] {
@@ -664,6 +684,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
+}
+
+.w-max {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 
 .min-w-fit {
@@ -790,6 +816,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .overflow-x-visible {
   overflow-x: visible;
+}
+
+.break-words {
+  overflow-wrap: break-word;
 }
 
 .break-all {
@@ -1086,6 +1116,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pr-2 {
   padding-right: 0.5rem;
+}
+
+.pr-4 {
+  padding-right: 1rem;
+}
+
+.pr-10 {
+  padding-right: 2.5rem;
 }
 
 .text-left {

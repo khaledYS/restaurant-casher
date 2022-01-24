@@ -58,7 +58,9 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 							<div className="text-center">
 								<div>Bill Date : 
 										<PrettyDate date={currentBill.createdAt.toDate()} />
-								</div> 
+								</div>
+
+								 {/* show if the bill is finished or not  */}
 								<div>
 									<div className={`${currentBill.finished ? "finished" : "notfinished"}`}>{`${currentBill.finished ? "Finished" : "Not Finished"}`}
 										{currentBill.finished && <div>BY: {currentBill.finishedBy}</div>}
@@ -70,8 +72,10 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 
 						{/* if the bill has been change before then show the times where it got edited or changed */}
 						{	currentBill.lastEdit?.length &&
-							<details className="mx-auto w-[90%] bg-gray-600 mt-6 p-2 rounded-lg text-white shadow-[0_.1rem_1rem_-.4rem_rgb(0,0,0)]">
-								<summary className="cursor-pointer">Last edit is on <PrettyDate date={currentBill.lastEdit[0].toDate()} />  </summary>
+							<details className="mx-auto w-[90%] break-words bg-gray-600 relative mt-6 p-2 pr-10 rounded-lg text-white shadow-[0_.1rem_1rem_-.4rem_rgb(0,0,0)]">
+								<summary className="cursor-pointer w-full ">
+										Last edit is on <PrettyDate date={currentBill.lastEdit[0].toDate()} />   <span className="absolute right-1">({currentBill.lastEdit.length})</span> 
+								</summary>
 								{currentBill.lastEdit.map((el, ind)=>{
 									return <p key={uuidv4()} className="ml-6"><span className="font-bold">{ind + 1}-</span> {ind != 0 && "also"} edited on <PrettyDate date={el.toDate()} />  </p>
 								})}
