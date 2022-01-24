@@ -11,11 +11,6 @@ import { TiEdit } from "react-icons/ti"
 
 function CurrentBill({currentBill, setCurrentBill, employee}){
 
-
-	currentBill.lastEdit.map((el,ind) =>{
-		console.log(el.toDate().toString(), ind)
-	})
-
 	    // this actually gonna get all of the orders and count how many products are tha same so we compress them into one order and we print the quantity of them
 		function getTheQuantity(bill){
 			let newBill = [];
