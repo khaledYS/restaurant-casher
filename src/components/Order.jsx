@@ -141,7 +141,7 @@ function Order() {
                 if(!bill.data()){ throw new Error("This may happen because you don't have a stable internet connection, or the Id of the bill you requsted in the url may be broken");}
                 else{
                     console.log("print bill", bill.data())
-                    setBill({...bill.data()})
+                    setBill({...bill.data(), Bill:bill.data().bill})
                 }
 
 
