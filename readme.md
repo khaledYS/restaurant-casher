@@ -46,7 +46,8 @@ think about the others
 - [X] if there isn't any current bill then show "select any bill to show here"
 - [x] add the macanezim of edit bill 
 - [x] when the bill recieved on the same time is created or so near, it will return a date of NaN , that will be caused by the fast internet so we need to to make it be 0s 0m, so we fix it by knowing if they are A nan number so if it is then return "now" instead of the date if not then put the date.
-- [x] make a better edit button in the bills component
+- [x] make a better edit button in the bills component.
+- [x] make the number of edits in the bills component.
 
 > In progress.
 - [ ] Responsivity 
