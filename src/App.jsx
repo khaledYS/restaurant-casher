@@ -12,7 +12,7 @@ import './tailwind/output.css';
 import './styles/App.css';
 import Problem from './components/others/Problem';
 import Loading from './components/others/Loading'
-import { UserContext, LoadingContext } from './components/others/contexts';
+import { EmployeeContext, LoadingContext } from './components/others/contexts';
 
 function App() {
   const [employee, setEmployee] = useState(null)
@@ -73,15 +73,15 @@ function App() {
 
   return (
     <div className="app font-sans App w-[100vw] h-[100vh] bg-slate-900 flex flex-col justify-center items-center  text-white">
-      <UserContext.Provider value={{employee, setEmployee}}>
+      <EmployeeContext.Provider value={{employee, setEmployee}}>
         {loading && <Loading />}
         <LoadingContext.Provider value={{setLoading, loading}}>
           <Outlet />
         </LoadingContext.Provider>
-      </UserContext.Provider>
+      </EmployeeContext.Provider>
     </div>
   )
 }
 
 
-export default App
+export default App;

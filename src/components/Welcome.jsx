@@ -21,12 +21,12 @@ import Btn from "./others/btn";
 import { IoBagHandleOutline, IoLogOutOutline } from "react-icons/io5";
 import { VscCircuitBoard } from "react-icons/vsc";
 import { FaFileInvoiceDollar } from "react-icons/fa"
-import { UserContext } from "./others/contexts";
+import { EmployeeContext } from "./others/contexts";
 
 
 function Welcome(props) {
     
-    const {employee, setEmployee} = useContext(UserContext);
+    const {employee, setEmployee} = useContext(EmployeeContext);
 
 
     // const getdocs = async (dataCollectionRef)=>{

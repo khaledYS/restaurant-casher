@@ -23,7 +23,7 @@ import BillItem from "./order/BillItem";
 import CategoriesBtn from "./order/CategoriesBtn";
 import CategoryItem from "./order/CategoryItem";
 import {
-    LoadingContext, UserContext 
+    LoadingContext, EmployeeContext 
 } from "./others/contexts";
 import { IoBalloon } from "react-icons/io5";
 
@@ -34,7 +34,7 @@ function Order() {
     const navigate = useNavigate()
 
     // user 
-    const {employee} = useContext(UserContext)
+    const {employee} = useContext(EmployeeContext)
     // loading
     const {setLoading, loading} = useContext(LoadingContext)
 
@@ -318,35 +318,45 @@ function Order() {
                                  * }
                                  */
                                 // if the employee came to here for editing an bill then toggle between the edit one and new one
-                                if(urlParams.billId){
-                                    await setDoc(doc(db, `bills/${urlParams.billId}`), {
-                                            billIDNumber: bill.billIDNumber || newBillIDNumber,
-                                            bill: bill.Bill, 
-                                            billTotalBalance: billTotalBalance, 
-                                            submittedBy: employee.name, 
-                                            finished:false,
-                                            finishedBy:null, 
-                                            deleted: bill.deleted || false, 
-                                            deletedBy: bill.deletedBy || null, 
-                                            createdAt: bill.createdAt || serverTimestamp(),
-                                            lastEdit: billLastEdit
-                                    });
-                                }else{
-                                    await addDoc(collection(db, "bills"), {
-                                            billIDNumber: newBillIDNumber,
-                                            bill: bill.Bill, 
-                                            billTotalBalance: billTotalBalance, 
-                                            submittedBy: employee.name, 
-                                            finished:false,
-                                            finishedBy:null, 
-                                            deleted: false, 
-                                            deletedBy: null, 
-                                            createdAt: serverTimestamp(),
-                                            lastEdit: billLastEdit
-                                        });
+                                try {
+                                    
+                                    if(urlParams.billId){
+    
+                                            await setDoc(doc(db, `bills/${urlParams.billId}`), {
+                                                    billIDNumber: bill.billIDNumber || newBillIDNumber,
+                                                    bill: bill.Bill, 
+                                                    billTotalBalance: billTotalBalance, 
+                                                    submittedBy: employee.name, 
+                                                    finished:false,
+                                                    finishedBy:null, 
+                                                    deleted: bill.deleted || false, 
+                                                    deletedBy: bill.deletedBy || null, 
+                                                    createdAt: bill.createdAt || serverTimestamp(),
+                                                    lastEdit: billLastEdit
+                                                });
+                                            
+                                            // we redirect him the bill he edited
+                                            navigate(`/welcome/bills/${urlParams.billId}`)
+                                    }else{
+    
+                                        await addDoc(collection(db, "bills"), {
+                                                billIDNumber: newBillIDNumber,
+                                                bill: bill.Bill, 
+                                                billTotalBalance: billTotalBalance, 
+                                                submittedBy: employee.name, 
+                                                finished:false,
+                                                finishedBy:null, 
+                                                deleted: false, 
+                                                deletedBy: null, 
+                                                createdAt: serverTimestamp(),
+                                                lastEdit: billLastEdit
+                                            });
+    
+                                    }
+                                } catch (error) {
+                                    console.log("we catched the error ", error)
                                 }
 
-                                navigate("/welcome/order")
                                 setBill({Bill:[]})
                                 setSubmitBillBtnIsDisabled(false)
                                 setLoading(false)

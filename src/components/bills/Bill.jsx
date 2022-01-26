@@ -52,7 +52,7 @@ function Bill({bill, setCurrentBill, currentBill, bills}) {
 
     return (
       // if the bill is deleted then make a storke line goes along the text
-        <div className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} ${bill?.deleted == true ? "deleted" : "notDeleted"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>
+        <div title={bill.id} className={`${currentBill && (bill.id == currentBill.id) && "activeCurrentBill"} ${bill?.deleted == true ? "deleted" : "notDeleted"} bill text-black text-left w-full cursor-pointer border-y-2 border-t-gray-300 hover:bg-white my-4 px-8 font-medium py-7 `} onClick={()=>{setCurrentBill(bill)}}>
           {/* when the bill recieved on the same time is created or so near, it will return a date of NaN , that will be caused by the fast internet so we need to to make it be 0s 0m, so we fix it by knowing if they are A nan number so if it is then return "now" instead of the date if not then put the date. */}
             <div className="date w-full text-right text-gray-400" title={date.time}>{date.isTrue ? date.span : "NOW"}</div>
             <div className=" upper font-bold text-left flex justify-between my-4">

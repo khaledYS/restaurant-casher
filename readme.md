@@ -52,12 +52,12 @@ think about the others
 - [x] add the edit bill
 - [x] make the user when going to "/welcome/order/<the Id of the bill>", make him have the ability of editing.
 - [x] add finished bills
+- [x] when the user goes to /welcome/bill/:billId show him the bill he came for
 
 > In progress.
 - [ ] Responsivity 
  
 > Global tasks
-- [ ] when the user goes to /welcome/bill/:billId show him the bill he came for
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors

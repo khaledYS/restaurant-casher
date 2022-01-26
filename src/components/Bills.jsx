@@ -15,16 +15,22 @@ import {
     onSnapshot, 
     limit
 } from "firebase/firestore"
-import { LoadingContext, UserContext } from "./others/contexts"
+import { LoadingContext, EmployeeContext } from "./others/contexts"
 import {IconContext} from "react-icons"
-import { Link as button, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from "uuid"
 import { useRef, useState, useEffect, useContext } from "react";
 import Bill from "./bills/Bill";
 import CurrentBill from "./bills/CurrentBill";
 function Bills() {
 
-    const { employee } = useContext(UserContext)
+    // if the user wants to get a specifec bill from the url 
+    const { billId } = useParams();
+    console.log(billId)
+
+    const navigate = useNavigate()
+
+    const { employee } = useContext(EmployeeContext)
 
     // this is the buttons that are responsed to navigate to specifec bills
     const billTypesBtns = [
@@ -85,7 +91,7 @@ function Bills() {
 
     }, [billsRows])
     /**
-     * if the types of bills get cahnged then setthebills on order, and also if the current bill is in the bills that are going to be printed in the dom then get it up.setfsdffsdfsdfsdfsdfffffffffffff
+     * if the types of bills get cahnged then setThebills on order, and also if the current bill is in the bills that are going to be printed in the dom then get it up.setfsdffsdfsdfsdfsdfffffffffffff
      */
     useEffect(() => {
         setBills(filterBills(allTheBills))
@@ -131,15 +137,33 @@ function Bills() {
                 setCurrentBill(null)
             }
         }
-
-
+        
     }, [bills])
+
+    useEffect(() => {
+
+        // if there is an id in the url then print the bill with the same id
+        if(billId && bills && employee){
+            const found = bills.find(item=> item.id == billId) 
+            if (found){
+                console.log("hhh", found, currentBill)
+                setCurrentBill(found)
+
+                navigate("/welcome/bills/")
+            }
+
+        }
+
+    }, [employee]);
+    
 
 
     // if all the bills state is updated then update the printed bills to the dom
     useEffect(() => {
         setBills(filterBills(allTheBills))
+
     }, [allTheBills])
+    
 
 
     return ( 
@@ -200,7 +224,7 @@ function Bills() {
                 <div className="current-bill h-full grid place-items-center text-gray-700 w-7/12 relative bg-white before:-translate-y-full before:bg-white before:absolute before:top-0 left-0 before:w-full before:h-20 ">
                     {/*  if there isn't any current bill then show "select any bill to show here" */}
                     {currentBill ?
-                                    <CurrentBill setCurrentBill={setCurrentBill} employee={employee} currentBill={currentBill} />
+                                    <CurrentBill setCurrentBill={setCurrentBill} currentBill={currentBill} employee={employee} />
                                  :  <div className="w-full text-center text-lg font-black p-4 text-gray-400">* Select any bill to show here *</div>
                                 }
                 </div>

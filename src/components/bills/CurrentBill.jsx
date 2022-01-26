@@ -11,7 +11,7 @@ import { TiEdit } from "react-icons/ti"
 
 function CurrentBill({currentBill, setCurrentBill, employee}){
 
-	    // this actually gonna get all of the orders and count how many products are tha same so we compress them into one order and we print the quantity of them
+	    // this actually gonna get all of the orders and count how many products are the same so we compress them into one order and we print the quantity of them
 		function getTheQuantity(bill){
 			let newBill = [];
 			
@@ -40,12 +40,12 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 						{/* about bill like number id, date and etc. */}
 						<div className="my-2 text-xl ">
 							<div className="title text-3xl text-center mb-4 flex flex-wrap justify-center items-center">
-								Bill {currentBill.billIDNumber}
+								<span title={currentBill.id}>Bill {currentBill.billIDNumber}</span>
 
 								{/* edit bill url */}
 								{
 									employee.name == currentBill.submittedBy && !currentBill.deleted && 
-									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={"/welcome/order/" + currentBill.id} target="_blank">
+									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={"/welcome/order/" + currentBill.id} >
 										<TiEdit />
 									</Link>
 								}
@@ -145,27 +145,27 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 									}}
 									>Finish Bill</button>
 
-								: currentBill.deleted && <div className="text-center text-lg text-red-600">* Recover this bill to {currentBill.finished ? "Unfinish" : "finish"} {employee.name == currentBill.submittedBy && "or edit"}. </div>
+								: currentBill.deleted &&  currentBill.deleted && <div className="text-center text-lg text-red-600">* Recover this bill to {currentBill.finished ? "Unfinish" : "finish"} {employee.name == currentBill.submittedBy && "or edit"}. </div>
 							}
 
 
 							{/* delete or recover button for the bill */}
 							{
 								// if the user bill submitter is the same on the current bill then show him the delete button if the bill is already deleted then show him the recover button
-								employee.name == currentBill.submittedBy && currentBill.deleted == false ?
+								employee?.name == currentBill.submittedBy && currentBill.deleted == false ?
 									<button 
 											className="w-fit ml-auto mt-5 hover:shadow-xl shadow-slate-600 py-2 px-4 bg-red-800 text-gray-300 mx-auto hover:bg-red-600 transition-all rounded-md"
 											onClick={async ()=>{                                                        
 												// confirmation if he really want to delete the bill
 												if(window.confirm("Do you really want to delete The Bill ?! | confirmation 1")) {
 													if(window.confirm("Do you really want to delete The Bill ?! | confirmation 1")){
-														await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {deleted: true, deletedBy: employee.name}, {merge:true})
+														await setDoc(doc(db, "bills/"  + currentBill.id.toString()), {deleted: true, deletedBy: employee?.name}, {merge:true})
 													}
 												}
 
 												}}
 											>Delete Bill</button> 
-								: 
+								: currentBill.deletedBy == employee.name && 
 									<button 
 									className="w-fit ml-auto mt-5 hover:shadow-xl shadow-slate-600 py-2 px-4 bg-green-800 text-gray-300 mx-auto hover:bg-green-600 transition-all rounded-md"
 									onClick={async ()=>{                                                        
