@@ -145,7 +145,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 									}}
 									>Finish Bill</button>
 
-								: currentBill.deleted && <div className="text-center text-lg text-red-600">* Recover this bill to {currentBill.finished ? "Unfinish" : "finish"}</div>
+								: currentBill.deleted && <div className="text-center text-lg text-red-600">* Recover this bill to {currentBill.finished ? "Unfinish" : "finish"} {employee.name == currentBill.submittedBy && "or edit"}. </div>
 							}
 
 
