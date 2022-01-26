@@ -58,6 +58,7 @@ think about the others
 - [ ] Responsivity 
  
 > Global tasks
+- [ ] when you finish ordering show him a panel if he want to see the bill in the bills component
 - [ ] creating the app routes structure in ./readme.md file.
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors

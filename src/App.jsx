@@ -1,4 +1,4 @@
-import { db, app } from '../senstive/firebase-config';
+import { db, app } from './firebase-config';
 import { collection, getDocs, getDoc, doc, serverTimestamp, setDoc } from '@firebase/firestore';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { createContext, useContext, useEffect, useState } from 'react';

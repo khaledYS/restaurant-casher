@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { LoadingContext } from "./others/contexts";
 import { IoLogInOutline } from "react-icons/io5"
 import Btn from "./others/btn";
+import { app } from "../firebase-config";
 function Login(props) {
     const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ function Login(props) {
 
           setLoading(true)
           await setLoginBtnIsDisapled(true)
-          const auth = await getAuth();
+          const auth = await getAuth(app);
           const googleProvider = await new GoogleAuthProvider()
           await signInWithPopup(auth, googleProvider)
           setLoading(false)

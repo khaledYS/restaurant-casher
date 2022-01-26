@@ -2,7 +2,7 @@
 // cause I'm the same as you 
 // I don't uderstand any word of this shit
 
-import { db } from "../../senstive/firebase-config";
+import { db } from "../firebase-config.js";
 import {
     query,
     getDocs,

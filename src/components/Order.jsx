@@ -15,7 +15,7 @@ import {
 } from "uuid";
 import {
     db 
-} from "../../senstive/firebase-config";
+} from "../firebase-config";
 import {
     useParams, useNavigate
 } from "react-router-dom"

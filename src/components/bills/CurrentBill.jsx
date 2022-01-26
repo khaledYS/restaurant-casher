@@ -1,4 +1,4 @@
-import { db } from "../../../senstive/firebase-config";
+import { db } from "../../firebase-config";
 import {
 	doc,
     setDoc
