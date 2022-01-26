@@ -53,13 +53,13 @@ think about the others
 - [x] make the user when going to "/welcome/order/<the Id of the bill>", make him have the ability of editing.
 - [x] add finished bills
 - [x] when the user goes to /welcome/bill/:billId show him the bill he came for
+- [x] creating the app routes structure in ./readme.md file.
 
 > In progress.
 - [ ] Responsivity 
  
 > Global tasks
 - [ ] when you finish ordering show him a panel if he want to see the bill in the bills component
-- [ ] creating the app routes structure in ./readme.md file.
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
 - [ ] get the static data from cache if possible
@@ -69,47 +69,74 @@ think about the others
 
 # App Structure
 ```
-restaurant-casher ( Directories: 6, Files: 29 )
- ├─ senstive |- sensetives infos are gonna be hidden when the repo is public
- │ ├─ appStructurePainted.png
- │ ├─ exampleOfHowTheDBisSturcured.json
- │ └─ firebase-config.js
- ├─ src
- │ ├─ components
- │ │ ├─ BillItem.jsx
- │ │ ├─ Bills.jsx
- │ │ ├─ btn.jsx
- │ │ ├─ CategoriesBtn.jsx
- │ │ ├─ CategoryItem.jsx
- │ │ ├─ contexts.js
- │ │ ├─ Dashboard.jsx
- │ │ ├─ Loading.jsx
- │ │ ├─ Login.jsx
- │ │ ├─ Order.jsx
- │ │ ├─ PageNotFound.jsx
- │ │ ├─ Problem.jsx
- │ │ └─ Welcome.jsx
- │ ├─ scripts
- │ │ └─ shorcutFunctions.js
- │ ├─ styles
- │ │ └─ App.css
- │ ├─ tailwind
- │ │ └─ output.css
- │ ├─ App.jsx
- │ ├─ functions.js
- │ └─ main.jsx
- ├─ .gitignore
- ├─ index.html
- ├─ package-lock.json
- ├─ package.json
- ├─ readme.md
- ├─ tailwind.config.js
- └─ vite.config.js
+Restaurant-Casher
+├── dist 
+|   ├── assets
+│   │   ├── index.0a65ef83.js
+│   │   ├── index.d77ff996.css
+│   │   └── vendor.beb58e85.js
+│   └── index.html
+├── index.html
+├── package-lock.json
+├── package.json
+├── readme.md
+├── senstive
+│   ├── appStructurePainted.png
+│   ├── billuidesign.jpg
+│   └── exampleOfHowTheDBisSturcured.js
+├── src
+│   ├── App.jsx
+│   ├── components
+│   │   ├── bills
+│   │   │   ├── Bill.jsx
+│   │   │   └── CurrentBill.jsx
+│   │   ├── Bills.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── Login.jsx
+│   │   ├── order
+│   │   │   ├── BillItem.jsx
+│   │   │   ├── CategoriesBtn.jsx
+│   │   │   └── CategoryItem.jsx
+│   │   ├── Order.jsx
+│   │   ├── others
+│   │   │   ├── btn.jsx
+│   │   │   ├── contexts.js
+│   │   │   ├── Loading.jsx
+│   │   │   ├── PageNotFound.jsx
+│   │   │   ├── PrettyDate.jsx
+│   │   │   └── Problem.jsx
+│   │   └── Welcome.jsx
+│   ├── firebase-config.js
+│   ├── functions.js
+│   ├── main.jsx
+│   ├── scripts
+│   │   └── shorcutFunctions.js
+│   ├── styles
+│   │   └── App.css
+│   └── tailwind
+│       └── output.css
+├── tailwind.config.js
+└── vite.config.js
+```
+
+
+# Routes Structure
+```
+Restaurant-casher
+├── /Login
+└── /Welcome
+    ├── /Order
+    |   └── /:billID
+    |
+    ├── /Bills
+    |   └── /:billID
+    |
+    └── /Dashboard
 ```
 
 
 # Contribution
-Right now I don't accept any contribution, and thanks for all who thinks for that
+Right now I don't accept any contribution, and thanks for all who thinks for that.
 
 
 # Report bug and fixes
