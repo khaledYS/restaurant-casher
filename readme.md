@@ -48,23 +48,22 @@ think about the others
 - [x] when the bill recieved on the same time is created or so near, it will return a date of NaN , that will be caused by the fast internet so we need to to make it be 0s 0m, so we fix it by knowing if they are A nan number so if it is then return "now" instead of the date if not then put the date.
 - [x] make a better edit button in the bills component.
 - [x] make the number of edits in the bills component.
+- [x] make the bill when its deleted then show you can't delete a bill until you recover it.
+- [x] add the edit bill
+- [x] make the user when going to "/welcome/order/<the Id of the bill>", make him have the ability of editing.
+- [x] add finished bills
 
 > In progress.
 - [ ] Responsivity 
  
 > Global tasks
-- [ ] make the bill when its deleted then show you can't delete a bill until you recover it.
 - [ ] when the user goes to /welcome/bill/:billId show him the bill he came for
-- [ ] look up for the bills.jsx
 - [ ] creating the app routes structure in ./readme.md file.
-- [ ] add the edit bill
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
-- [ ] add finished bills
 - [ ] get the static data from cache if possible
 - [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
 - [ ] HardcoreOne: changing the ID's from charcters and numbers to numbers only
-- [ ] make the user when going to "/welcome/order/<the Id of the bill>", make him have the ability of editing.
 
 
 # App Structure
