@@ -12,6 +12,7 @@ import Welcome from './components/Welcome';
 import Order from './components/Order';
 import Dashboard from './components/Dashboard';
 import Bills from './components/Bills';
+import Logout from "./components/Logout"
 
 
 ReactDOM.render(
@@ -32,6 +33,8 @@ ReactDOM.render(
               <Route index element={<Bills />}></Route>
               <Route path=":billId" element={<Bills />}></Route>
             </Route>
+          
+          <Route path="logout" element={<Logout />}></Route>
 
           <Route path="*" element={<PageNotFound />}></Route>
           

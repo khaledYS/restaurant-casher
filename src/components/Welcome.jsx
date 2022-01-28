@@ -42,7 +42,7 @@ function Welcome(props) {
             <Link to="order"><Btn title="Order" ><IoBagHandleOutline /></Btn></Link>
             <Link to="bills"><Btn title="Bills" ><FaFileInvoiceDollar /></Btn></Link>
             {employee && (employee.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }
-            <Btn title="Logout" onclick={()=>{signOut(getAuth(app))}} ><IoLogOutOutline /></Btn>
+            <Link to="/logout"><Btn title="Logout" ><IoLogOutOutline /></Btn></Link>
         </div>
     );
 }

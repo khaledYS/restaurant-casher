@@ -13,10 +13,12 @@ import './styles/App.css';
 import Problem from './components/others/Problem';
 import Loading from './components/others/Loading'
 import { EmployeeContext, LoadingContext } from './components/others/contexts';
+import RoutesPanel from './components/others/RoutesPanel';
 
 function App() {
   const [employee, setEmployee] = useState(null)
   const [loading, setLoading] = useState(null)
+  const [routesPanel, setRoutesPanel] = useState(false);
   
   // the current Route
   const route = useLocation();
@@ -26,8 +28,8 @@ function App() {
 
   
   useEffect(()=>{
-    setLoading(true)
     onAuthStateChanged(getAuth(app), async (user)=>{
+      setLoading(true)
       if(user){
         
         
@@ -66,10 +68,17 @@ function App() {
         setLoading(false)
       }
     })
+
+    setRoutesPanel(false)
   }, [route])
 
 
 
+  function toggleRoutesPanel(e){
+    if(loading || e.code != "KeyR" || route.pathname=="/welcome" || route.pathname=="/login") return ;
+    routesPanel ? setRoutesPanel(false) : setRoutesPanel(true);
+  }
+  window.onkeydown = (e)=>{toggleRoutesPanel(e)}
 
   return (
     <div className="app font-sans App w-[100vw] h-[100vh] bg-slate-900 flex flex-col justify-center items-center  text-white">
@@ -77,6 +86,7 @@ function App() {
         {loading && <Loading />}
         <LoadingContext.Provider value={{setLoading, loading}}>
           <Outlet />
+          {routesPanel && <RoutesPanel />} 
         </LoadingContext.Provider>
       </EmployeeContext.Provider>
     </div>
