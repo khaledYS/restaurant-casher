@@ -59,6 +59,8 @@ think about the others
 - [ ] Responsivity 
  
 > Global tasks
+- [ ] make a wrapper around the routes panel .
+- [ ] change the links inside the routes panel to be only links without btns inside it.
 - [ ] when you finish ordering show him a panel if he want to see the bill in the bills component
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
