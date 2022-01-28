@@ -11,7 +11,7 @@
     "whilePrev": "vite && npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch"
   },
   "dependencies": {
-    "firebase": "^9.6.1",
+    "firebase": "^9.6.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
@@ -19,7 +19,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^1.0.7",
+    "@vitejs/plugin-react": "^1.1.4",
     "tailwindcss": "^3.0.8",
     "vite": "^2.7.2"
   }
