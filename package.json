@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "devHost": "vite --host",
+    "dev:host": "vite --host",
+    "dev:domain:default": "vite --port 80",
     "build": "vite build",
     "preview": "vite preview",
-    "tailwind": "npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch",
-    "tailwindbuild": "npx tailwindcss -o ./src/tailwind/output.css --minify",
-    "whilePrev": "vite && npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch"
+    "tailwind:watch": "npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch",
+    "tailwind:build": "npx tailwindcss -o ./src/tailwind/output.css --minify"
   },
   "dependencies": {
     "firebase": "^9.6.5",
