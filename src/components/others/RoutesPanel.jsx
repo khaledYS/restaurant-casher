@@ -16,7 +16,7 @@ export default function RoutesPanel (){
 
     return (
         <>
-            <div className="w-[100vw] h-[100vh] absolute top-0 left-0  backdrop-blur-lg grid place-items-center">
+            <div className="w-[100vw] h-[100vh] absolute top-0 left-0 bg-gray-500 bg-opacity-75 backdrop-blur-lg grid place-items-center z-[100]">
                 <div>
                     <Link ref={firstLink} tabIndex="1" to="/welcome"><Btn tabIndex="-1" className="text-center min-w-[300px] text-3xl my-2 !py-4 " title="Welcome"></Btn></Link>
                     <Link tabIndex="1" to="/welcome/order"><Btn tabIndex="-1" className="text-center min-w-[300px] text-3xl my-2 !py-4  " title="Order"><IoBagHandleOutline/></Btn></Link>

@@ -86,9 +86,9 @@ function App() {
         {loading && <Loading />}
         <LoadingContext.Provider value={{setLoading, loading}}>
           <Outlet />
-          {routesPanel && <RoutesPanel />} 
         </LoadingContext.Provider>
       </EmployeeContext.Provider>
+      {routesPanel && <RoutesPanel />} 
     </div>
   )
 }
