@@ -16,18 +16,24 @@ function Login(props) {
     const { setLoading } = useContext(LoadingContext);
 
     async function login (){
+
+      if (loginBtnIsDisapled) return ; 
+
       try {
 
           setLoading(true)
-          await setLoginBtnIsDisapled(true)
-          const auth = await getAuth(app);
-          const googleProvider = await new GoogleAuthProvider()
+          setLoginBtnIsDisapled(true)
+          const auth = getAuth(app);
+          const googleProvider = new GoogleAuthProvider()
           await signInWithPopup(auth, googleProvider)
-          setLoading(false)
+          setLoginBtnIsDisapled(false)
         
       } catch (err) {
+        window.alert(JSON.stringify(err))
+        console.log(JSON.stringify(err))
+      } finally {
         setLoading(false)
-        await setLoginBtnIsDisapled(false)
+        setLoginBtnIsDisapled(false)
       }
 
     }
@@ -35,9 +41,9 @@ function Login(props) {
     return (
         <div className="Login-component w-fit flex flex-col items-stretch text-center">
         <div
-         className={`${loginBtnIsDisapled && "pointer-events-none bg-gray-700 cursor-wait"}`}
+        //  className={}
          onClick={login}
-          ><Btn title="Login"> <IoLogInOutline /> </Btn> </div>
+          ><Btn title="Login" className={`${loginBtnIsDisapled && "pointer-events-none cursor-wait !bg-gray-800"}`}> <IoLogInOutline /> </Btn> </div>
       </div>
     );
 }

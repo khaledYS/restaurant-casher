@@ -45,7 +45,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 								{/* edit bill url */}
 								{
 									employee.name == currentBill.submittedBy && !currentBill.deleted && 
-									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={"/welcome/order/" + currentBill.id} >
+									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={"/welcome/order/" + currentBill.id} title="edit this bill" >
 										<TiEdit />
 									</Link>
 								}

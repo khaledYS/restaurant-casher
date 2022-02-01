@@ -31,6 +31,7 @@ function Bills() {
     const navigate = useNavigate()
 
     const { employee } = useContext(EmployeeContext)
+    const { setLoading } = useContext(LoadingContext);
 
     // this is the buttons that are responsed to navigate to specifec bills
     const billTypesBtns = [
@@ -72,17 +73,19 @@ function Bills() {
             // qry stands for query
             let qry = query(billsRef, orderBy("createdAt", "desc"), limit(billsRows));
 
-
-            onSnapshot(qry, (snapshot)=>{
-                let newBills = [];
-                snapshot.docs.forEach((doc)=>{
-                    newBills.push({id:doc.id, ...doc.data()})
+            try {
+                onSnapshot(qry, (snapshot)=>{
+                    let newBills = [];
+                    snapshot.docs.forEach((doc)=>{
+                        newBills.push({id:doc.id, ...doc.data()})
+                    })
+    
+                    setAllTheBills(newBills)
                 })
-
-
-
-                setAllTheBills(newBills)
-            })
+            } catch (error) {
+                window.alert(JSON.stringify(error))
+                console.log(JSON.stringify(error))
+            }
 
 
 

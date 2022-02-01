@@ -29,51 +29,66 @@ function App() {
   
   useEffect(()=>{
     onAuthStateChanged(getAuth(app), async (user)=>{
-      setLoading(true)
-      if(user){
-        
-        
-        // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
-        const auth = getAuth(app);
-        const docRef = doc(db, "users", auth.currentUser.uid);
-        const docSnap = await getDoc(docRef);
-
-        // get the tax
-        let tax = await getDoc(doc(db, "others/billsSettings"))
-        tax = tax.data().tax
-        
-        if (docSnap.exists()) {
-          setEmployee({...docSnap.data(), tax})
-        }else{
-          const dataToPass = {
-            uid : auth.currentUser.uid,
-            name:auth.currentUser.displayName, 
-            created: serverTimestamp(), 
-            position:"employer"
+        try {      
+          !loading && setLoading(true)
+          if(user){
+            
+            
+            // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
+            const auth = getAuth(app);
+            const docRef = doc(db, "users", auth.currentUser.uid);
+            const docSnap = await getDoc(docRef);
+    
+            // get the tax
+            let tax = await getDoc(doc(db, "others/billsSettings"))
+            tax = tax.data().tax
+            
+            if (docSnap.exists()) {
+              setEmployee({...docSnap.data(), tax})
+            }else{
+              const dataToPass = {
+                uid : auth.currentUser.uid,
+                name:auth.currentUser.displayName, 
+                created: serverTimestamp(), 
+                position:"employer"
+              }
+              await setDoc(docRef, {...dataToPass});
+              setEmployee({...dataToPass, tax})
+            }
+            
+            
+            // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
+            if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
+            
+            setLoading(false)
+          }else{
+            // if the user isn't signed in and he isn't on the login page then redirect him to login page
+            if(route.pathname != "/login") navigate("/login");
+            
+            // turn of loading
+            setLoading(false)
           }
-          await setDoc(docRef, {...dataToPass});
-          setEmployee({...dataToPass, tax})
-        }
-        
-        
-        // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
-        if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
-        
-        setLoading(false)
-      }else{
-        // if the user isn't signed in he isn't on the login page then redirect him to login page
+      } catch (error) {
+        window.alert(JSON.stringify(error))
+        console.log(JSON.stringify(error))
         if(route.pathname != "/login") navigate("/login");
-        
-        // turn of loading
+      } finally {
         setLoading(false)
       }
-    })
+      })
 
     setRoutesPanel(false)
-  }, [route])
+  }, [])
 
 
+  useEffect(() => {
+    setRoutesPanel(false)
+  }, [route]);
+  
 
+
+  // we listen to the keyboard events
+  // so if he click the R key then show him the routes Panel in some cases do not do . 
   function toggleRoutesPanel(e){
     if(loading || e.code != "KeyR" || route.pathname=="/welcome" || route.pathname=="/login") return ;
     routesPanel ? setRoutesPanel(false) : setRoutesPanel(true);

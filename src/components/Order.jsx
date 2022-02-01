@@ -131,16 +131,21 @@ function Order() {
 
             console.log(urlParams)
 
+            const { billId } = urlParams;
+
             try {
                 setLoading(true)
     
-                const billDoc = doc(db,`bills/${urlParams.billId}`)
+                const billDoc = doc(db,`bills/${billId}`)
                 const bill = await getDoc(billDoc)
 
                 // when requsting an info about this doc if it isn't exsit then boom an error
                 if(!bill.data()){ throw new Error("This may happen because you don't have a stable internet connection, or the Id of the bill you requsted in the url may be broken");}
                 else{
                     console.log("print bill", bill.data())
+                    if(bill.data().submittedBy != employee?.name) {
+                        throw new Error("You Don't have premision to edit this")
+                    }
                     setBill({...bill.data(), Bill:bill.data().bill})
                 }
 
@@ -150,12 +155,12 @@ function Order() {
                 window.alert(error)
                 console.error(error)
                 
-                navigate("/welcome/order")
+                navigate("/welcome/bills/"+billId)
                 
                 setLoading(false)
             }
         })();
-    }, [])
+    }, [employee])
 
 
     return ( 

@@ -23,16 +23,18 @@ ReactDOM.render(
 
           <Route path="login" element={<Login />}></Route>
 
-          <Route path="welcome" element={<Welcome />}></Route>
-            <Route path="welcome/dashboard" element={<Dashboard />}></Route>
-            <Route path="/welcome/order">
+          <Route path={"welcome"}>
+            <Route index element={<Welcome />}></Route>
+            <Route path="dashboard" element={<Dashboard />}></Route>
+            <Route path="order">
               <Route index element={<Order />}></Route>
               <Route path=":billId" element={<Order />}></Route>
             </Route>
-            <Route path="welcome/bills" >
+            <Route path="bills" >
               <Route index element={<Bills />}></Route>
               <Route path=":billId" element={<Bills />}></Route>
             </Route>
+          </Route>
           
           <Route path="logout" element={<Logout />}></Route>
 
