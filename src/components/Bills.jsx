@@ -28,6 +28,8 @@ function Bills() {
     const { billId } = useParams();
     console.log(billId)
 
+    const isMounted = useRef(null)
+
     const navigate = useNavigate()
 
     const { employee } = useContext(EmployeeContext)
@@ -40,6 +42,14 @@ function Bills() {
         {name:"Confirmed"},
         {name:"Deleted"}
     ]
+    
+        /**
+         * we have two types of bills, the bills that filtered as order and they are gonna be printed to the dom and the all of the bills so we can filter the bills from the all bills
+         */
+        // all of the bills
+        const [allTheBills, setAllTheBills] = useState([])
+        // The bills
+        const [bills, setBills] = useState([])
 
     // bills status, is it pending, or confirmed?
     /**
@@ -54,20 +64,12 @@ function Bills() {
     // the bill rows that we will request
     const [billsRows, setBillsRows] = useState(30)
 
-    /**
-     * we have two types of bills, the bills that filtered as order and they are gonna be printed to the dom and the all of the bills so we can filter the bills from the all bills
-     */
-    // all of the bills
-    const [allTheBills, setAllTheBills] = useState([])
-    // The bills
-    const [bills, setBills] = useState([])
-
     // current bill
     const [currentBill, setCurrentBill] = useState(null)
 
     // get the bills live on order and set them to bills
     useEffect(() => {
-        (async ()=>{
+        isMounted.current = true;
 
             const billsRef = collection(db, "bills")
             // qry stands for query
@@ -79,18 +81,17 @@ function Bills() {
                     snapshot.docs.forEach((doc)=>{
                         newBills.push({id:doc.id, ...doc.data()})
                     })
-    
-                    setAllTheBills(newBills)
+                    console.log(isMounted)
+                    if (isMounted.current == true) {setAllTheBills(newBills)}   
                 })
             } catch (error) {
-                window.alert(JSON.stringify(error))
-                console.log(JSON.stringify(error))
+                    window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                    console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                if (isMounted) setAllTheBills([])
             }
 
+            return () => isMounted.current = false;
 
-
-
-        })();
 
     }, [billsRows])
     /**
@@ -150,14 +151,14 @@ function Bills() {
             const found = bills.find(item=> item.id == billId) 
             if (found){
                 console.log("hhh", found, currentBill)
-                setCurrentBill(found)
-
+                
                 navigate("/welcome/bills/")
+                setCurrentBill(found)
             }
 
         }
 
-    }, [employee]);
+    }, [employee, bills]);
     
 
 

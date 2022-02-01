@@ -2,7 +2,7 @@ import {
     collection, doc, getDoc, getDocs, setDoc, addDoc, serverTimestamp
 } from "firebase/firestore";
 import { 
-    useContext, useEffect, useState
+    useContext, useEffect, useState, useRef
 } from "react";
 import {
     IconContext 
@@ -26,12 +26,16 @@ import {
     LoadingContext, EmployeeContext 
 } from "./others/contexts";
 import { IoBalloon } from "react-icons/io5";
+import whenCatchingAnError from "./others/whenCatchingAnError";
 
 function Order() {
 
+    
 
     const urlParams = useParams();
     const navigate = useNavigate()
+
+    const isMounted = useRef(null)
 
     // user 
     const {employee} = useContext(EmployeeContext)
@@ -74,11 +78,18 @@ function Order() {
     useEffect(() => {
 
         (async ()=>{
-            
-            const categories = await getDocs(collection(db, "products"));
-            setProducts(categories.docs.map((doc)=>{return {[doc.id]: doc.data()}}))
-
-            setSubmitBillBtnIsDisabled(false)
+            try {
+                setLoading(true)
+                const categories = await getDocs(collection(db, "products"));
+                setProducts(categories.docs.map((doc)=>{return {[doc.id]: doc.data()}}))
+                setSubmitBillBtnIsDisabled(false)
+                
+            } catch (error) {
+                window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+            }finally{
+                setLoading(false)
+            }
 
         })();
 
@@ -98,7 +109,8 @@ function Order() {
                 setCategoryItems(itemsElements);
                 
             } catch (error) {
-                console.warn(error)                
+                window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)                
             }
 
             // [<id of the item>, <object of his properties like name etc.>]
@@ -150,13 +162,12 @@ function Order() {
                 }
 
 
-                setLoading(false)
             } catch (error) {
-                window.alert(error)
-                console.error(error)
-                
+                window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
                 navigate("/welcome/bills/"+billId)
                 
+            }finally{
                 setLoading(false)
             }
         })();
@@ -264,107 +275,126 @@ function Order() {
                             className={`flex-nowrap rounded-lg overflow-hidden w-full px-2 py-6 bg-gray-600 hover:bg-gray-700  text-4xl my-4 cursor-pointer flex justify-between items-center ${submitBillBtnIsDisabled && "pointer-events-none bg-gray-700"} `}
 
                             // when the user submits the bill
-                            onClick={ async ()=>{
+                            onClick={ ()=>{
 
-
-
-                                // if the bill doesn't have any thing then don't care
-                                if(bill.Bill.length == 0) return ;   
-
-                                // confirmation
-                                const confirmation = window.confirm("Are you sure to submit the Bill?")
-                                if(!confirmation) return;
-
-                                setLoading(true)
-
-                                // prevent spaming by disabling the bill submit btn from working 
-                                setSubmitBillBtnIsDisabled(true)
-
-                                console.log(bill)
-                                let newBillIDNumber;
-                                if(!urlParams.billId && !bill.billIDNumber){
-                                    let billsSettingsDocRef = doc(db, "others/billsSettings");
-                                    let lastBillIdNumber = await getDoc(billsSettingsDocRef);
-                                    lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
-    
-                                    // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
-                                    if(lastBillIdNumber >= 300){
-                                        await setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
-                                        newBillIDNumber = 1;
-                                    }else{
-                                        newBillIDNumber = lastBillIdNumber + 1;
-                                        await setDoc(billsSettingsDocRef, {lastBillIdNumber: newBillIDNumber}, {merge:true});
-                                    }
-                                }
-
-
-
-                                let billLastEdit = [];
-                                // if the employee came to here to edit a specifec bill then print the bill edited at serverTimestamp,
-                                if(urlParams.billId){
-                                    if(bill.lastEdit?.length){
-                                        billLastEdit = [new Date(), ...bill.lastEdit]
-                                    }else{
-                                        billLastEdit = [new Date()]
-                                    }
-                                }
-
-
-                                /**
-                                 * The structure of the object is :
-                                 * {
-                                 *      billIdNumber : < Id number of the bill and it's gonna be under 300>,
-                                 *      bill : < the bill state variable >,
-                                 *      billTotalBalance : < The totoal balance of the bill and its comming from the billTotalBalance state variable >,
-                                 *      submittedBy : < The name of the employ that submitted this bill >,
-                                 *      finishedBy : < if the bill is finished then its gonna be assigned to the name of the user that finished this bill or if it isn't finished then its gonna be null >,
-                                 *      deleltedBy : < if the bill is deleted then its gonna be assigned to the name of the user that deleted this bill or if it isn't deleted then its gonna be null >,
-                                 *      createdAt : < date of the bill >
-                                 * }
-                                 */
-                                // if the employee came to here for editing an bill then toggle between the edit one and new one
-                                try {
+                                (async ()=>{
                                     
-                                    if(urlParams.billId){
+                                    // if the bill doesn't have any thing then don't care
+                                    if(bill.Bill.length == 0) return ;   
     
-                                            await setDoc(doc(db, `bills/${urlParams.billId}`), {
-                                                    billIDNumber: bill.billIDNumber || newBillIDNumber,
+                                    // confirmation
+                                    const confirmation = window.confirm("Are you sure to submit the Bill?")
+                                    if(!confirmation) return;
+    
+                                    setLoading(true)
+    
+                                    // prevent spaming by disabling the bill submit btn from working 
+                                    setSubmitBillBtnIsDisabled(true)
+    
+                                    console.log(bill)
+                                    let newBillIDNumber;
+                                    if(!urlParams.billId && !bill.billIDNumber){
+                                        let billsSettingsDocRef = doc(db, "others/billsSettings");
+                                        let lastBillIdNumber = await getDoc(billsSettingsDocRef);
+                                        lastBillIdNumber = lastBillIdNumber.data().lastBillIdNumber;
+        
+                                        try {
+                                            // we are gonna set the the bills setting LastBillId to be 1 not 0 so we dont need to increase it laterw.
+                                            if(lastBillIdNumber >= 300){
+                                                await setDoc(billsSettingsDocRef, {lastBillIdNumber: 1}, {merge:true});
+                                                newBillIDNumber = 1;
+                                            }else{
+                                                newBillIDNumber = lastBillIdNumber + 1;
+                                                await setDoc(billsSettingsDocRef, {lastBillIdNumber: newBillIDNumber}, {merge:true});
+                                            }
+                                        } catch (error) {
+                                            window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                                            console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                                        }
+                                    }
+    
+    
+    
+                                    let billLastEdit = [];
+                                    // if the employee came to here to edit a specifec bill then print the bill edited at serverTimestamp,
+                                    if(urlParams.billId){
+                                        if(bill.lastEdit?.length){
+                                            billLastEdit = [new Date(), ...bill.lastEdit]
+                                        }else{
+                                            billLastEdit = [new Date()]
+                                        }
+                                    }
+    
+                                    
+
+                                    /**
+                                     * The structure of the object is :
+                                     * {
+                                     *      billIdNumber : < Id number of the bill and it's gonna be under 300>,
+                                     *      bill : < the bill state variable >,
+                                     *      billTotalBalance : < The totoal balance of the bill and its comming from the billTotalBalance state variable >,
+                                     *      submittedBy : < The name of the employ that submitted this bill >,
+                                     *      finishedBy : < if the bill is finished then its gonna be assigned to the name of the user that finished this bill or if it isn't finished then its gonna be null >,
+                                     *      deleltedBy : < if the bill is deleted then its gonna be assigned to the name of the user that deleted this bill or if it isn't deleted then its gonna be null >,
+                                     *      createdAt : < date of the bill >
+                                     * }
+                                     */
+                                    // if the employee came to here for editing an bill then toggle between the edit one and new one
+                                    try {
+                                        
+                                        if(urlParams.billId){
+                                                await setDoc(doc(db, `bills/${urlParams.billId}`), {
+                                                        billIDNumber: bill.billIDNumber || newBillIDNumber,
+                                                        bill: bill.Bill, 
+                                                        billTotalBalance: billTotalBalance, 
+                                                        submittedBy: employee.name, 
+                                                        finished:false,
+                                                        finishedBy:null, 
+                                                        deleted: bill.deleted || false, 
+                                                        deletedBy: bill.deletedBy || null, 
+                                                        createdAt: bill.createdAt || serverTimestamp(),
+                                                        lastEdit: billLastEdit
+                                                    }).catch((error)=>{
+                                                        throw new Error(error)
+                                                    })
+
+                                                    console.log("fasdfal")
+    
+                                                // we redirect him the bill he edited
+                                                navigate(`/welcome/bills/${urlParams.billId}`)
+
+                                                setLoading(false)
+                                        }else{
+        
+                                            await addDoc(collection(db, "bills"), {
+                                                    billIDNumber: newBillIDNumber,
                                                     bill: bill.Bill, 
                                                     billTotalBalance: billTotalBalance, 
                                                     submittedBy: employee.name, 
                                                     finished:false,
                                                     finishedBy:null, 
-                                                    deleted: bill.deleted || false, 
-                                                    deletedBy: bill.deletedBy || null, 
-                                                    createdAt: bill.createdAt || serverTimestamp(),
+                                                    deleted: false, 
+                                                    deletedBy: null, 
+                                                    createdAt: serverTimestamp(),
                                                     lastEdit: billLastEdit
-                                                });
-                                            
-                                            // we redirect him the bill he edited
-                                            navigate(`/welcome/bills/${urlParams.billId}`)
-                                    }else{
-    
-                                        await addDoc(collection(db, "bills"), {
-                                                billIDNumber: newBillIDNumber,
-                                                bill: bill.Bill, 
-                                                billTotalBalance: billTotalBalance, 
-                                                submittedBy: employee.name, 
-                                                finished:false,
-                                                finishedBy:null, 
-                                                deleted: false, 
-                                                deletedBy: null, 
-                                                createdAt: serverTimestamp(),
-                                                lastEdit: billLastEdit
-                                            });
-    
-                                    }
-                                } catch (error) {
-                                    console.log("we catched the error ", error)
-                                }
+                                                }).catch((error)=>{
+                                                    throw new Error(error)
+                                                })
+                                                console.log("")
+        
+                                                setBill({Bill:[]})
+                                                setSubmitBillBtnIsDisabled(false)
+                                                setLoading(false)
 
-                                setBill({Bill:[]})
-                                setSubmitBillBtnIsDisabled(false)
-                                setLoading(false)
+                                        }
+                                    } catch (error) {
+                                        whenCatchingAnError(error)
+                                        setLoading(false)
+                                    }
+
+                                })();
+
+
                             }}
 
                             disabled={submitBillBtnIsDisabled ? true : false}

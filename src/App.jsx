@@ -90,7 +90,7 @@ function App() {
   // we listen to the keyboard events
   // so if he click the R key then show him the routes Panel in some cases do not do . 
   function toggleRoutesPanel(e){
-    if(loading || e.code != "KeyR" || route.pathname=="/welcome" || route.pathname=="/login") return ;
+    if(loading || e.code != "KeyR" || route.pathname=="/welcome" || route.pathname=="/login" || e.ctrlKey) return ;
     routesPanel ? setRoutesPanel(false) : setRoutesPanel(true);
   }
   window.onkeydown = (e)=>{toggleRoutesPanel(e)}

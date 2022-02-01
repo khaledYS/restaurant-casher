@@ -2,15 +2,16 @@
   "name": "react",
   "version": "0.0.0",
   "scripts": {
-    "vite:dev": "vite",
-    "vite:dev:host": "vite --host",
-    "vite:dev:domain:default": "vite --port 80",
+    "vite:watch": "vite",
+    "vite:watch:host": "vite --host",
+    "vite:watch:domain:default": "vite --port 80",
     "vite:build": "vite build",
     "vite:preview": "vite preview",
     "tailwind:watch": "npx tailwindcss -i ./src/styles/App.css -o ./src/tailwind/output.css --watch",
     "tailwind:build": "npx tailwindcss -o ./src/tailwind/output.css --minify",
     "build:all": "npm run tailwind:build && npm run vite:build",
-    "build:all:preview": "npm run build:all && npm run vite:preview"
+    "build:all:preview": "npm run build:all && npm run vite:preview",
+    "dev": "start npm run tailwind:watch && start npm run vite:watch"
   },
   "dependencies": {
     "firebase": "^9.6.5",
