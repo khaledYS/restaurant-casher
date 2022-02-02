@@ -1,4 +1,4 @@
-import { app } from "../firebase-config";
+import { app } from "../../firebase-config";
 import { 
     getDoc,
     setDoc,
@@ -17,11 +17,11 @@ import {
     Link,
     Outlet
  } from "react-router-dom";
-import Btn from "./others/btn";
+import Btn from "../others/btn";
 import { IoBagHandleOutline, IoLogOutOutline } from "react-icons/io5";
 import { VscCircuitBoard } from "react-icons/vsc";
 import { FaFileInvoiceDollar } from "react-icons/fa"
-import { EmployeeContext } from "./others/contexts";
+import { EmployeeContext } from "../others/contexts";
 
 
 function Welcome(props) {

@@ -15,18 +15,18 @@ import {
 } from "uuid";
 import {
     db 
-} from "../firebase-config";
+} from "../../firebase-config";
 import {
     useParams, useNavigate
 } from "react-router-dom"
-import BillItem from "./order/BillItem";
-import CategoriesBtn from "./order/CategoriesBtn";
-import CategoryItem from "./order/CategoryItem";
+import BillItem from "./components/BillItem";
+import CategoriesBtn from "./components/CategoriesBtn";
+import CategoryItem from "./components/CategoryItem";
 import {
     LoadingContext, EmployeeContext 
-} from "./others/contexts";
+} from "../others/contexts";
 import { IoBalloon } from "react-icons/io5";
-import whenCatchingAnError from "./others/whenCatchingAnError";
+import whenCatchingAnError from "../others/whenCatchingAnError";
 
 function Order() {
 
@@ -163,8 +163,7 @@ function Order() {
 
 
             } catch (error) {
-                window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
-                console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
+                whenCatchingAnError(error)
                 navigate("/welcome/bills/"+billId)
                 
             }finally{

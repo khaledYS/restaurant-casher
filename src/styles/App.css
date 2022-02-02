@@ -205,3 +205,64 @@ body {
 .hl{
   border: solid red 2px;
 }
+
+
+
+
+/* dashboard side navbar */
+.Side-navbar-component{
+  flex-basis: 20%;
+  transition: all ease-in-out .5s; 
+}
+.not-opened .Side-navbar-component {
+  flex-basis: 5%;
+} 
+.opened .Side-navbar-component{
+  flex-basis: 20%;
+}
+
+.Side-navbar-component .branches-container {
+  flex-basis: 100%;
+}
+
+.not-opened .Side-navbar-component .upper{
+  /* padding:.20rem; */
+}
+
+.Side-navbar-component .avatar-container{
+  transition: all ease-in-out;
+  transition-duration: 100ms !important; 
+}
+.not-opened .Side-navbar-component .avatar-container img{
+  border: 0;
+}
+.not-opened .Side-navbar-component .avatar-container{
+  margin: .5rem .20rem ;
+}
+
+
+.Side-navbar-component .toggle-side-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.opened .Side-navbar-component .toggle-side-nav {
+  padding-right: 10px;
+  justify-content: flex-end;
+}
+.Side-navbar-component .toggle-side-nav svg{
+  font-size: 100%;
+  display: block;
+  font-size: 2rem;
+  transition: all ease-in .3s !important; 
+  transform: rotate(180deg);
+}
+.opened .Side-navbar-component .toggle-side-nav svg{
+  transform: rotate(0deg);
+}
+
+/* dashboard main content component */
+.main-content-component{
+  transition: all ease-in-out 1s; 
+  flex-basis: 100%;
+}

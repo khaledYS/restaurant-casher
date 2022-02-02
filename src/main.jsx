@@ -7,12 +7,12 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Login from './components/Login';
-import Welcome from './components/Welcome';
-import Order from './components/Order';
-import Dashboard from './components/Dashboard';
-import Bills from './components/Bills';
-import Logout from "./components/Logout"
+import Login from './components/login/Login';
+import Welcome from './components/welcome/Welcome';
+import Order from './components/order/Order';
+import Dashboard from './components/dashboard/Dashboard';
+import Bills from './components/bills/Bills';
+import Logout from "./components/logout/Logout"
 
 
 ReactDOM.render(
@@ -25,7 +25,9 @@ ReactDOM.render(
 
           <Route path={"welcome"}>
             <Route index element={<Welcome />}></Route>
-            <Route path="dashboard" element={<Dashboard />}></Route>
+            <Route path="dashboard">
+              <Route index element={<Dashboard />}></Route>
+            </Route>
             <Route path="order">
               <Route index element={<Order />}></Route>
               <Route path=":billId" element={<Order />}></Route>

@@ -6,10 +6,11 @@ import {
     signInWithRedirect
 } from "@firebase/auth"
 import { useNavigate } from "react-router";
-import { LoadingContext } from "./others/contexts";
+import { LoadingContext } from "../others/contexts";
 import { IoLogInOutline } from "react-icons/io5"
-import Btn from "./others/btn";
-import { app } from "../firebase-config";
+import Btn from "../others/btn";
+import { app } from "../../firebase-config";
+import whenCatchingAnError from "../others/whenCatchingAnError";
 function Login(props) {
     const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
     const navigate = useNavigate();
@@ -28,9 +29,8 @@ function Login(props) {
           await signInWithPopup(auth, googleProvider)
           setLoginBtnIsDisapled(false)
         
-      } catch (err) {
-        window.alert(JSON.stringify(err))
-        console.log(JSON.stringify(err))
+      } catch (error) {
+        whenCatchingAnError(error)
       } finally {
         setLoading(false)
         setLoginBtnIsDisapled(false)

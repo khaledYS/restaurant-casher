@@ -2,7 +2,7 @@
 // cause I'm the same as you 
 // I don't uderstand any word of this shit
 
-import { db } from "../firebase-config.js";
+import { db } from "../../firebase-config";
 import {
     query,
     getDocs,
@@ -15,13 +15,14 @@ import {
     onSnapshot, 
     limit
 } from "firebase/firestore"
-import { LoadingContext, EmployeeContext } from "./others/contexts"
+import { LoadingContext, EmployeeContext } from "./../others/contexts"
 import {IconContext} from "react-icons"
 import { Link, Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from "uuid"
 import { useRef, useState, useEffect, useContext } from "react";
-import Bill from "./bills/Bill";
-import CurrentBill from "./bills/CurrentBill";
+import Bill from "./components/Bill";
+import CurrentBill from "./components/CurrentBill";
+import whenCatchingAnError from "../others/whenCatchingAnError";
 function Bills() {
 
     // if the user wants to get a specifec bill from the url 
@@ -83,7 +84,7 @@ function Bills() {
                     })
                     console.log(isMounted)
                     if (isMounted.current == true) {setAllTheBills(newBills)}   
-                })
+                }, (error)=>{whenCatchingAnError(error)})
             } catch (error) {
                     window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
                     console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
