@@ -11,6 +11,8 @@ import { TiEdit } from "react-icons/ti"
 
 function CurrentBill({currentBill, setCurrentBill, employee}){
 
+		console.log(currentBill)
+
 	    // this actually gonna get all of the orders and count how many products are the same so we compress them into one order and we print the quantity of them
 		function getTheQuantity(bill){
 			let newBill = [];

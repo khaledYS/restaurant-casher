@@ -13,7 +13,7 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    overflow: hidden;
   }
   
   code {
@@ -212,7 +212,7 @@ body {
 /* dashboard side navbar */
 .Side-navbar-component{
   flex-basis: 20%;
-  transition: all ease-in-out .5s; 
+  transition: all ease-in-out .3s; 
 }
 .not-opened .Side-navbar-component {
   flex-basis: 5%;
@@ -224,20 +224,75 @@ body {
 .Side-navbar-component .branches-container {
   flex-basis: 100%;
 }
+.Side-navbar-component .branches-container .branches{
+  flex-basis: 100%;
 
-.not-opened .Side-navbar-component .upper{
-  /* padding:.20rem; */
+  padding: .25rem 0;
+
+  border-bottom: 4px solid #667797;
+
+  /* hide scroll bar, but you can scroll */
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll; 
+}
+.Side-navbar-component .branches-container .branches::-webkit-scrollbar{
+  display: none; /* for Chrome, Safari, and Opera */
+}
+.Side-navbar-component .branches-container .branch{
+  transition: all 100ms ease;
+  margin: .5rem;
+  padding: .25rem .5rem;
+  cursor: pointer;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+}
+.Side-navbar-component .branches-container .branch .icon{
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+.not-opened .Side-navbar-component .branches-container .branch .icon{
+  margin: 0 auto;
+  /* font-size:2rem; */
+}
+
+.opened .Side-navbar-component .branches-container .branch .text{
+  transition: .6s ease-in-out opacity;
+}
+.not-opened .Side-navbar-component .branches-container .branch .text{
+  position: absolute;
+  opacity: 0;
+}
+
+.Side-navbar-component .branches-container .branch:hover{
+  backdrop-filter: brightness(1.5);
+}
+
+ .Side-navbar-component .upper{
+  padding:.20rem;
 }
 
 .Side-navbar-component .avatar-container{
+  margin: .5rem .20rem ;
   transition: all ease-in-out;
-  transition-duration: 100ms !important; 
+  /* transition-duration: 100ms !important;  */
 }
+.opened .Side-navbar-component .avatar-container img{
+  animation: controll-width 1s ;
+}
+@keyframes controll-width {
+  from, to {
+    border-width: 0;
+  }
+}
+
+
 .not-opened .Side-navbar-component .avatar-container img{
   border: 0;
 }
 .not-opened .Side-navbar-component .avatar-container{
-  margin: .5rem .20rem ;
+  transition: none;
 }
 
 
