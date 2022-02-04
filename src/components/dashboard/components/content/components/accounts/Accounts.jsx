@@ -32,7 +32,7 @@ function Accounts() {
 
     return ( 
         <div className="w-full h-full flex flex-col">
-            <div className="w-full h-full" style={{flexBasis:"100%"}}>
+            <div className="w-full h-full p-4" style={{flexBasis:"100%"}}>
                 {typeof(accounts) == "object" ? accounts.map((account)=> {
                     return <Account key={uuidv4()} email={account.email} date={account.created} />
                 }) : <h1>Loading...</h1>}
