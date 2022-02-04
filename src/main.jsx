@@ -13,8 +13,10 @@ import Order from './components/order/Order';
 import Dashboard from './components/dashboard/Dashboard';
 import Bills from './components/bills/Bills';
 import Logout from "./components/logout/Logout"
-import Content from './components/dashboard/components/content/Content';
-import Users from './components/dashboard/components/content/components/users/Users';
+import DashboardContent from './components/dashboard/components/content/Content';
+import DashboardContentUsers from './components/dashboard/components/content/components/users/Users';
+import DashboardContentBills from './components/dashboard/components/content/components/bills/Bills';
+import DashboardContentSettings from './components/dashboard/components/content/components/settings/Settings';
 
 
 ReactDOM.render(
@@ -29,8 +31,10 @@ ReactDOM.render(
             <Route index element={<Welcome />}></Route>
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="branch">
-                <Route path=":branchId" element={<Content />}>
-                  <Route path="users" element={<Users />}></Route>
+                <Route path=":branchId" element={<DashboardContent />}>
+                  <Route path="users" element={<DashboardContentUsers />}></Route>
+                  <Route path="bills" element={<DashboardContentBills />}></Route>
+                  <Route path="settings" element={<DashboardContentSettings />}></Route>
                 </Route>
               </Route>
             </Route>

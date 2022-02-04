@@ -27,7 +27,7 @@ export default function RoutesPanel (){
                     <Link tabIndex="0" to="/welcome/order" className=" rounded-lg px-8  bg-gray-600 hover:bg-gray-700   cursor-pointer flex justify-between items-center text-center min-w-[300px] text-3xl my-2 !py-4  ">Order<IoBagHandleOutline/></Link>
                     <Link tabIndex="0" to="/welcome/bills" className=" rounded-lg px-8  bg-gray-600 hover:bg-gray-700   cursor-pointer flex justify-between items-center text-center min-w-[300px] text-3xl my-2 !py-4  ">Bills<FaFileInvoiceDollar/></Link>
                     {employee && employee.position == "admin" && <Link tabIndex="0" to="/welcome/dashboard" className=" rounded-lg px-8  bg-gray-600 hover:bg-gray-700   cursor-pointer flex justify-between items-center text-center min-w-[300px] text-3xl my-2 !py-4  ">Dashboard<VscCircuitBoard/></Link>}
-                    <Link tabIndex="0" to="/welcome/Logout" className=" rounded-lg px-8  bg-gray-600 hover:bg-gray-700   cursor-pointer flex justify-between items-center text-center min-w-[300px] text-3xl my-2 !py-4  ">Logout<IoLogOutOutline/></Link>
+                    <Link tabIndex="0" to="/Logout" className=" rounded-lg px-8  bg-gray-600 hover:bg-gray-700   cursor-pointer flex justify-between items-center text-center min-w-[300px] text-3xl my-2 !py-4  ">Logout<IoLogOutOutline/></Link>
                 </div>
             </div>
         </>

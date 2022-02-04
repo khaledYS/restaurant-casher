@@ -2,6 +2,7 @@ import { collection, doc, getDoc, getDocFromServer, getDocs } from "@firebase/fi
 import { useEffect, employee, useContext, useState, useRef } from "react";
 import { IoArrowForward, IoClose, IoMenu } from "react-icons/io5";
 import {MdAdd, MdOutlineKeyboardArrowRight} from "react-icons/md"
+import { useLocation } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import { app, db } from "../../../../firebase-config";
 import { EmployeeContext } from "../../../others/contexts";
@@ -10,7 +11,6 @@ import Branch from "./components/Branch";
 export default function SideNavbar({ sideNavBarIsOpen, setSideNavBarIsOpen}){
     const { employee } = useContext(EmployeeContext)
     const isMounted = useRef(null)
-
     const [branches, setBranches] = useState([]);
 
 

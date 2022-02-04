@@ -1,7 +1,7 @@
 function Users() {
     return ( 
-        <div>
-            this is the users if you might wondering...
+        <div className="w-full h-full">
+           
         </div>
      );
 }

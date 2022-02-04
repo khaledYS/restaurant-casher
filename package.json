@@ -11,7 +11,7 @@
     "tailwind:build": "npx tailwindcss -o ./src/tailwind/output.css --minify",
     "build:all": "npm run tailwind:build && npm run vite:build",
     "build:all:preview": "npm run build:all && npm run vite:preview",
-    "dev": "start npm run vite:watch && npm run tailwind:watch  "
+    "dev": "start npm run vite:watch && npm run tailwind:watch "
   },
   "dependencies": {
     "firebase": "^9.6.5",
