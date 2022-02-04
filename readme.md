@@ -59,6 +59,7 @@ think about the others
 - [ ] Responsivity 
  
 > Global tasks
+- [ ] make when a non-admin goes to the dashboard, show him with a div that says you don't have the premision to get into the dashboard, and show him a button or a link that says go to the home page.
 - [ ] make a wrapper around the routes panel .
 - [ ] change the links inside the routes panel to be only links without btns inside it.
 - [ ] when you finish ordering show him a panel if he want to see the bill in the bills component

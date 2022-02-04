@@ -1,5 +1,5 @@
 import { db, app } from './firebase-config';
-import { collection, getDocs, getDoc, doc, serverTimestamp, setDoc } from '@firebase/firestore';
+import { collection, getDocs, getDoc, doc, serverTimestamp, setDoc, connectFirestoreEmulator } from '@firebase/firestore';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { 
@@ -69,17 +69,20 @@ function App() {
             // turn of loading
             setLoading(false)
           }
-      } catch (error) {
-        whenCatchingAnError(error)
-        // if(route.pathname != "/login") navigate("/login");
-      } finally {
-        setLoading(false)
-      }
-      })
+        } catch (error) {
+          whenCatchingAnError(error)
+          // if(route.pathname != "/login") navigate("/login");
+        } finally {
+          setLoading(false)
+        }
 
-    setRoutesPanel(false)
-  }, [])
 
+        })
+
+      
+      setRoutesPanel(false)
+    }, [])
+    
 
   useEffect(() => {
     setRoutesPanel(false)
@@ -95,8 +98,11 @@ function App() {
   }
   window.onkeydown = (e)=>{toggleRoutesPanel(e)}
 
+
+
+
   return (
-    <div className="app font-sans App w-[100vw] h-[100vh] bg-slate-900 flex flex-col justify-center items-center  text-white">
+    <div className="app font-sans App w-[100vw] h-full bg-slate-900 flex flex-col justify-center items-center text-white">
       <EmployeeContext.Provider value={{employee, setEmployee}}>
         {loading && <Loading />}
         <LoadingContext.Provider value={{setLoading, loading}}>

@@ -13,6 +13,8 @@ import Order from './components/order/Order';
 import Dashboard from './components/dashboard/Dashboard';
 import Bills from './components/bills/Bills';
 import Logout from "./components/logout/Logout"
+import Content from './components/dashboard/components/content/Content';
+import Users from './components/dashboard/components/content/components/users/Users';
 
 
 ReactDOM.render(
@@ -25,8 +27,12 @@ ReactDOM.render(
 
           <Route path={"welcome"}>
             <Route index element={<Welcome />}></Route>
-            <Route path="dashboard">
-              <Route index element={<Dashboard />}></Route>
+            <Route path="dashboard" element={<Dashboard />}>
+              <Route path="branch">
+                <Route path=":branchId" element={<Content />}>
+                  <Route path="users" element={<Users />}></Route>
+                </Route>
+              </Route>
             </Route>
             <Route path="order">
               <Route index element={<Order />}></Route>

@@ -602,10 +602,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: grid;
 }
 
-.h-\[100vh\] {
-  height: 100vh;
-}
-
 .h-full {
   height: 100%;
 }
@@ -628,6 +624,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-3\/6 {
   height: 50%;
+}
+
+.h-\[100vh\] {
+  height: 100vh;
 }
 
 .h-\[95\%\] {
@@ -774,6 +774,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   justify-content: space-around;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .self-center {
   align-self: center;
 }
@@ -829,6 +833,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .rounded-b-3xl {
   border-bottom-right-radius: 1.5rem;
   border-bottom-left-radius: 1.5rem;
+}
+
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 .rounded-br-2xl {
@@ -1016,6 +1025,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(71 85 105 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#556171\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(85 97 113 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
@@ -1126,6 +1140,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-2 {
   padding-bottom: 0.5rem;
+}
+
+.pb-0 {
+  padding-bottom: 0px;
+}
+
+.pt-3 {
+  padding-top: 0.75rem;
 }
 
 .text-left {
@@ -1299,6 +1321,12 @@ Ensure the default browser behavior of the `hidden` attribute.
           backdrop-filter: var(--tw-backdrop-filter);
 }
 
+.backdrop-brightness-150 {
+  --tw-backdrop-brightness: brightness(1.5);
+  -webkit-backdrop-filter: var(--tw-backdrop-filter);
+          backdrop-filter: var(--tw-backdrop-filter);
+}
+
 .transition {
   transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
@@ -1327,6 +1355,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: 0;
   padding: 0;
   box-sizing: 0;
+}
+
+#root{
+  height: 100%;
+}
+
+html {
+  height: 100vh;
 }
 
 body {
@@ -1588,12 +1624,29 @@ code {
   transition: all ease-in-out .3s;
 }
 
-.not-opened .Side-navbar-component {
-  flex-basis: 5%;
+@media screen and (max-width: 950px) and (min-width: 681px) {
+  .Side-navbar-component{
+    flex-basis: 30%;
+  }
 }
 
-.opened .Side-navbar-component{
-  flex-basis: 20%;
+@media screen and (max-width: 680px) {
+  .opened .Side-navbar-component{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100vw;
+  }
+
+  .opened .main-content-component{
+    filter: brightness(.7);
+    z-index: 1;
+  }
+}
+
+.not-opened .Side-navbar-component {
+  flex-basis: 5%;
 }
 
 .Side-navbar-component .branches-container {
@@ -1658,12 +1711,13 @@ code {
 .Side-navbar-component .avatar-container{
   margin: .5rem .20rem ;
   transition: all ease-in-out;
-  /* transition-duration: 100ms !important;  */
+  transition-duration: 100ms !important;
 }
 
 .opened .Side-navbar-component .avatar-container img{
   -webkit-animation: controll-width 1s ;
           animation: controll-width 1s ;
+  width: clamp(0%, 100%, 200px);
 }
 
 @-webkit-keyframes controll-width {
@@ -1700,7 +1754,7 @@ code {
 .Side-navbar-component .toggle-side-nav svg{
   display: block;
   font-size: 2rem;
-  transition: all ease-in .3s !important;
+  transition: all ease-in .1s !important;
   transform: rotate(180deg);
 }
 
@@ -1711,7 +1765,7 @@ code {
 /* dashboard main content component */
 
 .main-content-component{
-  transition: all ease-in-out 1s;
+  transition: all ease-in-out .5s;
   flex-basis: 100%;
 }
 

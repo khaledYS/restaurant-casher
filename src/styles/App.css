@@ -6,6 +6,12 @@
   padding: 0;
   box-sizing: 0;
 }
+#root{
+  height: 100%;
+}
+html {
+  height: 100vh;
+}
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -214,13 +220,28 @@ body {
   flex-basis: 20%;
   transition: all ease-in-out .3s; 
 }
+@media screen and (max-width: 950px) and (min-width: 681px) {
+  .Side-navbar-component{
+    flex-basis: 30%;
+  }
+}
+@media screen and (max-width: 680px) {
+  .opened .Side-navbar-component{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100vw;
+  }
+  .opened .main-content-component{
+    filter: brightness(.7);
+    z-index: 1;
+  }
+
+}
 .not-opened .Side-navbar-component {
   flex-basis: 5%;
 } 
-.opened .Side-navbar-component{
-  flex-basis: 20%;
-}
-
 .Side-navbar-component .branches-container {
   flex-basis: 100%;
 }
@@ -276,10 +297,11 @@ body {
 .Side-navbar-component .avatar-container{
   margin: .5rem .20rem ;
   transition: all ease-in-out;
-  /* transition-duration: 100ms !important;  */
+  transition-duration: 100ms !important; 
 }
 .opened .Side-navbar-component .avatar-container img{
   animation: controll-width 1s ;
+  width: clamp(0%, 100%, 200px);
 }
 @keyframes controll-width {
   from, to {
@@ -309,7 +331,7 @@ body {
   font-size: 100%;
   display: block;
   font-size: 2rem;
-  transition: all ease-in .3s !important; 
+  transition: all ease-in .1s !important; 
   transform: rotate(180deg);
 }
 .opened .Side-navbar-component .toggle-side-nav svg{
@@ -318,6 +340,6 @@ body {
 
 /* dashboard main content component */
 .main-content-component{
-  transition: all ease-in-out 1s; 
+  transition: all ease-in-out .5s; 
   flex-basis: 100%;
 }
