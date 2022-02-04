@@ -59,6 +59,7 @@ think about the others
 - [ ] Responsivity 
  
 > Global tasks
+- [ ] make when an admin wants to order, let show him a panel of branches he wants to order with.
 - [ ] make when a non-admin goes to the dashboard, show him with a div that says you don't have the premision to get into the dashboard, and show him a button or a link that says go to the home page.
 - [ ] make a wrapper around the routes panel .
 - [ ] change the links inside the routes panel to be only links without btns inside it.

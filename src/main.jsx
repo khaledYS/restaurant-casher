@@ -14,7 +14,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import Bills from './components/bills/Bills';
 import Logout from "./components/logout/Logout"
 import DashboardContent from './components/dashboard/components/content/Content';
-import DashboardContentUsers from './components/dashboard/components/content/components/users/Users';
+import DashboardContentAccounts from './components/dashboard/components/content/components/accounts/Accounts';
 import DashboardContentBills from './components/dashboard/components/content/components/bills/Bills';
 import DashboardContentSettings from './components/dashboard/components/content/components/settings/Settings';
 
@@ -32,7 +32,7 @@ ReactDOM.render(
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="branch">
                 <Route path=":branchId" element={<DashboardContent />}>
-                  <Route path="users" element={<DashboardContentUsers />}></Route>
+                  <Route path="Accounts" element={<DashboardContentAccounts />}></Route>
                   <Route path="bills" element={<DashboardContentBills />}></Route>
                   <Route path="settings" element={<DashboardContentSettings />}></Route>
                 </Route>

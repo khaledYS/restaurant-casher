@@ -36,10 +36,12 @@ function App() {
             
             
             // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
-            const auth = getAuth(app);
-            const docRef = doc(db, "users", auth.currentUser.uid);
+            const auth = employee;
+            const docRef = doc(db, "users", auth.uid);
             const docSnap = await getDoc(docRef).catch((error )=>{throw new Error(error)});
-    
+            
+            console.log(employee, auth)
+
             // get the tax
             let tax = await getDoc(doc(db, "others/billsSettings"))
             tax = tax.data().tax
@@ -48,10 +50,11 @@ function App() {
               setEmployee({...docSnap.data(), tax, employee})
             }else{
               const dataToPass = {
-                uid : auth.currentUser.uid,
-                name:auth.currentUser.displayName, 
+                uid : auth.uid,
+                name:auth.displayName, 
                 created: serverTimestamp(), 
-                position:"employer"
+                position:"employer", 
+                email: auth.email
               }
               await setDoc(docRef, {...dataToPass}).catch((error)=>{throw new Error(error)});
               setEmployee({...dataToPass, tax, employee})

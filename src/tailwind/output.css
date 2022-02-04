@@ -550,11 +550,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 1rem;
 }
 
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mt-12 {
   margin-top: 3rem;
 }
@@ -779,6 +774,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   justify-content: space-around;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .self-center {
   align-self: center;
 }
@@ -834,11 +833,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .rounded-b-3xl {
   border-bottom-right-radius: 1.5rem;
   border-bottom-left-radius: 1.5rem;
-}
-
-.rounded-t-lg {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 }
 
 .rounded-br-2xl {
@@ -1111,6 +1105,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 0.25rem;
 }
 
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .pt-2 {
   padding-top: 0.5rem;
 }
@@ -1141,14 +1140,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-2 {
   padding-bottom: 0.5rem;
-}
-
-.pb-0 {
-  padding-bottom: 0px;
-}
-
-.pt-3 {
-  padding-top: 0.75rem;
 }
 
 .text-left {
@@ -1199,6 +1190,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .font-normal {
@@ -1658,17 +1659,6 @@ code {
   flex-basis: 100%;
   padding: .25rem 0;
   border-bottom: 4px solid #667797;
-  /* hide scroll bar, but you can scroll */
-  -ms-overflow-style: none;
-  /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  /* for Firefox */
-  overflow-y: scroll;
-}
-
-.Side-navbar-component .branches-container .branches::-webkit-scrollbar{
-  display: none;
-  /* for Chrome, Safari, and Opera */
 }
 
 .Side-navbar-component .branches-container .branch{
@@ -1770,6 +1760,22 @@ code {
   flex-basis: 100%;
 }
 
+/* global classes */
+
+.no-scrollbar-but-scroll{
+  /* hide scroll bar, but you can scroll */
+  -ms-overflow-style: none;
+  /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  /* for Firefox */
+  overflow-y: scroll;
+}
+
+.no-scrollbar-but-scroll::-webkit-scrollbar{
+  display: none;
+  /* for Chrome, Safari, and Opera */
+}
+
 .before\:absolute::before {
   content: var(--tw-content);
   position: absolute;
@@ -1857,15 +1863,6 @@ code {
 .hover\:-translate-y-1:hover {
   --tw-translate-y: -0.25rem;
   transform: var(--tw-transform);
-}
-
-.hover\:rounded-lg:hover {
-  border-radius: 0.5rem;
-}
-
-.hover\:rounded-t-lg:hover {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 }
 
 .hover\:bg-cyan-200:hover {

@@ -251,14 +251,6 @@ body {
   padding: .25rem 0;
 
   border-bottom: 4px solid #667797;
-
-  /* hide scroll bar, but you can scroll */
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none; /* for Firefox */
-  overflow-y: scroll; 
-}
-.Side-navbar-component .branches-container .branches::-webkit-scrollbar{
-  display: none; /* for Chrome, Safari, and Opera */
 }
 .Side-navbar-component .branches-container .branch{
   transition: all 100ms ease;
@@ -342,4 +334,18 @@ body {
 .main-content-component{
   transition: all ease-in-out .5s; 
   flex-basis: 100%;
+}
+
+
+
+/* global classes */
+.no-scrollbar-but-scroll{
+
+  /* hide scroll bar, but you can scroll */
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll; 
+}
+.no-scrollbar-but-scroll::-webkit-scrollbar{
+  display: none; /* for Chrome, Safari, and Opera */
 }

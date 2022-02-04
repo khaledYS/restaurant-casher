@@ -52,9 +52,9 @@ export default function SideNavbar({ sideNavBarIsOpen, setSideNavBarIsOpen}){
                 </a>
 
                 <div className="branches-container border-y-4 border-[#667797] overflow-hidden flex flex-col w-full">
-                    <div className="branches w-full overflow-y-auto">
+                    <div className="branches w-full no-scrolbar-but-scroll">
 
-                    {branches.map((branch, index)=> <Branch key={uuidv4()} icon={index + 1} text={branch.name} branchId={branch.id} />)}
+                        {branches.map((branch, index)=> <Branch key={uuidv4()} icon={index + 1} text={branch.name} branchId={branch.id} />)}
 
                     </div>
                     <div className="add branch flex !p-2 items-center">
