@@ -586,6 +586,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: auto;
 }
 
+.ml-0\.5 {
+  margin-left: 0.125rem;
+}
+
+.ml-0 {
+  margin-left: 0px;
+}
+
 .block {
   display: block;
 }
@@ -716,6 +724,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .cursor-default {
   cursor: default;
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.\!appearance-none {
+  -webkit-appearance: none !important;
+     -moz-appearance: none !important;
+          appearance: none !important;
 }
 
 .flex-col {
@@ -1025,6 +1045,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(85 97 113 / var(--tw-bg-opacity));
 }
 
+.bg-zinc-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(113 113 122 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#464656\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(70 70 86 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
@@ -1043,6 +1073,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .\!p-2 {
   padding: 0.5rem !important;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
 }
 
 .px-8 {
@@ -1192,14 +1230,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.75rem;
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+.text-7xl {
+  font-size: 4.5rem;
+  line-height: 1;
 }
 
 .font-normal {
@@ -1251,6 +1289,21 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
+.text-red-400 {
+  --tw-text-opacity: 1;
+  color: rgb(248 113 113 / var(--tw-text-opacity));
+}
+
+.text-green-50 {
+  --tw-text-opacity: 1;
+  color: rgb(240 253 244 / var(--tw-text-opacity));
+}
+
+.text-\[\#00ffb8\] {
+  --tw-text-opacity: 1;
+  color: rgb(0 255 184 / var(--tw-text-opacity));
 }
 
 .shadow-lg {
@@ -1776,6 +1829,26 @@ code {
   /* for Chrome, Safari, and Opera */
 }
 
+.marker\:hidden *::marker {
+  display: none;
+}
+
+.marker\:appearance-none *::marker {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.marker\:hidden::marker {
+  display: none;
+}
+
+.marker\:appearance-none::marker {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
 .before\:absolute::before {
   content: var(--tw-content);
   position: absolute;
@@ -1934,6 +2007,12 @@ code {
 
 .hover\:backdrop-brightness-125:hover {
   --tw-backdrop-brightness: brightness(1.25);
+  -webkit-backdrop-filter: var(--tw-backdrop-filter);
+          backdrop-filter: var(--tw-backdrop-filter);
+}
+
+.hover\:backdrop-brightness-200:hover {
+  --tw-backdrop-brightness: brightness(2);
   -webkit-backdrop-filter: var(--tw-backdrop-filter);
           backdrop-filter: var(--tw-backdrop-filter);
 }
