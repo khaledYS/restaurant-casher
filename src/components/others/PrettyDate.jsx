@@ -1,7 +1,7 @@
 // returns a pretty date
 function PrettyDate( { date = new Date } ){
 	return(
-		<span className="font-medium">&nbsp;
+		<span className="font-medium">
 		<span>
 			{date.getHours()}:
 			{date.getMinutes()}:

@@ -44,25 +44,8 @@ function Accounts() {
             {/* acconts */}
             <div className="w-full h-full p-4 py-2" style={{flexBasis:"100%"}}>
                 {typeof(accounts) == "object" ? accounts.map((account)=> {
-                    return <Account key={uuidv4()} email={account.email} date={account.created} />
+                    return <Account key={uuidv4()} email={account.email} date={account.created}  account={account} />
                 }) : <h1>Loading...</h1>}
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                <Account key={uuidv4()} email={"ammaryasser@gmail.com"} />
-                
             </div>
         </div>
      );
