@@ -360,7 +360,7 @@ function Order() {
                                                     console.log("fasdfal")
     
                                                 // we redirect him the bill he edited
-                                                navigate(`/welcome/bills/${urlParams.billId}`)
+                                                navigate(`/welcome/${urlParams.currentBranchId}/bills/${urlParams.billId}`)
 
                                                 setLoading(false)
                                         }else{

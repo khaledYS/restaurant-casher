@@ -26,8 +26,7 @@ import whenCatchingAnError from "../others/whenCatchingAnError";
 function Bills() {
 
     // if the user wants to get a specifec bill from the url 
-    const { billId } = useParams();
-    console.log(billId)
+    const { billId, currentBranchId } = useParams();
 
     const isMounted = useRef(null)
 
@@ -70,26 +69,22 @@ function Bills() {
 
     // get the bills live on order and set them to bills
     useEffect(() => {
+        setLoading(true)
         isMounted.current = true;
 
             const billsRef = collection(db, "bills")
             // qry stands for query
             let qry = query(billsRef, orderBy("createdAt", "desc"), limit(billsRows));
 
-            try {
-                onSnapshot(qry, (snapshot)=>{
-                    let newBills = [];
-                    snapshot.docs.forEach((doc)=>{
-                        newBills.push({id:doc.id, ...doc.data()})
-                    })
-                    console.log(isMounted)
-                    if (isMounted.current == true) {setAllTheBills(newBills)}   
-                }, (error)=>{whenCatchingAnError(error)})
-            } catch (error) {
-                    window.alert(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
-                    console.log(`this might happen bucause of a leak internet connection, Error : ${JSON.stringify(error)}`)
-                if (isMounted) setAllTheBills([])
-            }
+            onSnapshot(qry, (snapshot)=>{
+                setLoading(true)
+                let newBills = [];
+                snapshot.docs.forEach((doc)=>{
+                    newBills.push({id:doc.id, ...doc.data()})
+                })
+                console.log(isMounted)
+                if (isMounted.current == true) {setAllTheBills(newBills)}   
+            }, (error)=>{whenCatchingAnError(error)})
 
             return () => isMounted.current = false;
 
@@ -153,7 +148,7 @@ function Bills() {
             if (found){
                 console.log("hhh", found, currentBill)
                 
-                navigate("/welcome/bills/")
+            navigate(`/welcome/${currentBranchId}/bills/`)
                 setCurrentBill(found)
             }
 
@@ -166,7 +161,7 @@ function Bills() {
     // if all the bills state is updated then update the printed bills to the dom
     useEffect(() => {
         setBills(filterBills(allTheBills))
-
+        setLoading(false)
     }, [allTheBills])
     
 

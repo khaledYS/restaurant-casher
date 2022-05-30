@@ -69,7 +69,7 @@ think about the others
 - [ ] get the static data from cache if possible
 - [ ] change the the confirmations alerts and popups from the browser built-in popups to custome popups
 - [ ] HardcoreOne: changing the ID's from charcters and numbers to numbers only
-
+- [ ] tax and impelement it in the bill itslef in the db
 
 # App Structure
 ```

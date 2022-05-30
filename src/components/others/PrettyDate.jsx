@@ -1,5 +1,6 @@
 // returns a pretty date
 function PrettyDate( { date = new Date } ){
+	date = new Date(date)
 	return(
 		<span className="font-medium">
 		<span>

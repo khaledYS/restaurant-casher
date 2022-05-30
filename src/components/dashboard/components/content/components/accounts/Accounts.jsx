@@ -6,11 +6,12 @@ import { useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../../../../../../firebase-config";
 import Account from "./components/Account/Account";
+import CurrentAccount from "./components/currentAccount/CurrentAccount";
 
 function Accounts() {
     const urlParams = useParams();
     const [accounts, setAccounts] = useState("Loading ...");
-
+    const [currentAccount, setCurrentAccount] = useState(null)
     
     
     
@@ -33,21 +34,25 @@ function Accounts() {
     }, []);
 
     return ( 
-        <div className="w-full h-full flex flex-col overflow-y-auto text-2xl">
-            {/* add account button  */}
-            <div className="w-full flex justify-center items-center my-4 ">
-                <div className="p-2 cursor-pointer transition-all hover:backdrop-brightness-200 rounded-md">
-                    <IoAddCircleOutline className="text-5xl text-[#00ffb8]" />
+        <>
+            <div className="w-full h-full flex flex-col overflow-y-auto text-2xl">
+                {/* add account button  */}
+                <div className="w-full flex justify-center items-center my-4 ">
+                    <div className="p-2 cursor-pointer transition-all hover:backdrop-brightness-200 rounded-md">
+                        <IoAddCircleOutline className="text-5xl text-[#00ffb8]" />
+                    </div>
+                </div>
+
+                {/* acconts */}
+                <div className="w-full h-full p-4 py-2" style={{flexBasis:"100%"}}>
+                    {typeof(accounts) == "object" ? accounts.map((account)=> {
+                        return <Account key={uuidv4()} email={account.email} date={account.created}  account={account} />
+                    }) : <h1>Loading...</h1>}
+                    <Account key={uuidv4()} email={"user@email.com"}  account={{name:"ammar khaled you", position:"admin"}} setCurrentAccount={setCurrentAccount} date={new Date()}/>
                 </div>
             </div>
-
-            {/* acconts */}
-            <div className="w-full h-full p-4 py-2" style={{flexBasis:"100%"}}>
-                {typeof(accounts) == "object" ? accounts.map((account)=> {
-                    return <Account key={uuidv4()} email={account.email} date={account.created}  account={account} />
-                }) : <h1>Loading...</h1>}
-            </div>
-        </div>
+            {currentAccount && <CurrentAccount currentAccount={currentAccount}  />}
+        </>
      );
 }
 

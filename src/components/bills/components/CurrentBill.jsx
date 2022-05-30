@@ -4,14 +4,14 @@ import {
     setDoc
 } from "firebase/firestore"
 import {v4 as uuidv4} from "uuid"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PrettyDate from "../../others/PrettyDate"
 import { TiEdit } from "react-icons/ti"
 
 
 function CurrentBill({currentBill, setCurrentBill, employee}){
 
-		console.log(currentBill)
+	const { currentBranchId } = useParams()
 
 	    // this actually gonna get all of the orders and count how many products are the same so we compress them into one order and we print the quantity of them
 		function getTheQuantity(bill){
@@ -47,7 +47,7 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 								{/* edit bill url */}
 								{
 									employee.name == currentBill.submittedBy && !currentBill.deleted && 
-									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={"/welcome/order/" + currentBill.id} title="edit this bill" >
+									<Link className="flex ml-4 w-fit px-2 py-1 rounded-md border-2 border-zinc-300 hover:bg-zinc-300"  to={`/welcome/${currentBranchId}/order/${currentBill.id}`} title="edit this bill" >
 										<TiEdit />
 									</Link>
 								}
@@ -68,15 +68,16 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 
 
 						{/* if the bill has been change before then show the times where it got edited or changed */}
-						{	currentBill.lastEdit?.length &&
-							<details className="mx-auto w-[90%] break-words bg-gray-600 relative mt-6 p-2 pr-10 rounded-lg text-white shadow-[0_.1rem_1rem_-.4rem_rgb(0,0,0)]">
-								<summary className="cursor-pointer w-full ">
-										Last edit is on <PrettyDate date={currentBill.lastEdit[0].toDate()} />   <span className="absolute right-1">({currentBill.lastEdit.length})</span> 
-								</summary>
-								{currentBill.lastEdit.map((el, ind)=>{
-									return <p key={uuidv4()} className="ml-6"><span className="font-bold">{ind + 1}-</span> {ind != 0 && "also"} edited on <PrettyDate date={el.toDate()} />  </p>
-								})}
-							</details>
+						{	currentBill.lastEdit?.length ?
+								<details className="mx-auto w-[90%] break-words bg-gray-600 relative mt-6 p-2 pr-10 rounded-lg text-white shadow-[0_.1rem_1rem_-.4rem_rgb(0,0,0)]">
+									<summary className="cursor-pointer w-full ">
+											Last edit is on <PrettyDate date={currentBill.lastEdit[0].toDate()} />   <span className="absolute right-1">({currentBill.lastEdit.length})</span> 
+									</summary>
+									{currentBill.lastEdit.map((el, ind)=>{
+										return <p key={uuidv4()} className="ml-6"><span className="font-bold">{ind + 1}-</span> {ind != 0 && "also"} edited on <PrettyDate date={el.toDate()} />  </p>
+									})}
+								</details>
+								: ""
 						}
 
 						{/* orders table */}
@@ -114,9 +115,9 @@ function CurrentBill({currentBill, setCurrentBill, employee}){
 						{/*price table */}
 						<div className="flex w-full justify-around  bg-gray-300 py-2 pl-2 border-t-2 border-black shadow-xl shadow-gray-400">
 								<span> Price: {currentBill.billTotalBalance}$</span>
-								<span>VAT: {employee.tax}/100</span>
+								<span>VAT: {employee.tax}%	</span>
 								{/*  */}
-								<span> Taxed price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }$</span></span>
+								<span> Final price : <span className="bg-yellow-300 rounded-md py-1 px-2">{(currentBill.billTotalBalance + (currentBill.billTotalBalance * employee.tax) / 100) }$</span></span>
 						</div>
 
 

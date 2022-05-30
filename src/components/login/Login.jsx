@@ -6,16 +6,17 @@ import {
     signInWithRedirect
 } from "@firebase/auth"
 import { useNavigate } from "react-router";
-import { LoadingContext } from "../others/contexts";
+import { LoadingContext, loginBtnIsDisapledContext } from "../others/contexts";
 import { IoLogInOutline } from "react-icons/io5"
 import Btn from "../others/btn";
 import { app } from "../../firebase-config";
 import whenCatchingAnError from "../others/whenCatchingAnError";
+import { connectFirestoreEmulator } from "@firebase/firestore";
 function Login(props) {
-    const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
     const navigate = useNavigate();
     const { setLoading } = useContext(LoadingContext);
-
+    const {loginBtnIsDisapled, setLoginBtnIsDisapled} = useContext(loginBtnIsDisapledContext)
+    console.log("jjkjdkjf ", loginBtnIsDisapled)
     async function login (){
 
       if (loginBtnIsDisapled) return ; 
@@ -26,12 +27,10 @@ function Login(props) {
           setLoginBtnIsDisapled(true)
           const auth = getAuth(app);
           const googleProvider = new GoogleAuthProvider()
-          await signInWithPopup(auth, googleProvider)
-          setLoginBtnIsDisapled(false)
+          await signInWithRedirect(auth, googleProvider)
         
       } catch (error) {
         whenCatchingAnError(error)
-      } finally {
         setLoading(false)
         setLoginBtnIsDisapled(false)
       }

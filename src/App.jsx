@@ -3,16 +3,17 @@ import { collection, getDocs, getDoc, doc, serverTimestamp, setDoc, connectFires
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { 
-Link, 
+  Link, 
   Outlet,
   useNavigate,
-  useLocation
+  useLocation,
+  useParams
 } from 'react-router-dom';
 import './tailwind/output.css';
 // import './styles/App.css';
 import Problem from './components/others/Problem';
 import Loading from './components/others/Loading'
-import { EmployeeContext, LoadingContext } from './components/others/contexts';
+import { EmployeeContext, LoadingContext, loginBtnIsDisapledContext } from './components/others/contexts';
 import RoutesPanel from './components/others/RoutesPanel';
 import whenCatchingAnError from './components/others/whenCatchingAnError';
 
@@ -20,6 +21,10 @@ function App() {
   const [employee, setEmployee] = useState(null)
   const [loading, setLoading] = useState(null)
   const [routesPanel, setRoutesPanel] = useState(false);
+  const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
+  const urlParams = useParams();
+  console.log("url", urlParams)
+
   
   // the current Route
   const route = useLocation();
@@ -29,13 +34,17 @@ function App() {
 
   
   useEffect(()=>{
+    setLoginBtnIsDisapled(true)            
+    setLoading(true)
+
     onAuthStateChanged(getAuth(app), async (employee)=>{
-        try {      
-          !loading && setLoading(true)
-          if(employee){
-            
-            
-            // if the user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
+      try { 
+        setLoading(true)     
+        if(employee){
+            setLoading(true)  
+            setLoginBtnIsDisapled(true)            
+
+            // if t he user is signed in then check if the user has been signed in before by checking the db and if not then creat a user in the db with his props
             const auth = employee;
             const docRef = doc(db, "users", auth.uid);
             const docSnap = await getDoc(docRef).catch((error )=>{throw new Error(error)});
@@ -62,21 +71,23 @@ function App() {
             
             
             // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
-            // if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
+            if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
             
+            setLoginBtnIsDisapled(false)
             setLoading(false)
           }else{
             // if the user isn't signed in and he isn't on the login page then redirect him to login page
-            // if(route.pathname != "/login") navigate("/login");
+            if(route.pathname != "/login") navigate("/login");
             
             // turn of loading
+            setLoginBtnIsDisapled(false)
             setLoading(false)
           }
         } catch (error) {
           whenCatchingAnError(error)
-          // if(route.pathname != "/login") navigate("/login");
+          if(route.pathname != "/login") navigate("/login");
         } finally {
-          setLoading(false)
+          // setLoading(false)
         }
 
 
@@ -96,7 +107,8 @@ function App() {
   // we listen to the keyboard events
   // so if he click the R key then show him the routes Panel in some cases do not do . 
   function toggleRoutesPanel(e){
-    if(loading || e.code != "KeyR" || route.pathname=="/welcome" || route.pathname=="/login" || e.ctrlKey) return ;
+    console.log("route prissed", e.code, e.keycode, route.pathname, e.ctrlKey)
+    if(loading || e.code != "KeyR"|| e.keyCode != 82 || route.pathname=="/login" || e.ctrlKey) return ;
     routesPanel ? setRoutesPanel(false) : setRoutesPanel(true);
   }
   window.onkeydown = (e)=>{toggleRoutesPanel(e)}
@@ -109,7 +121,9 @@ function App() {
       <EmployeeContext.Provider value={{employee, setEmployee}}>
         {loading && <Loading />}
         <LoadingContext.Provider value={{setLoading, loading}}>
-          <Outlet />
+          <loginBtnIsDisapledContext.Provider value={{loginBtnIsDisapled, setLoginBtnIsDisapled}}>
+            <Outlet />
+          </loginBtnIsDisapledContext.Provider>
           {routesPanel && <RoutesPanel />} 
         </LoadingContext.Provider>
       </EmployeeContext.Provider>
@@ -118,4 +132,4 @@ function App() {
 }
 
 
-export default App;
+export default App;   
