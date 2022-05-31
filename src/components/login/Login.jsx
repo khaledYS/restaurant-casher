@@ -16,7 +16,6 @@ function Login(props) {
     const navigate = useNavigate();
     const { setLoading } = useContext(LoadingContext);
     const {loginBtnIsDisapled, setLoginBtnIsDisapled} = useContext(loginBtnIsDisapledContext)
-    console.log("jjkjdkjf ", loginBtnIsDisapled)
     async function login (){
 
       if (loginBtnIsDisapled) return ; 
