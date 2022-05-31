@@ -1,23 +1,3 @@
-you miss her right ? , 
-I'am with you,
-you love her
-but she doesn't care
-whyyyyyyyyyyyyyyyyyyy
-I mean I loved her from inside my heart
-that now doesn't matter
-what matter you should do tommrow what is writtern below:-
-you should make two choices for the admin and one for the employer
-think about the others
-
-
-
-
-
--- I'm gonna change the sturcture of the app from having an state for the user to using the firebase/auth getAuth()
--- you should continue tommorrow to import the products and catogries
-
-\
-
 # Tasks
 
 - [x] when the user navigate to specifec url, don't navigate him to the beggining if he already signed in.
@@ -54,15 +34,15 @@ think about the others
 - [x] add finished bills
 - [x] when the user goes to /welcome/bill/:billId show him the bill he came for
 - [x] creating the app routes structure in ./readme.md file.
+- [x] Responsivity 
+- [z] change the links inside the routes panel to be only links without btns inside it.
 
 > In progress.
-- [ ] Responsivity 
  
 > Global tasks
 - [ ] make when an admin wants to order, let show him a panel of branches he wants to order with.
 - [ ] make when a non-admin goes to the dashboard, show him with a div that says you don't have the premision to get into the dashboard, and show him a button or a link that says go to the home page.
 - [ ] make a wrapper around the routes panel .
-- [ ] change the links inside the routes panel to be only links without btns inside it.
 - [ ] when you finish ordering show him a panel if he want to see the bill in the bills component
 - [ ] when sending something to the db you should make a comment of what the structure of the object or the thing you are going to send
 - [ ] Handle Errors
@@ -142,11 +122,8 @@ Restaurant-casher
 # Contribution
 Right now I don't accept any contribution, and thanks for all who thinks for that.
 
-
 # Report bug and fixes
 If you saw a bug or a problem you can report about it and we will try fix it as soon as we can.
-
-
 
 # Thanks
 Thanks for all of the support and my greetings me Ammar co founder of this app. 
