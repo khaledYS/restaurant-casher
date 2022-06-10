@@ -1,7 +1,13 @@
 import { createContext } from "react";
 
-export const EmployeeContext = createContext(null);  
-export const ErrorVisualerContext = createContext(null);
-export const LoadingContext = createContext(false);
-export const loginBtnIsDisapledContext = createContext(false);
+const EmployeeContext = createContext(null);  
+const ErrorVisualerContext = createContext(null);
+const LoadingContext = createContext(false);
+const loginBtnIsDisapledContext = createContext(false);
 
+export {
+    EmployeeContext,
+    ErrorVisualerContext,
+    LoadingContext,
+    loginBtnIsDisapledContext
+}

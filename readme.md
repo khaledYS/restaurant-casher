@@ -40,7 +40,10 @@
 > In progress.
  
 > Global tasks
+- [ ] change the the navigate("/welcome/*") in every directory.
+- [ ] change dashboard btn for admins to be in the branches coponents.
 - [ ] make when an admin wants to order, let show him a panel of branches he wants to order with.
+- [ ] make the currency all the branches has their own currency;
 - [ ] make when a non-admin goes to the dashboard, show him with a div that says you don't have the premision to get into the dashboard, and show him a button or a link that says go to the home page.
 - [ ] make a wrapper around the routes panel .
 - [ ] when you finish ordering show him a panel if he want to see the bill in the bills component
@@ -127,8 +130,3 @@ If you saw a bug or a problem you can report about it and we will try fix it as 
 
 # Thanks
 Thanks for all of the support and my greetings me Ammar co founder of this app. 
-
-
-
-
-

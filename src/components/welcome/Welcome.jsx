@@ -30,16 +30,9 @@ function Welcome(props) {
     const {setLoading} = useContext(LoadingContext)
 
     useEffect(()=>{
-        setLoading(false)
+        setLoading(false);
     }, [])
     
-    // const getdocs = async (dataCollectionRef)=>{
-    //   let data = await getDocs(dataCollectionRef);
-    //   data = data.docs.map((doc)=>({...doc.data(), id: doc.id}));
-    //   return data;
-    // }
-
-      
 
     return ( 
         <div className="Welcome-component ">
@@ -52,7 +45,3 @@ function Welcome(props) {
 }
 
 export default Welcome;
-
-
-
-// you should do what is written in the readme.md file

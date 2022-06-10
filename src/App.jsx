@@ -15,7 +15,6 @@ import ErrorVisualer from './components/others/ErrorVisualer';
 import Loading from './components/others/Loading'
 import { EmployeeContext, LoadingContext, loginBtnIsDisapledContext, ErrorVisualerContext } from './components/others/contexts';
 import RoutesPanel from './components/others/RoutesPanel';
-import whenCatchingAnError from './components/others/whenCatchingAnError';
 
 function App() {
   const [employee, setEmployee] = useState(null)
@@ -49,7 +48,6 @@ function App() {
             const docRef = doc(db, "users", auth.uid);
             const docSnap = await getDoc(docRef).catch((error)=>{console.log(error); throw new Error(error)});
             
-            console.log(employee, auth)
 
             // get the tax
             const billsSettingsDocRef = doc(db, "others/billsSettings");
@@ -72,13 +70,13 @@ function App() {
             
             
             // if the user is signed in and he is in the login page then route him to welcome page or the user is signed in but he is in the / dir then redirect him also
-            // if(route.pathname == "/login" || route.pathname == "/") navigate("/welcome")
+            if(route.pathname == "/login" || route.pathname == "/") navigate("/branches")
             
             setLoginBtnIsDisapled(false)
             setLoading(false)
           }else{
             // if the user isn't signed in and he isn't on the login page then redirect him to login page
-            // if(route.pathname != "/login") navigate("/login");
+            if(route.pathname != "/login") navigate("/login");
             
             // turn of loading
             setLoginBtnIsDisapled(false)
@@ -117,7 +115,7 @@ function App() {
 
 
   return (
-    <div className="app font-sans App w-[100vw] h-full bg-slate-900 flex flex-col justify-center items-center text-white">
+    <div className="app font-sans App w-full h-full bg-slate-900 flex flex-col justify-center items-center text-white">
       <EmployeeContext.Provider value={{employee, setEmployee}}>
         {errorVisualerState && <ErrorVisualer error={errorVisualerState} />}
         <ErrorVisualerContext.Provider value={{errorVisualerState, setErrorVisualerState}}>

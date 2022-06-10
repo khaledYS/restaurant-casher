@@ -1,17 +1,17 @@
 // returns a pretty date
 function PrettyDate( { date = new Date } ){
-	date = new Date(date)
+	let newDate = new Date(date)
 	return(
 		<span className="font-medium">
 		<span>
-			{date.getHours()}:
-			{date.getMinutes()}:
-			{date.getSeconds()}
+			{newDate.getHours()}:
+			{newDate.getMinutes()}:
+			{newDate.getSeconds()}
 		</span>
 		&nbsp;
-		{date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}/
-		{date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()}/
-		{date.getFullYear()}
+		{newDate.getDate() < 10 ? "0" + newDate.getDate() : newDate.getDate()}/
+		{newDate.getMonth() < 10 ? "0" + newDate.getMonth() : newDate.getMonth()}/
+		{newDate.getFullYear()}
 	</span>
 	)
 }

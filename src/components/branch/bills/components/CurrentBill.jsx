@@ -1,11 +1,11 @@
-import { db } from "../../../firebase-config";
+import { db } from "../../../../firebase-config";
 import {
 	doc,
     setDoc
 } from "firebase/firestore"
 import {v4 as uuidv4} from "uuid"
 import { Link, useParams } from "react-router-dom";
-import PrettyDate from "../../others/PrettyDate"
+import PrettyDate from "../../../others/PrettyDate";
 import { TiEdit } from "react-icons/ti"
 
 

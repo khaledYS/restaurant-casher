@@ -9,14 +9,16 @@ import {
 } from "react-router-dom";
 import Login from './components/login/Login';
 import Welcome from './components/welcome/Welcome';
-import Order from './components/order/Order';
+import Order from './components/branch/order/Order';
 import Dashboard from './components/dashboard/Dashboard';
-import Bills from './components/bills/Bills';
+import Bills from './components/branch/bills/Bills';
 import Logout from "./components/logout/Logout"
 import DashboardContent from './components/dashboard/components/content/Content';
 import DashboardContentAccounts from './components/dashboard/components/content/components/accounts/Accounts';
 import DashboardContentBills from './components/dashboard/components/content/components/bills/Bills';
 import DashboardContentSettings from './components/dashboard/components/content/components/settings/Settings';
+import Branch from './components/branch/Branch';
+import Branches from './components/branches/Branches';
 
 
 ReactDOM.render(
@@ -27,7 +29,7 @@ ReactDOM.render(
 
           <Route path="login" element={<Login />}></Route>
 
-          <Route path={"welcome"}>
+          <Route path={"branches"} element={<Branches/>}>
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="branch">
                 <Route path=":branchId" element={<DashboardContent />}>
@@ -38,8 +40,8 @@ ReactDOM.render(
               </Route>
             </Route>
 
-            <Route path=":currentBranchId">
-            <Route index element={<Welcome />}></Route>
+            <Route path=":currentBranchId" element={<Branch />}>
+              <Route index element={<Welcome />}></Route>
               <Route path="order">
                 <Route index element={<Order />}></Route>
                 <Route path=":billId" element={<Order />}></Route>

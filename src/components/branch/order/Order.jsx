@@ -14,8 +14,8 @@ import {
     v4 as uuidV4 
 } from "uuid";
 import {
-    db 
-} from "../../firebase-config";
+    db
+} from "../../../firebase-config"
 import {
     useParams, useNavigate
 } from "react-router-dom"
@@ -24,9 +24,9 @@ import CategoriesBtn from "./components/CategoriesBtn";
 import CategoryItem from "./components/CategoryItem";
 import {
     LoadingContext, EmployeeContext 
-} from "../others/contexts";
+} from "../../others/contexts";
 import { IoBalloon } from "react-icons/io5";
-import whenCatchingAnError from "../others/whenCatchingAnError";
+import whenCatchingAnError from "../../others/whenCatchingAnError";
 
 function Order() {
 
