@@ -91,7 +91,7 @@ function Bills() {
 
     }, [billsRows])
     /**
-     * if the types of bills get cahnged then setThebills on order, and also if the current bill is in the bills that are going to be printed in the dom then get it up.setfsdffsdfsdfsdfsdfffffffffffff
+     * if the types of bills get changeds then setThebills on order, and also if the current bill is in the bills that are going to be printed in the dom then get it up.setfsdffsdfsdfsdfsdfffffffffffff
      */
     useEffect(() => {
         setBills(filterBills(allTheBills))

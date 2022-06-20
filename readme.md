@@ -40,6 +40,7 @@
 > In progress.
  
 > Global tasks
+- [ ] active setLoading for requests.
 - [ ] change the the navigate("/welcome/*") in every directory.
 - [ ] change dashboard btn for admins to be in the branches coponents.
 - [ ] make when an admin wants to order, let show him a panel of branches he wants to order with.

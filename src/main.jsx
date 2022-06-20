@@ -29,17 +29,16 @@ ReactDOM.render(
 
           <Route path="login" element={<Login />}></Route>
 
-          <Route path={"branches"} element={<Branches/>}>
-            <Route path="dashboard" element={<Dashboard />}>
-              <Route path="branch">
-                <Route path=":branchId" element={<DashboardContent />}>
-                  <Route path="Accounts" element={<DashboardContentAccounts />}></Route>
-                  <Route path="bills" element={<DashboardContentBills />}></Route>
-                  <Route path="settings" element={<DashboardContentSettings />}></Route>
-                </Route>
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route path="branch">
+              <Route path=":branchId" element={<DashboardContent />}>
+                <Route path="Accounts" element={<DashboardContentAccounts />}></Route>
+                <Route path="bills" element={<DashboardContentBills />}></Route>
+                <Route path="settings" element={<DashboardContentSettings />}></Route>
               </Route>
             </Route>
-
+          </Route>
+          <Route path={"branches"} element={<Branches/>}>
             <Route path=":currentBranchId" element={<Branch />}>
               <Route index element={<Welcome />}></Route>
               <Route path="order">

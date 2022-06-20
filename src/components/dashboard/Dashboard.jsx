@@ -5,12 +5,19 @@ import Content from "./components/content/Content";
 import SideNavbar from "./components/sideNavbar/SideNavbar";
 
 function Dashboard() {
+    
+    const {employee} = useContext(EmployeeContext);
     const [sideNavBarIsOpen, setSideNavBarIsOpen] = useState(false)
 
     return ( 
         <div className={`Dashboard-component w-full h-full flex ${sideNavBarIsOpen ?  "opened " : "not-opened"}`}>
-            <SideNavbar sideNavBarIsOpen={sideNavBarIsOpen} setSideNavBarIsOpen={setSideNavBarIsOpen} />
-            <><Outlet /></>
+            {
+                employee?.position == "admin" &&
+                <>
+                    <SideNavbar sideNavBarIsOpen={sideNavBarIsOpen} setSideNavBarIsOpen={setSideNavBarIsOpen} />
+                    <><Outlet /></>
+                </>
+            }
         </div>
      );
 }

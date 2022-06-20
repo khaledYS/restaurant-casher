@@ -1,6 +1,12 @@
 import { BsExclamationCircle as ExclamationMark } from "react-icons/all";
 import { ErrorVisualerContext } from "./contexts";
 function ErrorVisualer({error: ErrorVisualer }) {
+
+    if(ErrorVisualer?.printToConsole){
+        console.log(ErrorVisualer.printToConsole)
+    }
+
+
     return ( 
         <div className="Problem-component h-[100vh] w-[100vw] fixed backdrop-blur top-0 left-0 grid">
             <div

@@ -35,11 +35,17 @@ function Welcome(props) {
     
 
     return ( 
-        <div className="Welcome-component ">
-            <Link to="order"><Btn title="Order" ><IoBagHandleOutline /></Btn></Link>
-            <Link to="bills"><Btn title="Bills" ><FaFileInvoiceDollar /></Btn></Link>
-            {employee && (employee.position == "admin") && <Link to="dashboard"><Btn title="Dashboard" ><VscCircuitBoard /></Btn></Link> }
-            <Link to="/logout"><Btn title="Logout" ><IoLogOutOutline /></Btn></Link>
+        <div className="Welcome-component flex flex-col justify-items-stretch h-full justify-center">
+            <Link to="order"  className=" flex justify-items-stretch flex-col" >
+                <Btn title="Order" className=" rounded-t-3xl my-1 min-w-[250px] text-3xl font-normal " >
+                    <IoBagHandleOutline />
+                </Btn>
+            </Link>
+            <Link to="bills" className=" flex justify-items-stretch flex-col" >
+                <Btn title="Bills" className=" rounded-b-3xl my-1 min-w-[250px] text-3xl font-normal " >
+                    <FaFileInvoiceDollar />
+                </Btn>
+            </Link>
         </div>
     );
 }
