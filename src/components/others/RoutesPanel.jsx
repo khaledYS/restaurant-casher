@@ -5,19 +5,23 @@ import { BsPersonBadge, BsPersonBadgeFill } from "react-icons/bs";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { IoIosPerson, IoMdPerson } from "react-icons/io";
 import { IoBagHandleOutline, IoLogOutOutline, IoPerson, IoPersonAddOutline, IoPersonCircleOutline, IoPersonOutline } from "react-icons/io5";
+import { MdPlayArrow } from "react-icons/md";
 import { VscCircuitBoard } from "react-icons/vsc";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { app } from "../../firebase-config";
-import { currentBranchIdContext, EmployeeContext } from "./contexts";
+import { currentBranchIdContext, currentOpenedBranchContext, EmployeeContext } from "./contexts";
 import { filterObject, prettyName } from "./shorcutFunctions";
 
 export default function RoutesPanel (props){
 
-    const urlParams = useParams()
-    const { employee } = useContext(EmployeeContext)
+    const urlParams = useParams();
+    const navigate = useNavigate();
+    const { employee } = useContext(EmployeeContext);
     const firstLink = useRef();
     const location = useLocation();
     const {currentBranchIdFromContext, setCurrentBranchIdFromContext} = useContext(currentBranchIdContext);
+    const {currentOpenedBranch, setCurrentOpenedBranch} = useContext(currentOpenedBranchContext);
+
     const UserBtnComponent = (props)=>{
         if(employee?.position == "employee"){
             return (
@@ -63,7 +67,14 @@ export default function RoutesPanel (props){
                                     </div>
                                 </UserBtnComponent>
                             }
-                            {employee?.position == "admin" && <Link tabIndex="0" to="branches" onClick={()=>{setCurrentBranchIdFromContext(null)}} className={classNamesForBtns}>Branches<AiOutlineBranches/></Link>}
+                            {employee?.position == "admin" && <div onClick={()=>{
+                                (async ()=>{
+                                    // await setCurrentBranchIdFrom Context(null);
+                                    setCurrentOpenedBranch(null);
+                                    navigate("/branches")
+                                })();
+                            }} className={classNamesForBtns}>Branches<AiOutlineBranches/></div>}
+                            {/* {employee?.position == "admin" && <Link tabIndex="0" to="branches" onClick={()=>{setCurrentBranchIdFromContext(null)}} className={classNamesForBtns}>Branches<AiOutlineBranches/></Link>} */}
                             <Link tabIndex="0" to={`/welcome/${urlParams.currentBranchId}/order`} className={classNamesForBtns}>Order<IoBagHandleOutline/></Link>
                             <Link tabIndex="0" to={`/welcome/${urlParams.currentBranchId}/bills`} className={classNamesForBtns}>Bills<FaFileInvoiceDollar/></Link>
                             <Link tabIndex="0" to="/Logout" className={classNamesForBtns+ " rounded-b-3xl "}>Logout<IoLogOutOutline/></Link>

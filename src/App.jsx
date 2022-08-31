@@ -28,6 +28,7 @@ import {
   loginBtnIsDisapledContext,
   ErrorVisualerContext,
   currentBranchIdContext,
+  currentOpenedBranchContext
 } from "./components/others/contexts";
 import RoutesPanel from "./components/others/RoutesPanel";
 import { CgController } from "react-icons/cg";
@@ -41,7 +42,7 @@ function App() {
   const [loginBtnIsDisapled, setLoginBtnIsDisapled] = useState(false);
   const [errorVisualerState, setErrorVisualerState] = useState(null);
   const [currentBranchId, setCurrentBranchId] = useState(null);
-
+  const [currentOpenedBranch, setCurrentOpenedBranch] = useState(null);
   const urlParams = useParams();
 
   // the current Route
@@ -164,6 +165,7 @@ function App() {
           <ErrorVisualerContext.Provider
             value={{ errorVisualerState, setErrorVisualerState }}
           >
+          <currentOpenedBranchContext.Provider value={{currentOpenedBranch, setCurrentOpenedBranch}}>
             {errorVisualerState && <ErrorVisualer error={errorVisualerState} />}
 
             <LoadingContext.Provider value={{ setLoading, loading }}>
@@ -172,16 +174,17 @@ function App() {
               <loginBtnIsDisapledContext.Provider
                 value={{ loginBtnIsDisapled, setLoginBtnIsDisapled }}
               >
-                <Outlet />
+                  <Outlet />
               </loginBtnIsDisapledContext.Provider>
 
               {routesPanel && employee && (
                 <RoutesPanel
-                  routesPanel={routesPanel}
-                  setRoutesPanel={setRoutesPanel}
+                routesPanel={routesPanel}
+                setRoutesPanel={setRoutesPanel}
                 />
-              )}
+                )}
             </LoadingContext.Provider>
+          </currentOpenedBranchContext.Provider>
           </ErrorVisualerContext.Provider>
         </EmployeeContext.Provider>
       </currentBranchIdContext.Provider>

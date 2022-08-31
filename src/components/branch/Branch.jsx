@@ -18,6 +18,7 @@ function Branch() {
     employee,
   } = useOutletContext();
 
+
   useEffect(() => {
     (async () => {
         let listOfPositions = ["admin", "moderator", "employee"];
@@ -60,7 +61,9 @@ function Branch() {
       ) : branchIsAuthenticated == currentBranchIdFromParams ? (
         <Outlet />
       ) : (
-        "boob, be, ba, something gotta do bad"
+        <div className="w-full h-full text-center grid place-items-center">
+          Loading.....
+        </div>
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { currentBranchIdContext, EmployeeContext } from "../others/contexts";
+import { currentBranchIdContext, currentOpenedBranchContext, EmployeeContext } from "../others/contexts";
 import { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router";
 import {
@@ -30,6 +30,7 @@ function Branches() {
   const { currentBranchId: currentBranchIdFromParams } = useParams();
   const [currentBranchIdFromContext, setCurrentBranchIdFromContext] = useContext(currentBranchIdContext);
   const { employee } = useContext(EmployeeContext);
+  const {currentOpenedBranch, setCurrentOpenedBranch} = useContext(currentOpenedBranchContext);
 
   async function updateBranches(newBranches) {
     if (newBranches) {
@@ -51,19 +52,30 @@ function Branches() {
     }
   }, [showBranches]);
 
+  useEffect(()=>{
+    console.log(currentOpenedBranch)
+  }, [currentOpenedBranch])
+
   useEffect(() => {
-    let listOfFirstTwoPositions = ["employee", "moderator"];
+    let  listOfFirstTwoPositions = ["employee", "moderator"];
+    // if the user is admin
     if (employee && employee?.position == "admin") {
-        if(!currentBranchIdFromParams && !currentBranchIdFromContext){
+        if(!currentBranchIdFromParams && !currentBranchIdFromContext && location.pathname?.toLowerCase() == "/branches"){
             setShowBranches(true);
-        }else if(currentBranchIdFromParams && !currentBranchIdFromContext){
-            setCurrentBranchIdFromContext(currentBranchIdFromParams);
-            setBranchIsAuthenticated(true)
-            navigate(currentBranchIdFromParams)
-        }else if(currentBranchIdFromParams != currentBranchIdFromContext){
-            navigate(currentBranchIdFromContext)
-            setBranchIsAuthenticated(true)
-        }else {
+        }
+        else if(!currentBranchIdFromParams && currentBranchIdFromContext){
+          setCurrentBranchIdFromContext(null)
+        }
+        // else if(currentBranchIdFromParams && !currentBranchIdFromContext){
+        //     setCurrentBranchIdFromContext(currentBranchIdFromParams);
+        //     setBranchIsAuthenticated(true)
+        //     navigate(currentBranchIdFromParams)
+        // }
+        // else if(currentBranchIdFromParams != currentBranchIdFromContext){
+        //     navigate(currentBranchIdFromContext)
+        //     setBranchIsAuthenticated(true)
+        // }
+        else {
             setShowBranches(false);
         }
     } else if (employee && checkOneOfArray(listOfFirstTwoPositions, employee?.position)) {
@@ -132,7 +144,7 @@ function Branches() {
               {branches &&
                 branches.map((branch, idx) => {
                   return (
-                    <BranchLink key={v4()} branch={branch} number={idx + 1} />
+                    <BranchLink key={v4()} currentOpenedBranch={currentOpenedBranch} setCurrentOpenedBranch={setCurrentOpenedBranch} branch={branch} number={idx + 1} />
                   );
                 })}
               {/* {branches && branches.map((branch, idx)=>{return (<BranchLink key={v4()} branch={branch} number={idx+1} />)})}
